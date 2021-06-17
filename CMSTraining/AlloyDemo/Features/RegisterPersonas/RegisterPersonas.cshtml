@@ -1,0 +1,70 @@
+@using AlloyDemo.Features.RegisterPersonas
+@using System.Web.Optimization
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Personas</title>
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/js")
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+
+                <h2>Register Personas</h2>
+
+                @using (Html.BeginForm("/", "RegisterPersonas", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="control-group">
+                        <p>
+                            Are you sure that you want to create the following users, make them members of these groups, and assign access rights to them?
+                        </p>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>User</th>
+                                <th>Groups</th>
+                            </tr>
+                            @foreach (RegisterPersonasController.UserAndRoles user in RegisterPersonasController.Users)
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>
+                                        @foreach(string role in user.Roles)
+                                        {
+                                            <span class="label label-success">@role</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                    if (ViewData["message"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewData["message"]
+                        </div>
+                        <div>
+                            <a href="/">Take me to the Start page.</a>
+                        </div>
+                    }
+                    else
+                    {
+                    <div class="control-group">
+                        <input name="submit" type="submit" class="" value="Yes, do it!" />
+                    </div>
+                    }
+                    <div>
+                        <a href="/EPiServer/CMS">Log me in to Episerver CMS.</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>

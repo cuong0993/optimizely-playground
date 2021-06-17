@@ -1,11 +1,12 @@
-using System;
-using System.Web;
+using AlloyDemo.Features.RegisterPersonas;
 using EPiServer.Cms.UI.AspNetIdentity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System;
+using System.Web;
 
 [assembly: OwinStartup(typeof(AlloyDemo.Startup))]
 
@@ -43,6 +44,7 @@ namespace AlloyDemo
                         regenerateIdentity: (manager, user) => manager.GenerateUserIdentityAsync(user))
                 }
             });
+            app.UseRegisterPersonas(() => HttpContext.Current.Request.IsLocal);
         }
     }
 }
