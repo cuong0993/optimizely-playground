@@ -1,0 +1,11 @@
+﻿/* Widen inputs in All Properties view. */
+
+/* Affects: string, int, double, DateTime, ContentReference, CategoryList */
+.Sleek .dijitTextBox {
+    width: 425px !important;
+}
+
+/* Affects: ContentArea, Image thumbnail */
+.Sleek .epi-content-area-editor, .Sleek .thumbnail-editor {
+    width: 550px !important;
+}

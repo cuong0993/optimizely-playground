@@ -1,0 +1,25 @@
+﻿.Sleek .dijitTabPaneWrapper .epi-form-container__section__row label[title]:after {
+    background-color: #C9C9C9;
+    border-radius: 10px 10px 10px 10px;
+    border: 1px solid #ACACAC;
+    color: #FFFFFF;
+    content: "i";
+    display: inline-block;
+    font-size: 1em;
+    font-weight: bold;
+    height: 14px;
+    line-height: 14px;
+    margin: 0 0 0 5px;
+    float: right;
+    text-align: center;
+    width: 14px;
+}
+.Sleek .dijitTabPaneWrapper .epi-formsRow label[title=""]:after,
+.Sleek .dijitTabPaneWrapper .epi-form-container__section__row label[title=""]:after {
+    display: none;
+}
+.Sleek .dijitTabPaneWrapper .epi-formsRow label[title]:hover:after,
+.Sleek .dijitTabPaneWrapper .epi-form-container__section__row label[title]:hover:after {
+    background-color: #1ba4fa;
+    border: 1px solid #1285de;
+}
