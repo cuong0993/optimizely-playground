@@ -8,7 +8,8 @@ namespace AlloyTraining.Models.Pages
     GUID = "9603f676-acfd-493f-9dce-d15e16ef8855",
     GroupName = SiteGroupNames.Specialized, Order = 10,
     Description = "The home page for a website with an area for blocks and partial pages.")]
-    public class StartPage : PageData
+    [SiteStartIcon]
+    public class StartPage : SitePageData
     {
         [CultureSpecific]
         [Display(Name = "Heading", Description =

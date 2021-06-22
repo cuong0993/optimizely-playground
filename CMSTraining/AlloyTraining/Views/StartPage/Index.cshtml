@@ -1,11 +1,12 @@
-﻿@using EPiServer.Web.Mvc.Html
-@model AlloyTraining.Models.Pages.StartPage
-<h1 @Html.EditAttributes(m => m.Heading)>
-    @(Model.Heading ?? Model.Name)
+﻿@using AlloyTraining.Models.ViewModels
+@using EPiServer.Web.Mvc.Html
+@model PageViewModel<AlloyTraining.Models.Pages.StartPage>
+<h1 @Html.EditAttributes(m => m.CurrentPage.Heading)>
+    @(Model.CurrentPage.Heading ?? Model.CurrentPage.Name)
 </h1>
 <div>
-    @Html.PropertyFor(m => m.MainBody)
+    @Html.PropertyFor(m => m.CurrentPage.MainBody)
 </div>
 <div>
-    @Html.PropertyFor(m => m.MainContentArea)
+    @Html.PropertyFor(m => m.CurrentPage.MainContentArea)
 </div>

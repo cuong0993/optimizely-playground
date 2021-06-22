@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="English" id="en">
+    <contenttypes>
+      <sitepagedata>
+        <properties>
+          <metatitle>
+            <caption>Page title</caption>
+            <help>Between 5 and 60 characters that will be shown in Google search results.</help>
+          </metatitle>
+          <metakeywords>
+            <caption>Page keywords</caption>
+            <help>Comma-separated keywords used to boost ranking in Google search results.</help>
+          </metakeywords>
+          <metadescription>
+            <caption>Page description</caption>
+            <help>A short paragraph that will be shown in Google search results.</help>
+          </metadescription>
+        </properties>
+      </sitepagedata>
+      <startpage>
+        <name>Start</name>
+        <description>The home page for a website with an area for blocks and partial pages.</description>
+        <properties>
+          <heading>
+            <caption>Heading</caption>
+            <help>If the Heading is not set, the page falls back to showing the Name.</help>
+          </heading>
+          <mainbody>
+            <caption>Main body</caption>
+            <help>The main body will be shown in the main content area of the page, using the XHTML-editor you can insert for example text, images and tables.</help>
+          </mainbody>
+        </properties>
+      </startpage>
+    </contenttypes>
+  </language>
+  <language name="Svenska" id="sv">
+    <contenttypes>
+      <sitepagedata>
+        <properties>
+          <metatitle>
+            <caption>Namn på sidan</caption>
+            <help>Mellan 5 och 60 tecken som visas i Googles sökresultat.</help>
+          </metatitle>
+          <metakeywords>
+            <caption>Sidans nyckelord</caption>
+            <help>Kommaseparerade sökord används för att öka rankningen i Googles sökresultat.</help>
+          </metakeywords>
+          <metadescription>
+            <caption>Sidbeskrivning</caption>
+            <help>Ett kort stycke som visas i Googles sökresultat.</help>
+          </metadescription>
+        </properties>
+      </sitepagedata>
+      <startpage>
+        <name>Start</name>
+        <description>Hemsidan för en webbplats med ett område för block och sidor.</description>
+        <properties>
+          <heading>
+            <caption>Rubrik</caption>
+            <help>Om rubriken inte är inställd, faller sidan tillbaka för att visa namnet.</help>
+          </heading>
+          <mainbody>
+            <caption>Huvudkroppen</caption>
+            <help>Huvudkroppen kommer att visas i huvudinnehållet på sidan med hjälp av XHTML-redigeraren som du kan infoga tex, bilder och tabeller.</help>
+          </mainbody>
+        </properties>
+      </startpage>
+    </contenttypes>
+  </language>
+</languages>
