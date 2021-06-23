@@ -1,0 +1,15 @@
+﻿@model AlloyTraining.Models.ViewModels.TeaserBlockViewModel
+<div class="media">
+    <div style="clear:both;">
+        <div class="mediaImg">
+            @Html.PropertyFor(m => m.CurrentBlock.TeaserImage)
+        </div>
+        <div class="mediaText">
+            <h2 @Html.EditAttributes(m => m.CurrentBlock.TeaserHeading)>
+                @Model.CurrentBlock.TeaserHeading
+            </h2>
+            <p>@Html.PropertyFor(m => m.CurrentBlock.TeaserText)</p>
+            <small>There have been @Model.TodaysVisitorCount visitors today.</small>
+        </div>
+    </div>
+</div>

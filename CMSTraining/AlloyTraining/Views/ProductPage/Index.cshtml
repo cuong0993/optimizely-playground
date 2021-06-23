@@ -1,6 +1,6 @@
 ﻿@using AlloyTraining.Models.ViewModels
 @using AlloyTraining.Models.Pages
-@using EPiServer.Editor
+@using AlloyTraining
 @model PageViewModel<ProductPage>
 @{
     Layout = "~/Views/Shared/Layouts/_RightRelatedContent.cshtml";
@@ -12,20 +12,20 @@
         @Html.PropertyFor(x => x.CurrentPage.MainBody)
     </div>
 </div>
+@Html.PropertyFor(m => m.CurrentPage.MainContentArea,
+    new { CssClass = "row equal-height", Tag = SiteTags.Wide })
+
 @section RelatedContent
 {
     <div @Html.EditAttributes(x => x.CurrentPage.PageImage)>
         <img src="@Url.ContentUrl(Model.CurrentPage.PageImage)" />
     </div>
-    <div class="block colorBox @Model.CurrentPage.Theme">
+    <div class="block colorBox theme1">
         <h2 @Html.EditAttributes(x => x.CurrentPage.Name)>
             @Model.CurrentPage.Name
         </h2>
-        <p @Html.EditAttributes(x => x.CurrentPage.UniqueSellingPoints)>
-            @foreach(string usp in Model.CurrentPage.UniqueSellingPoints)
-            {
-                <span class="label label-inverse">@usp</span>
-            }
-        </p>
+        <p>@Html.PropertyFor(x => x.CurrentPage.UniqueSellingPoints)</p>
     </div>
+    @Html.PropertyFor(m => m.CurrentPage.RelatedContentArea,
+        new { CssClass = "row equal-height", Tag = SiteTags.Narrow })
 }
