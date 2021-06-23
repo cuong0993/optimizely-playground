@@ -1,0 +1,9 @@
+﻿@using EPiServer.Web.Mvc.Html
+@model AlloyTraining.Models.Media.ImageFile
+<div class="block span4">
+    <figure class="border">
+        <img src="@Url.ContentUrl(Model.ContentLink)" 
+             alt="@Model.Description" />
+        <figcaption>@Model.Description</figcaption>
+    </figure>
+</div>
