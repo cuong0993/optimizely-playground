@@ -1,0 +1,153 @@
+@using AlloyDemo.Features.ContentApprovals
+@using EPiServer.Approvals
+@using EPiServer.Web.Mvc.Html
+@model ContentApprovalsManagerViewModel
+<div>
+    <div class="alert alert-info">Managing Content Approvals</div>
+    @if (Model.ApprovalDefinition == null)
+    {
+        <div class="well well-small">
+            @Html.ContentLink(
+                                              text: "Create Approval Definition",
+                                              contentLink: Model.CurrentPage.ContentLink,
+                                              routeValues: new { task = "createDefinition" },
+                                              htmlAttributes: new { @class = "btn" })
+        </div>
+    }
+    else
+    {
+        if (Model.Approval == null)
+        {
+            <div class="well well-small">
+                @Html.ContentLink(
+                         text: "Modify Start and Request Approval",
+                         contentLink: Model.CurrentPage.ContentLink,
+                         routeValues: new { task = "modifyStart" },
+                         htmlAttributes: new { @class = "btn" })
+            </div>
+        }
+        else
+        {
+            <div class="well well-small">
+                @Html.ContentLink(
+                         text: "Delete All Approvals",
+                         contentLink: Model.CurrentPage.ContentLink,
+                         routeValues: new { task = "deleteApprovals" },
+                         htmlAttributes: new { @class = "btn" })
+            </div>
+            <h3>Approval</h3>
+            <table class="table table-bordered table-condensed">
+                <tr>
+                    <th>Property</th>
+                    <th>Value(s)</th>
+                </tr>
+                <tr>
+                    <td>Started</td>
+                    <td>@Model.Approval.Started, By: @Model.Approval.StartedBy, Status: @Model.Approval.Status</td>
+                </tr>
+                <tr>
+                    <td>Steps</td>
+                    <td>@Model.Approval.StepCount, Active: @Model.Approval.ActiveStepIndex</td>
+                </tr>
+                @if (Model.Approval.Completed.HasValue)
+                {
+                    <tr>
+                        <td>Completed</td>
+                        <td>
+                            @Model.Approval.Completed by @Model.Approval.CompletedBy<br />
+                            <small>@Model.Approval.CompletedComment</small>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        <h3>Approval Definition</h3>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td>@Model.ApprovalDefinition.ID</td>
+            </tr>
+            <tr>
+                <td>Reference</td>
+                <td>@Model.ApprovalDefinition.Reference</td>
+            </tr>
+            <tr>
+                <td>Steps</td>
+                <td>@Model.ApprovalDefinition.Steps.Count</td>
+            </tr>
+            <tr>
+                <td>IsEnabled</td>
+                <td>@Model.ApprovalDefinition.IsEnabled</td>
+            </tr>
+            <tr>
+                <td>RequireCommentOnApprove</td>
+                <td>@Model.ApprovalDefinition.RequireCommentOnApprove</td>
+            </tr>
+            <tr>
+                <td>RequireCommentOnReject</td>
+                <td>@Model.ApprovalDefinition.RequireCommentOnReject</td>
+            </tr>
+        </table>
+        <h4>Approval Steps</h4>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>Step Name</th>
+                <th>Reviewers</th>
+                <th></th>
+            </tr>
+            @for (int index = 0; index < Model.ApprovalDefinition.Steps.Count; index++)
+            {
+                var step = Model.ApprovalDefinition.Steps[index];
+                <tr>
+                    <td>@step.Name</td>
+                    <td>
+                        @foreach (var reviewer in step.Reviewers)
+                        {
+                            <span class="badge badge-warning">@reviewer.ReviewerType: @reviewer.Name</span>
+                        }
+                    </td>
+                    <td>
+                        @if (Model.Approval != null)
+                        {
+                            foreach (var reviewer in step.Reviewers)
+                            {
+                                if (reviewer.ReviewerType == ApprovalDefinitionReviewerType.User)
+                                {
+                                    <div class="well well-small">
+                                        @Html.ContentLink(
+                                                         text: "Approve as " + reviewer.Name,
+                                                         contentLink: Model.CurrentPage.ContentLink,
+                                                         routeValues: new
+                                                         {
+                                                             task = "processStep",
+                                                             stepIndex = index,
+                                                             user = reviewer.Name,
+                                                             decision = "Approve"
+                                                         },
+                                                         htmlAttributes: new { @class = "btn btn-success" })
+
+                                        @Html.ContentLink(
+                                                         text: "Decline as " + reviewer.Name,
+                                                         contentLink: Model.CurrentPage.ContentLink,
+                                                         routeValues: new
+                                                         {
+                                                             task = "processStep",
+                                                             stepIndex = index,
+                                                             user = reviewer.Name,
+                                                             decision = "Decline"
+                                                         },
+                                                         htmlAttributes: new { @class = "btn btn-danger" })
+                                    </div>
+                                }
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>

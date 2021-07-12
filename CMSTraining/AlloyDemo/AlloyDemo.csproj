@@ -404,6 +404,9 @@
     <Compile Include="Controllers\SearchPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
     <Compile Include="Controllers\VideoFileController.cs" />
+    <Compile Include="Features\ContentApprovals\ContentApprovalsManagerPage.cs" />
+    <Compile Include="Features\ContentApprovals\ContentApprovalsManagerPageController.cs" />
+    <Compile Include="Features\ContentApprovals\ContentApprovalsManagerViewModel.cs" />
     <Compile Include="Features\RegisterPersonas\RegisterPersonas.cs" />
     <Compile Include="Features\RegisterPersonas\RegisterPersonasController.cs" />
     <Compile Include="Features\ResetAdmin\ResetAdmin.cs" />
@@ -546,6 +549,7 @@
     <Content Include="Features\ResetAdmin\ResetAdmin.cshtml" />
     <Content Include="Features\ShareThis\ShareThisBlock.cshtml" />
     <Content Include="Features\_ViewStart.cshtml" />
+    <Content Include="Features\ContentApprovals\ContentApprovalsManager.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\SearchPage\Index.cshtml" />
     <Content Include="Views\_viewstart.cshtml" />
