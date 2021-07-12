@@ -1,0 +1,20 @@
+﻿@model AlloyAdvanced.Features.ShareThis.ShareThisBlockViewModel
+@if (Model.Settings.ShareToFacebook)
+{
+    <a href="https://www.facebook.com/sharer/sharer.php?u=@Model.FriendlyUrl" target="_blank">Share on Facebook</a>
+}
+@if (Model.Settings.ShareToTwitter)
+{
+    <script src="//platform.twitter.com/widgets.js" type="text/javascript"></script>
+    <a href="https://twitter.com/share?url=@Model.FriendlyUrl" class="twitter-share-button" datacount="none">Tweet</a>
+}
+@if (Model.Settings.ShareToLinkedIn)
+{
+    <script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
+    <script type="IN/Share" data-url="@Model.FriendlyUrl">
+    </script>
+}
+@if (!((Model.Settings.ShareToFacebook) || (Model.Settings.ShareToTwitter) || (Model.Settings.ShareToLinkedIn)))
+{
+    <div class="alert alert-info">At least one Share To option must be switched on!</div>
+}

@@ -408,6 +408,9 @@
     <Compile Include="Features\RegisterPersonas\RegisterPersonasController.cs" />
     <Compile Include="Features\ResetAdmin\ResetAdmin.cs" />
     <Compile Include="Features\ResetAdmin\ResetAdminController.cs" />
+    <Compile Include="Features\ShareThis\ShareThisBlock.cs" />
+    <Compile Include="Features\ShareThis\ShareThisBlockController.cs" />
+    <Compile Include="Features\ShareThis\ShareThisBlockViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -541,6 +544,8 @@
     <Content Include="Features\RegisterPersonas\RegisterPersonas.cshtml" />
     <Content Include="Features\Web.config" />
     <Content Include="Features\ResetAdmin\ResetAdmin.cshtml" />
+    <Content Include="Features\ShareThis\ShareThisBlock.cshtml" />
+    <Content Include="Features\_ViewStart.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\SearchPage\Index.cshtml" />
     <Content Include="Views\_viewstart.cshtml" />
