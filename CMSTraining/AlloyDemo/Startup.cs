@@ -1,4 +1,4 @@
-using AlloyAdvanced.Features.ResetAdmin;
+using AlloyDemo.Features.ResetAdmin;
 using AlloyDemo.Features.RegisterPersonas;
 using EPiServer.Cms.UI.AspNetIdentity;
 using Microsoft.AspNet.Identity;
@@ -46,7 +46,7 @@ namespace AlloyDemo
                 }
             });
             app.UseRegisterPersonas(() => HttpContext.Current.Request.IsLocal);
-            app.UseResetAdmin(() => HttpContext.Current.Request.IsLocal);
+            //app.UseResetAdmin(() => HttpContext.Current.Request.IsLocal);
         }
     }
 }

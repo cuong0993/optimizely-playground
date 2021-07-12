@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace AlloyAdvanced.Features.ResetAdmin
+namespace AlloyDemo.Features.ResetAdmin
 {
     public static class ResetAdmin
     {

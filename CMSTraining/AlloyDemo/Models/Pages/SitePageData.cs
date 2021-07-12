@@ -25,8 +25,8 @@ namespace AlloyDemo.Models.Pages
 
                 // Use explicitly set meta title, otherwise fall back to page name
                 return !string.IsNullOrWhiteSpace(metaTitle)
-                        ? metaTitle
-                        : PageName;
+                       ? metaTitle
+                       : PageName;
             }
             set { this.SetPropertyValue(p => p.MetaTitle, value); }
         }
@@ -42,7 +42,7 @@ namespace AlloyDemo.Models.Pages
             GroupName = Global.GroupNames.MetaData,
             Order = 300)]
         [CultureSpecific]
-        [UIHint(UIHint.Textarea)]
+        [UIHint(UIHint.LongString)]
         public virtual string MetaDescription { get; set; }
 
         [Display(
@@ -70,8 +70,8 @@ namespace AlloyDemo.Models.Pages
 
                 // Use explicitly set teaser text, otherwise fall back to description
                 return !string.IsNullOrWhiteSpace(teaserText)
-                        ? teaserText
-                        : MetaDescription;
+                       ? teaserText
+                       : MetaDescription;
             }
             set { this.SetPropertyValue(p => p.TeaserText, value); }
         }
@@ -87,6 +87,14 @@ namespace AlloyDemo.Models.Pages
             Order = 300)]
         [CultureSpecific]
         public virtual bool HideSiteFooter { get; set; }
+
+        [Display(
+            Name = "Comment folder",
+            Description = "Folder used as root for comments. If not set, comment function will be disabled",
+            GroupName = SystemTabNames.Settings,
+            Order = 500)]
+        [UIHint(UIHint.BlockFolder)]
+        public virtual ContentReference CommentFolder { get; set; }
 
         public string ContentAreaCssClass
         {

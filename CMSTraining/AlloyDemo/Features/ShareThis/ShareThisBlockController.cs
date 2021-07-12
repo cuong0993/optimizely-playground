@@ -4,7 +4,7 @@ using EPiServer.Core;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 
-namespace AlloyAdvanced.Features.ShareThis
+namespace AlloyDemo.Features.ShareThis
 {
     public class ShareThisBlockController : BlockController<ShareThisBlock>
     {

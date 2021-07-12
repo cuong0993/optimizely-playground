@@ -1,5 +1,5 @@
 // import namespace
-using AlloyAdvanced.Features.ResetAdmin;
+using AlloyDemo.Features.ResetAdmin;
 
 // add to Configuration method
 // Remove to block reset of Admin user

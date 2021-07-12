@@ -1,4 +1,4 @@
-﻿namespace AlloyAdvanced.Features.ShareThis
+﻿namespace AlloyDemo.Features.ShareThis
 {
     public class ShareThisBlockViewModel
     {

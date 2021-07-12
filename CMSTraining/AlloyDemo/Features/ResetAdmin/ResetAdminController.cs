@@ -5,7 +5,7 @@ using EPiServer.Shell.Security;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
-namespace AlloyAdvanced.Features.ResetAdmin
+namespace AlloyDemo.Features.ResetAdmin
 {
     public class ResetAdminController : Controller
     {
