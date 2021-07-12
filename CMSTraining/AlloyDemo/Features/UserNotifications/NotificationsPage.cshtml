@@ -1,0 +1,53 @@
+﻿@using EPiServer.Notification
+@using AlloyDemo.Features.UserNotifications
+@using AlloyDemo.Models.ViewModels
+@model PageViewModel<NotificationsPage>
+<div class="row">
+    <div class="span12">
+        @Html.ContentLink(
+             text: "All Channels",
+             contentLink: Model.CurrentPage.ContentLink,
+             routeValues: new { channel = "" },
+             htmlAttributes: new { @class = "btn" })
+        @Html.ContentLink(
+             text: "Channel: " + AlloyDemo.Global.NotificationChannel,
+             contentLink: Model.CurrentPage.ContentLink,
+             routeValues: new { channel = AlloyDemo.Global.NotificationChannel },
+             htmlAttributes: new { @class = "btn" })
+    </div>
+</div>
+@foreach (KeyValuePair<string, PagedUserNotificationMessageResult> item in Model.CurrentPage.Notifications)
+{
+    <div class="row">
+        <div class="span12">
+            <h3>@item.Key notifications</h3>
+            <table class="table table-bordered table-striped table-condensed">
+                <tr>
+                    <th>Sender</th>
+                    <th>Recipient</th>
+                    <th>TypeName</th>
+                    <th>Subject</th>
+                    <th>Content</th>
+                    <th>Posted</th>
+                    <th>Send At</th>
+                    <th>Sent</th>
+                    <th>Read</th>
+                </tr>
+                @foreach (UserNotificationMessage m in item.Value.PagedResult)
+                {
+                    <tr>
+                        <td>@m.Sender.UserName</td>
+                        <td>@m.Recipient.UserName</td>
+                        <td>@m.TypeName</td>
+                        <td>@m.Subject</td>
+                        <td>@m.Content</td>
+                        <td>@m.Posted</td>
+                        <td>@m.SendAt</td>
+                        <td>@m.Sent</td>
+                        <td>@m.Read</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

@@ -414,6 +414,10 @@
     <Compile Include="Features\ShareThis\ShareThisBlock.cs" />
     <Compile Include="Features\ShareThis\ShareThisBlockController.cs" />
     <Compile Include="Features\ShareThis\ShareThisBlockViewModel.cs" />
+    <Compile Include="Features\UserNotifications\NotificationsPage.cs" />
+    <Compile Include="Features\UserNotifications\NotificationsPageController.cs" />
+    <Compile Include="Features\UserNotifications\SendNotificationPage.cs" />
+    <Compile Include="Features\UserNotifications\SendNotificationPageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -550,6 +554,8 @@
     <Content Include="Features\ShareThis\ShareThisBlock.cshtml" />
     <Content Include="Features\_ViewStart.cshtml" />
     <Content Include="Features\ContentApprovals\ContentApprovalsManager.cshtml" />
+    <Content Include="Features\UserNotifications\NotificationsPage.cshtml" />
+    <Content Include="Features\UserNotifications\SendNotificationPage.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\SearchPage\Index.cshtml" />
     <Content Include="Views\_viewstart.cshtml" />

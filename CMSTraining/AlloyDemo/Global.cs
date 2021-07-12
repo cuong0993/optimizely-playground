@@ -10,6 +10,7 @@ namespace AlloyDemo
         public static readonly string LoginPath = "/util/login.aspx";
         public static readonly string AppRelativeLoginPath = string.Format("~{0}", LoginPath);
 
+        public static readonly string NotificationChannel = "epi.alloy.messages";
         /// <summary>
         /// Group names for content types and properties
         /// </summary>
