@@ -1,0 +1,58 @@
+@using AlloyAdvanced.Features.ResetAdmin
+@using System.Web.Optimization
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Admin</title>
+    @Styles.Render("~/bundles/css")
+    @Scripts.Render("~/bundles/js")
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="span12">
+
+                <h2>Reset Admin</h2>
+
+                @using (Html.BeginForm("/", "ResetAdmin", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="control-group">
+                        <p>
+                            Are you sure that you want to reset the Admin user account?
+                        </p>
+                        <p>
+                            User name: @ResetAdminController.Username, 
+                            Password: @ResetAdminController.Password, 
+                            Email: @ResetAdminController.Email,
+                            Member of: @ResetAdminController.Role
+                        </p>
+                    </div>
+                    if (ViewData["message"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @ViewData["message"]
+                        </div>
+                        <div>
+                            <a href="/">Take me to the Start page.</a>
+                        </div>
+                    }
+                    else
+                    {
+                    <div class="control-group">
+                        <input name="submit" type="submit" class="" value="Yes, do it!" />
+                    </div>
+                    }
+                    <div>
+                        <a href="/EPiServer/CMS">Log me in to Episerver CMS.</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
