@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Configuration;
 
-namespace AlloyAdvanced.Business.ScheduledJobs
+namespace AlloyDemo.Business.ScheduledJobs
 {
     [ScheduledPlugIn(DisplayName = ScheduledJobName,
         GUID = "88E83CA0-91ED-46FD-A338-7938C8D0FDF9", 
