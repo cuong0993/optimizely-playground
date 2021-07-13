@@ -391,6 +391,7 @@
     <Compile Include="Business\Rendering\ICustomCssInContentArea.cs" />
     <Compile Include="Business\Rendering\SiteViewEngine.cs" />
     <Compile Include="Business\Rendering\TemplateCoordinator.cs" />
+    <Compile Include="Business\ScheduledJobs\ImportImagesScheduledJob.cs" />
     <Compile Include="Business\SearchService.cs" />
     <Compile Include="Business\ServiceLocatorDependencyResolver.cs" />
     <Compile Include="Business\UIDescriptors\ContainerPageUIDescriptor.cs" />
