@@ -49,6 +49,9 @@ namespace AlloyDemo.Models.Pages
 
         [Display(GroupName = Global.GroupNames.SiteSettings)]
         public virtual SiteLogotypeBlock SiteLogotype { get; set; }
+        
+        [AllowedTypes(typeof(ShippersPage))]
+        public virtual ContentReference Shippers { get; set; }
 
     }
 }
