@@ -78,6 +78,8 @@ namespace AlloyDemo
             public const string Contact = "contact";
             public const string Strings = "StringList";
             public const string StringsCollection = "StringsCollection";
+            public const string City = "city";
+            public const string DateOnly = "dateonly";
         }
 
         /// <summary>
