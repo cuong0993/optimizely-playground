@@ -1,7 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using AlloyDemo.Business;
+using AlloyDemo.Business.EditorDescriptors;
 using AlloyDemo.Business.Rendering;
 using EPiServer.Web;
 using EPiServer.Core;
+using AlloyDemo.Business.Selectors;
+using EPiServer.Shell.ObjectEditing;
 
 namespace AlloyDemo.Models.Pages
 {
@@ -9,7 +13,6 @@ namespace AlloyDemo.Models.Pages
     /// Represents contact details for a contact person
     /// </summary>
     [SiteContentType(
-        GUID = "F8D47655-7B50-4319-8646-3369BA9AF05B",
         GroupName = Global.GroupNames.Specialized)]
     [SiteImageUrl(Global.StaticGraphicsFolderPath + "page-type-thumbnail-contact.png")]
     public class ContactPage : SitePageData, IContainerPage
@@ -22,7 +25,38 @@ namespace AlloyDemo.Models.Pages
         public virtual string Phone { get; set; }
 
         [Display(GroupName = Global.GroupNames.Contact)]
-        [EmailAddress]
+        [UIHint(Global.SiteUIHints.Email)]
         public virtual string Email { get; set; }
+
+        [Display(
+            Name = "Region",
+            GroupName = Global.GroupNames.Contact,
+            Order = 10)]
+        [SelectOneEnum(typeof(Region))]
+        public virtual Region Region { get; set; }
+
+        [Display(
+            Name = "YouTube video",
+            GroupName = Global.GroupNames.Contact,
+            Order = 20)]
+        [SelectOne(SelectionFactoryType = typeof(YouTubeSelectionFactory))]
+        [UIHint(Global.SiteUIHints.YouTube)]
+        public virtual string YouTubeVideo { get; set; }
+
+        [Display(
+            Name = "Home city",
+            GroupName = Global.GroupNames.Contact,
+            Order = 30)]
+        //[SelectOne(SelectionFactoryType = typeof(CitySelectionFactory))]
+        [UIHint(Global.SiteUIHints.City)]
+        public virtual string HomeCity { get; set; }
+
+        [Display(
+            Name = "Other cities",
+            GroupName = Global.GroupNames.Contact,
+            Order = 40)]
+        [SelectMany(SelectionFactoryType = typeof(CitySelectionFactory))]
+        [UIHint(Global.SiteUIHints.Cities)]
+        public virtual string OtherCities { get; set; }
     }
 }

@@ -9,8 +9,16 @@ namespace AlloyDemo
     {
         public static readonly string LoginPath = "/util/login.aspx";
         public static readonly string AppRelativeLoginPath = string.Format("~{0}", LoginPath);
-
         public static readonly string NotificationChannel = "epi.alloy.messages";
+        public static class SystemPropertyNames
+        {
+            [Display(Name = "Category", Order = 1)]
+            public const string Category = "icategorizable_category";
+
+            [Display(Name = "SortIndex", Order = 2)]
+            public const string SortIndex = "PagePeerOrder";
+        }
+
         /// <summary>
         /// Group names for content types and properties
         /// </summary>
@@ -80,6 +88,9 @@ namespace AlloyDemo
             public const string StringsCollection = "StringsCollection";
             public const string City = "city";
             public const string DateOnly = "dateonly";
+            public const string Cities = "Cities";
+            public const string Email = "Email";
+            public const string YouTube = "YouTube";
         }
 
         /// <summary>
@@ -88,3 +99,4 @@ namespace AlloyDemo
         public const string StaticGraphicsFolderPath = "~/Static/gfx/";
     }
 }
+

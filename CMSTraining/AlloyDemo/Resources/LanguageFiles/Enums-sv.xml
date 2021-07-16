@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="Svenska" id="sv">
+    <enum>
+      <region>
+        <unknown>Okänd</unknown>
+        <europe>Europa</europe>
+        <uk>Storbritannien</uk>
+        <usa>Förenta Staterna</usa>
+        <restofworld>Resten av Världen</restofworld>
+      </region>
+    </enum>
+  </language>
+</languages>

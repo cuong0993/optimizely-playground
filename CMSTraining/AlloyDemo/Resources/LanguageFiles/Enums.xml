@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<languages>
+  <language name="English" id="en">
+    <enum>
+      <region>
+        <unknown>Unknown</unknown>
+        <europe>Europe</europe>
+        <uk>United Kingdom</uk>
+        <usa>United States of America</usa>
+        <restofworld>Rest of the World</restofworld>
+      </region>
+    </enum>
+  </language>
+</languages>
