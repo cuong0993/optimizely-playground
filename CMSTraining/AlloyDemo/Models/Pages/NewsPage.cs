@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using AlloyDemo.Business;
+using AlloyDemo.Models.Blocks;
 using EPiServer.DataAbstraction;
 using EPiServer.Filters;
 using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
-using AlloyDemo.Business;
-using AlloyDemo.Models.Blocks;
 
 namespace AlloyDemo.Models.Pages
 {
     /// <summary>
-    /// Presents a news section including a list of the most recent articles on the site
+    ///     Presents a news section including a list of the most recent articles on the site
     /// </summary>
     [SiteContentType(GUID = "638D8271-5CA3-4C72-BABC-3E8779233263")]
     [SiteImageUrl]
@@ -25,7 +25,8 @@ namespace AlloyDemo.Models.Pages
             base.SetDefaultValues(contentType);
 
             NewsList.Count = 20;
-            NewsList.Heading = ServiceLocator.Current.GetInstance<LocalizationService>().GetString("/newspagetemplate/latestnews");
+            NewsList.Heading = ServiceLocator.Current.GetInstance<LocalizationService>()
+                .GetString("/newspagetemplate/latestnews");
             NewsList.IncludeIntroduction = true;
             NewsList.IncludePublishDate = true;
             NewsList.Recursive = true;

@@ -1,8 +1,8 @@
 ﻿@model string
 @if (!string.IsNullOrWhiteSpace(Model))
 {
-    string[] cities = Model.Split(',');
-    foreach (string item in cities)
+    var cities = Model.Split(',');
+    foreach (var item in cities)
     {
         <span class="label">@item</span>
     }

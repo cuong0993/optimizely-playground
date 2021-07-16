@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
-using EPiServer.DataAbstraction;
 using EPiServer;
+using EPiServer.DataAbstraction;
 
 namespace AlloyDemo.Models.Blocks
 {
     /// <summary>
-    /// Used to insert a link which is styled as a button
+    ///     Used to insert a link which is styled as a button
     /// </summary>
     [SiteContentType(GUID = "426CF12F-1F01-4EA0-922F-0778314DDAF0")]
     [SiteImageUrl]

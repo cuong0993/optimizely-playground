@@ -14,10 +14,11 @@ namespace AlloyDemo.Business
     public class ContentLocator
     {
         private readonly IContentLoader _contentLoader;
-        private readonly IContentProviderManager _providerManager;
         private readonly IPageCriteriaQueryService _pageCriteriaQueryService;
+        private readonly IContentProviderManager _providerManager;
 
-        public ContentLocator(IContentLoader contentLoader, IContentProviderManager providerManager, IPageCriteriaQueryService pageCriteriaQueryService)
+        public ContentLocator(IContentLoader contentLoader, IContentProviderManager providerManager,
+            IPageCriteriaQueryService pageCriteriaQueryService)
         {
             _contentLoader = contentLoader;
             _providerManager = providerManager;
@@ -31,19 +32,13 @@ namespace AlloyDemo.Business
             foreach (var child in children)
             {
                 var childOfRequestedTyped = child as T;
-                if (childOfRequestedTyped != null)
-                {
-                    yield return childOfRequestedTyped;
-                }
-                foreach (var descendant in GetAll<T>(child.ContentLink))
-                {
-                    yield return descendant;
-                }
+                if (childOfRequestedTyped != null) yield return childOfRequestedTyped;
+                foreach (var descendant in GetAll<T>(child.ContentLink)) yield return descendant;
             }
         }
 
         /// <summary>
-        /// Returns pages of a specific page type
+        ///     Returns pages of a specific page type
         /// </summary>
         /// <param name="pageLink"></param>
         /// <param name="recursive"></param>
@@ -52,13 +47,11 @@ namespace AlloyDemo.Business
         public IEnumerable<PageData> FindPagesByPageType(PageReference pageLink, bool recursive, int pageTypeId)
         {
             if (ContentReference.IsNullOrEmpty(pageLink))
-            {
                 throw new ArgumentNullException("pageLink", "No page link specified, unable to find pages");
-            }
 
             var pages = recursive
-                        ? FindPagesByPageTypeRecursively(pageLink, pageTypeId)
-                        : _contentLoader.GetChildren<PageData>(pageLink);
+                ? FindPagesByPageTypeRecursively(pageLink, pageTypeId)
+                : _contentLoader.GetChildren<PageData>(pageLink);
 
             return pages;
         }
@@ -67,15 +60,15 @@ namespace AlloyDemo.Business
         private IEnumerable<PageData> FindPagesByPageTypeRecursively(PageReference pageLink, int pageTypeId)
         {
             var criteria = new PropertyCriteriaCollection
-                                {
-                                    new PropertyCriteria
-                                    {
-                                        Name = "PageTypeID",
-                                        Type = PropertyDataType.PageType,
-                                        Condition = CompareCondition.Equal,
-                                        Value = pageTypeId.ToString(CultureInfo.InvariantCulture)
-                                    }
-                                };
+            {
+                new PropertyCriteria
+                {
+                    Name = "PageTypeID",
+                    Type = PropertyDataType.PageType,
+                    Condition = CompareCondition.Equal,
+                    Value = pageTypeId.ToString(CultureInfo.InvariantCulture)
+                }
+            };
 
             // Include content providers serving content beneath the page link specified for the search
             if (_providerManager.ProviderMap.CustomProvidersExist)
@@ -83,20 +76,18 @@ namespace AlloyDemo.Business
                 var contentProvider = _providerManager.ProviderMap.GetProvider(pageLink);
 
                 if (contentProvider.HasCapability(ContentProviderCapabilities.Search))
-                {
                     criteria.Add(new PropertyCriteria
                     {
                         Name = "EPI:MultipleSearch",
                         Value = contentProvider.ProviderKey
                     });
-                }
             }
 
             return _pageCriteriaQueryService.FindPagesWithCriteria(pageLink, criteria);
         }
 
         /// <summary>
-        /// Returns all contact pages beneath the main contacts container
+        ///     Returns all contact pages beneath the main contacts container
         /// </summary>
         /// <returns></returns>
         public IEnumerable<ContactPage> GetContactPages()
@@ -104,9 +95,8 @@ namespace AlloyDemo.Business
             var contactsRootPageLink = _contentLoader.Get<StartPage>(SiteDefinition.Current.StartPage).ContactsPageLink;
 
             if (ContentReference.IsNullOrEmpty(contactsRootPageLink))
-            {
-                throw new MissingConfigurationException("No contact page root specified in site settings, unable to retrieve contact pages");
-            }
+                throw new MissingConfigurationException(
+                    "No contact page root specified in site settings, unable to retrieve contact pages");
 
             return _contentLoader.GetChildren<ContactPage>(contactsRootPageLink).OrderBy(p => p.PageName);
         }

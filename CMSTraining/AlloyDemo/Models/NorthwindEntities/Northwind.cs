@@ -1,11 +1,8 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
 
 namespace AlloyDemo.Models.NorthwindEntities
 {
-    public partial class Northwind : DbContext
+    public class Northwind : DbContext
     {
         public Northwind()
             : base("name=Northwind")

@@ -1,4 +1,9 @@
-﻿using AlloyDemo.Controllers;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AlloyDemo.Controllers;
 using AlloyDemo.Models.Pages;
 using EPiServer;
 using EPiServer.Approvals;
@@ -8,11 +13,6 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAccess;
 using EPiServer.Security;
 using EPiServer.Shell.Security;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace AlloyDemo.Features.ContentApprovals
 {
@@ -27,11 +27,11 @@ namespace AlloyDemo.Features.ContentApprovals
 
         private const string password = "Pa$$w0rd";
         private const string emailBase = "@alloy.com";
-        
-        private readonly IApprovalDefinitionRepository repoDefinitions;
-        private readonly IContentRepository repoContent;
-        private readonly IApprovalRepository repoApprovals;
         private readonly IApprovalEngine engine;
+        private readonly IApprovalRepository repoApprovals;
+        private readonly IContentRepository repoContent;
+
+        private readonly IApprovalDefinitionRepository repoDefinitions;
 
         public ContentApprovalsManagerPageController(
             IApprovalDefinitionRepository repoDefinitions,
@@ -52,26 +52,28 @@ namespace AlloyDemo.Features.ContentApprovals
             {
                 roles.CreateRole(editors);
 
-                var permissions = repoSecurity.Get(ContentReference.RootPage).CreateWritableClone() as IContentSecurityDescriptor;
-                permissions.AddEntry(new AccessControlEntry(editors, 
-                    AccessLevel.Create | AccessLevel.Edit | AccessLevel.Delete | AccessLevel.Read | AccessLevel.Publish));
+                var permissions =
+                    repoSecurity.Get(ContentReference.RootPage).CreateWritableClone() as IContentSecurityDescriptor;
+                permissions.AddEntry(new AccessControlEntry(editors,
+                    AccessLevel.Create | AccessLevel.Edit | AccessLevel.Delete | AccessLevel.Read |
+                    AccessLevel.Publish));
                 repoSecurity.Save(ContentReference.RootPage, permissions, SecuritySaveType.Replace);
             }
 
             // create three users and add them to roles
 
             UIUserCreateStatus status;
-            IEnumerable<string> errors = Enumerable.Empty<string>();
+            var errors = Enumerable.Empty<string>();
 
             if (users.GetUser(userName1) == null)
             {
                 users.CreateUser(
-                    userName1, password, 
-                    email: userName1.ToLower() + emailBase,
-                    passwordQuestion: null, passwordAnswer: null, 
-                    isApproved: true, status: out status, errors: out errors);
+                    userName1, password,
+                    userName1.ToLower() + emailBase,
+                    null, null,
+                    true, out status, out errors);
 
-                roles.AddUserToRoles(userName1, new string[] { admins });
+                roles.AddUserToRoles(userName1, new[] {admins});
             }
 
             if (users.GetUser(userName2) == null)
@@ -80,7 +82,7 @@ namespace AlloyDemo.Features.ContentApprovals
                     userName2, password, userName2.ToLower() + emailBase,
                     null, null, true, out status, out errors);
 
-                roles.AddUserToRoles(userName2, new string[] { editors });
+                roles.AddUserToRoles(userName2, new[] {editors});
             }
 
             if (users.GetUser(userName3) == null)
@@ -89,7 +91,7 @@ namespace AlloyDemo.Features.ContentApprovals
                     userName3, password, userName3.ToLower() + emailBase,
                     null, null, true, out status, out errors);
 
-                roles.AddUserToRoles(userName3, new string[] { editors });
+                roles.AddUserToRoles(userName3, new[] {editors});
             }
         }
 
@@ -100,14 +102,13 @@ namespace AlloyDemo.Features.ContentApprovals
             var viewmodel = new ContentApprovalsManagerViewModel(currentPage);
 
             if (!string.IsNullOrWhiteSpace(task))
-            {
                 switch (task)
                 {
                     case "createDefinition":
 
-                        var all = new[] { CultureInfo.InvariantCulture };
-                        var english = new[] { CultureInfo.GetCultureInfo("en") };
-                        var swedish = new[] { CultureInfo.GetCultureInfo("sv") };
+                        var all = new[] {CultureInfo.InvariantCulture};
+                        var english = new[] {CultureInfo.GetCultureInfo("en")};
+                        var swedish = new[] {CultureInfo.GetCultureInfo("sv")};
 
                         var def = new ContentApprovalDefinition
                         {
@@ -116,15 +117,16 @@ namespace AlloyDemo.Features.ContentApprovals
                             {
                                 new ApprovalDefinitionStep(
                                     "Alice reviews English, Bob reviews Swedish", new[]
-                                {
-                                    new ApprovalDefinitionReviewer(userName1, english),
-                                    new ApprovalDefinitionReviewer(userName2, swedish),
-                                }),
+                                    {
+                                        new ApprovalDefinitionReviewer(userName1, english),
+                                        new ApprovalDefinitionReviewer(userName2, swedish)
+                                    }),
                                 new ApprovalDefinitionStep(
                                     "Editors (Eve or Bob) reviews all languages", new[]
-                                {
-                                    new ApprovalDefinitionReviewer(editors, all, ApprovalDefinitionReviewerType.Role)
-                                })
+                                    {
+                                        new ApprovalDefinitionReviewer(editors, all,
+                                            ApprovalDefinitionReviewerType.Role)
+                                    })
                             },
                             RequireCommentOnReject = true
                         };
@@ -136,56 +138,45 @@ namespace AlloyDemo.Features.ContentApprovals
                     case "modifyStart":
 
                         var approvalToDelete = await repoApprovals.GetAsync(ContentReference.StartPage);
-                        if (approvalToDelete != null)
-                        {
-                            await repoApprovals.DeleteAsync(approvalToDelete.ID);
-                        }
+                        if (approvalToDelete != null) await repoApprovals.DeleteAsync(approvalToDelete.ID);
 
                         var start = repoContent.Get<StartPage>(ContentReference.StartPage)
                             .CreateWritableClone() as StartPage;
 
                         start.Name += "X";
 
-                        repoContent.Save(content: start,
-                            action: SaveAction.RequestApproval,
-                            access: AccessLevel.NoAccess);
+                        repoContent.Save(start,
+                            SaveAction.RequestApproval,
+                            AccessLevel.NoAccess);
 
                         break;
 
                     case "processStep":
 
                         var approval = await repoApprovals.GetAsync(ContentReference.StartPage);
-                        
+
                         if (decision == "Approve")
-                        {
                             await engine.ApproveStepAsync(
-                                id: approval.ID,
-                                username: user,
-                                stepIndex: stepIndex.Value,
-                                comment: "I approve: the page looks great!");
-                        }
+                                approval.ID,
+                                user,
+                                stepIndex.Value,
+                                "I approve: the page looks great!");
                         else
-                        {
                             await engine.RejectStepAsync(
-                               id: approval.ID,
-                               username: user,
-                               stepIndex: stepIndex.Value,
-                               comment: "I decline: the page looks horrible!");
-                        }
+                                approval.ID,
+                                user,
+                                stepIndex.Value,
+                                "I decline: the page looks horrible!");
                         break;
 
                     case "deleteApprovals":
 
                         var list = await repoApprovals.ListAsync(new ApprovalQuery());
 
-                        foreach (var item in list)
-                        {
-                            await repoApprovals.DeleteAsync(item.ID);
-                        }
+                        foreach (var item in list) await repoApprovals.DeleteAsync(item.ID);
 
                         break;
                 }
-            }
 
             // GetAsync(ContentReference) extension methods need
             // using EPiServer.Approvals.ContentApprovals

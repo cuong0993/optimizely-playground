@@ -12,14 +12,12 @@ namespace AlloyDemo.Business.Selectors
         {
             var values = Enum.GetValues(typeof(TEnum));
             foreach (var value in values)
-            {
                 yield return new SelectItem
                 {
                     //Text = Enum.GetName(typeof(TEnum), value),
                     Text = GetLocalizedName(value),
                     Value = value
                 };
-            }
         }
 
         // this method exists so that we can localize the string values
@@ -27,7 +25,7 @@ namespace AlloyDemo.Business.Selectors
         {
             var staticName = Enum.GetName(typeof(TEnum), value);
 
-            string localizationPath = string.Format(
+            var localizationPath = string.Format(
                 "/enum/{0}/{1}",
                 typeof(TEnum).Name.ToLowerInvariant(),
                 staticName.ToLowerInvariant());
@@ -36,9 +34,7 @@ namespace AlloyDemo.Business.Selectors
             if (LocalizationService.Current.TryGetString(
                 localizationPath,
                 out localizedName))
-            {
                 return localizedName;
-            }
 
             return staticName;
         }

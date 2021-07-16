@@ -1,15 +1,15 @@
 using System.Linq;
 using System.Web.Mvc;
-using EPiServer.Core;
-using EPiServer.Framework.DataAnnotations;
-using EPiServer.Framework.Web;
 using AlloyDemo.Business;
 using AlloyDemo.Models.Pages;
 using AlloyDemo.Models.ViewModels;
+using EPiServer;
+using EPiServer.Core;
+using EPiServer.Framework.DataAnnotations;
+using EPiServer.Framework.Web;
+using EPiServer.Framework.Web.Mvc;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
-using EPiServer;
-using EPiServer.Framework.Web.Mvc;
 
 namespace AlloyDemo.Controllers
 {
@@ -19,22 +19,31 @@ namespace AlloyDemo.Controllers
     * view and rendered it using Html.RenderContentData */
     [TemplateDescriptor(
         Inherited = true,
-        TemplateTypeCategory = TemplateTypeCategories.MvcController, //Required as controllers for blocks are registered as MvcPartialController by default
-        Tags = new[] { RenderingTags.Preview, RenderingTags.Edit },
+        TemplateTypeCategory =
+            TemplateTypeCategories
+                .MvcController, //Required as controllers for blocks are registered as MvcPartialController by default
+        Tags = new[] {RenderingTags.Preview, RenderingTags.Edit},
         AvailableWithoutTag = false)]
     [VisitorGroupImpersonation]
     [RequireClientResources]
     public class PreviewController : ActionControllerBase, IRenderTemplate<BlockData>, IModifyLayout
     {
         private readonly IContentLoader _contentLoader;
-        private readonly TemplateResolver _templateResolver;
         private readonly DisplayOptions _displayOptions;
+        private readonly TemplateResolver _templateResolver;
 
-        public PreviewController(IContentLoader contentLoader, TemplateResolver templateResolver, DisplayOptions displayOptions)
+        public PreviewController(IContentLoader contentLoader, TemplateResolver templateResolver,
+            DisplayOptions displayOptions)
         {
             _contentLoader = contentLoader;
             _templateResolver = templateResolver;
             _displayOptions = displayOptions;
+        }
+
+        public void ModifyLayout(LayoutModel layoutModel)
+        {
+            layoutModel.HideHeader = true;
+            layoutModel.HideFooter = true;
         }
 
         public ActionResult Index(IContent currentContent)
@@ -45,11 +54,10 @@ namespace AlloyDemo.Controllers
             var model = new PreviewModel(startPage, currentContent);
 
             var supportedDisplayOptions = _displayOptions
-                .Select(x => new { Tag = x.Tag, Name = x.Name, Supported = SupportsTag(currentContent, x.Tag) })
+                .Select(x => new {x.Tag, x.Name, Supported = SupportsTag(currentContent, x.Tag)})
                 .ToList();
 
             if (supportedDisplayOptions.Any(x => x.Supported))
-            {
                 foreach (var displayOption in supportedDisplayOptions)
                 {
                     var contentArea = new ContentArea();
@@ -58,15 +66,14 @@ namespace AlloyDemo.Controllers
                         ContentLink = currentContent.ContentLink
                     });
                     var areaModel = new PreviewModel.PreviewArea
-                        {
-                            Supported = displayOption.Supported,
-                            AreaTag = displayOption.Tag,
-                            AreaName = displayOption.Name,
-                            ContentArea = contentArea
-                        };
+                    {
+                        Supported = displayOption.Supported,
+                        AreaTag = displayOption.Tag,
+                        AreaName = displayOption.Name,
+                        ContentArea = contentArea
+                    };
                     model.Areas.Add(areaModel);
                 }
-            }
 
             return View(model);
         }
@@ -74,18 +81,12 @@ namespace AlloyDemo.Controllers
         private bool SupportsTag(IContent content, string tag)
         {
             var templateModel = _templateResolver.Resolve(HttpContext,
-                                    content.GetOriginalType(),
-                                    content,
-                                    TemplateTypeCategories.MvcPartial,
-                                    tag);
+                content.GetOriginalType(),
+                content,
+                TemplateTypeCategories.MvcPartial,
+                tag);
 
             return templateModel != null;
-        }
-
-        public void ModifyLayout(LayoutModel layoutModel)
-        {
-            layoutModel.HideHeader = true;
-            layoutModel.HideFooter = true;
         }
     }
 }

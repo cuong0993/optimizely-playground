@@ -1,6 +1,6 @@
-﻿using AlloyDemo.Models.Pages;
+﻿using System.Collections.Generic;
+using AlloyDemo.Models.Pages;
 using EPiServer.Core;
-using System.Collections.Generic;
 
 namespace AlloyDemo.Models.ViewModels
 {
@@ -10,9 +10,10 @@ namespace AlloyDemo.Models.ViewModels
         {
             CurrentPage = currentPage;
         }
+
+        public IEnumerable<ShipperPage> Shippers { get; set; }
         public ShippersPage CurrentPage { get; set; }
         public LayoutModel Layout { get; set; }
         public IContent Section { get; set; }
-        public IEnumerable<ShipperPage> Shippers { get; set; }
     }
 }

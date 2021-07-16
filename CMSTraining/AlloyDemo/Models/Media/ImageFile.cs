@@ -1,7 +1,6 @@
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Framework.DataAnnotations;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyDemo.Models.Media
 {
@@ -10,10 +9,10 @@ namespace AlloyDemo.Models.Media
     public class ImageFile : ImageData
     {
         /// <summary>
-        /// Gets or sets the copyright.
+        ///     Gets or sets the copyright.
         /// </summary>
         /// <value>
-        /// The copyright.
+        ///     The copyright.
         /// </value>
         public virtual string Copyright { get; set; }
     }

@@ -1,13 +1,11 @@
-﻿@using AlloyTraining.Models.ViewModels
-@using AlloyTraining.Models.Pages
-@model IPageViewModel<SitePageData>
+﻿@model AlloyTraining.Models.ViewModels.IPageViewModel<AlloyTraining.Models.Pages.SitePageData>
 @{
     // nest the left navigation inside the root layout
     Layout = "~/Views/Shared/Layouts/_Root.cshtml";
 }
 <div class="row">
     <div class="span4">
-        @RenderSection("_LeftNavigationMenu", required: false)
+        @RenderSection("_LeftNavigationMenu", false)
     </div>
     <div class="span8">
         @RenderBody()

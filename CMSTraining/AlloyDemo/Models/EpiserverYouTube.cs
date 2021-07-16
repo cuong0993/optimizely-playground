@@ -1,5 +1,5 @@
-﻿using EPiServer.Shell.ObjectEditing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using EPiServer.Shell.ObjectEditing;
 
 namespace AlloyDemo.Models
 {

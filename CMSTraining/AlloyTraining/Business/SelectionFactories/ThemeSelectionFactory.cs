@@ -1,5 +1,5 @@
-﻿using EPiServer.Shell.ObjectEditing;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using EPiServer.Shell.ObjectEditing;
 
 namespace AlloyTraining.Business.SelectionFactories
 {
@@ -9,9 +9,9 @@ namespace AlloyTraining.Business.SelectionFactories
         {
             return new List<SelectItem>
             {
-                new SelectItem { Value = "theme1", Text = "Orange" },
-                new SelectItem { Value = "theme2", Text = "Purple" },
-                new SelectItem { Value = "theme3", Text = "Green" }
+                new SelectItem {Value = "theme1", Text = "Orange"},
+                new SelectItem {Value = "theme2", Text = "Purple"},
+                new SelectItem {Value = "theme3", Text = "Green"}
             };
         }
     }

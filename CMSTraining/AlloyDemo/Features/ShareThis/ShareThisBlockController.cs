@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using EPiServer;
-using EPiServer.Core;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 
@@ -20,7 +19,7 @@ namespace AlloyDemo.Features.ShareThis
         public override ActionResult Index(ShareThisBlock currentBlock)
         {
             var model = new ShareThisBlockViewModel();
-            PageData page = pageRouteHelper.Page;
+            var page = pageRouteHelper.Page;
             model.FriendlyUrl = UriSupport.AbsoluteUrlBySettings(
                 urlResolver.GetUrl(page.ContentLink));
             model.Settings = currentBlock;

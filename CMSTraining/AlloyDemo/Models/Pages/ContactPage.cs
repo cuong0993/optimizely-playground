@@ -1,16 +1,14 @@
 using System.ComponentModel.DataAnnotations;
-using AlloyDemo.Business;
-using AlloyDemo.Business.EditorDescriptors;
 using AlloyDemo.Business.Rendering;
-using EPiServer.Web;
-using EPiServer.Core;
 using AlloyDemo.Business.Selectors;
+using EPiServer.Core;
 using EPiServer.Shell.ObjectEditing;
+using EPiServer.Web;
 
 namespace AlloyDemo.Models.Pages
 {
     /// <summary>
-    /// Represents contact details for a contact person
+    ///     Represents contact details for a contact person
     /// </summary>
     [SiteContentType(
         GroupName = Global.GroupNames.Specialized)]

@@ -1,16 +1,18 @@
 ﻿<%@ ServiceHost Language="C#" Debug="false" Service="EPiServer.Search.IndexingService.IndexingService" Factory="IndexingServiceHostFactory" %>
 
+using System;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
+using EPiServer.Search.IndexingService;
 
 public class IndexingServiceHostFactory : WebServiceHostFactory
 {
-    protected override ServiceHost CreateServiceHost(System.Type serviceType, System.Uri[] baseAddresses)
+    protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
     {
         var host = base.CreateServiceHost(serviceType, baseAddresses);
-        
-        WebHttpBinding binding = new WebHttpBinding("IndexingServiceCustomBinding");
-        var endpoint = host.AddServiceEndpoint(typeof(EPiServer.Search.IndexingService.IIndexingService), binding, "");
+
+        var binding = new WebHttpBinding("IndexingServiceCustomBinding");
+        var endpoint = host.AddServiceEndpoint(typeof(IIndexingService), binding, "");
 
         return host;
     }

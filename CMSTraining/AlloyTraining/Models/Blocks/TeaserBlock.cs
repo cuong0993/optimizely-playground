@@ -1,14 +1,14 @@
-﻿using EPiServer.Core;
-using EPiServer.DataAbstraction;
+﻿using System.ComponentModel.DataAnnotations;
+using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyTraining.Models.Blocks
 {
     [ContentType(DisplayName = "Teaser",
         GroupName = SiteGroupNames.Common,
-        Description = "Use this for rich text with heading, image and page link that will be reused in multiple places.")]
+        Description =
+            "Use this for rich text with heading, image and page link that will be reused in multiple places.")]
     [SiteBlockIcon]
     public class TeaserBlock : BlockData
     {
@@ -24,7 +24,6 @@ namespace AlloyTraining.Models.Blocks
         [UIHint(UIHint.Image)]
         public virtual ContentReference TeaserImage { get; set; }
 
-        [Display(Name = "Link", Order = 40)]
-        public virtual PageReference TeaserLink { get; set; }
+        [Display(Name = "Link", Order = 40)] public virtual PageReference TeaserLink { get; set; }
     }
 }

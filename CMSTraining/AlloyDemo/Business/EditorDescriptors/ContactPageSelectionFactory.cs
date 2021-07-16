@@ -6,9 +6,9 @@ using EPiServer.Shell.ObjectEditing;
 namespace AlloyDemo.Business.EditorDescriptors
 {
     /// <summary>
-    /// Provides a list of options corresponding to ContactPage pages on the site
+    ///     Provides a list of options corresponding to ContactPage pages on the site
     /// </summary>
-    /// <seealso cref="ContactPageSelector"/>
+    /// <seealso cref="ContactPageSelector" />
     public class ContactPageSelectionFactory : ISelectionFactory
     {
         private Injected<ContentLocator> ContentLocator { get; set; }

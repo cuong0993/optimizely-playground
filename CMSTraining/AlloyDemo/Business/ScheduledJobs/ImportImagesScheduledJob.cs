@@ -1,4 +1,9 @@
-﻿using AlloyDemo.Models.Media;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Web.Configuration;
+using AlloyDemo.Models.Media;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAccess;
@@ -6,25 +11,20 @@ using EPiServer.Framework.Blobs;
 using EPiServer.PlugIn;
 using EPiServer.Scheduler;
 using EPiServer.Security;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Web.Configuration;
 
 namespace AlloyDemo.Business.ScheduledJobs
 {
     [ScheduledPlugIn(DisplayName = ScheduledJobName,
-        GUID = "88E83CA0-91ED-46FD-A338-7938C8D0FDF9", 
+        GUID = "88E83CA0-91ED-46FD-A338-7938C8D0FDF9",
         SortIndex = -1, Restartable = true)]
     public class ImportImagesScheduledJob : ScheduledJobBase
     {
         public const string ScheduledJobName = "Import Images";
-
-        private readonly string[] patterns = new[] { "*.png", "*.jpeg", "*.jpg" };
+        private readonly IBlobFactory blobFactory;
 
         private readonly IContentRepository contentRepository;
-        private readonly IBlobFactory blobFactory;
+
+        private readonly string[] patterns = {"*.png", "*.jpeg", "*.jpg"};
 
         private bool _stopSignaled;
 
@@ -49,45 +49,43 @@ namespace AlloyDemo.Business.ScheduledJobs
         private IEnumerable<string> GetImageFilenames(string path)
         {
             IEnumerable<string> files = null;
-            foreach (string pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 IEnumerable<string> moreFiles = Directory.GetFiles(path, pattern);
                 if (files == null) files = moreFiles;
                 else files.Concat(moreFiles);
             }
+
             return files;
         }
 
         public override string Execute()
         {
-            string toImportFolder = WebConfigurationManager.AppSettings["episerver:edu.ToImportFolder"];
-            string importedFolder = WebConfigurationManager.AppSettings["episerver:edu.ImportedFolder"];
+            var toImportFolder = WebConfigurationManager.AppSettings["episerver:edu.ToImportFolder"];
+            var importedFolder = WebConfigurationManager.AppSettings["episerver:edu.ImportedFolder"];
 
             var assetsFolder = new ContentReference(
                 WebConfigurationManager.AppSettings["episerver:edu.ImportAssetsFolder"]);
 
-            IEnumerable<string> images = GetImageFilenames(toImportFolder);
-            int toImportCount = images.Count();
-            int importedCount = 0;
-            int remainingCount = toImportCount;
+            var images = GetImageFilenames(toImportFolder);
+            var toImportCount = images.Count();
+            var importedCount = 0;
+            var remainingCount = toImportCount;
 
             OnStatusChanged($"Starting {ScheduledJobName}. {toImportCount} images to import. Please wait...");
 
             while (remainingCount > 0)
             {
-                if (_stopSignaled)
-                {
-                    return "Stop of job was called";
-                }
+                if (_stopSignaled) return "Stop of job was called";
 
-                string nextImage = images.First();
+                var nextImage = images.First();
 
-                var asset = contentRepository.GetDefault<ImageFile>(parentLink: assetsFolder);
+                var asset = contentRepository.GetDefault<ImageFile>(assetsFolder);
                 asset.Name = Path.GetFileName(nextImage);
-                asset.Copyright = $"Copyright © 2018 Episerver Education";
+                asset.Copyright = "Copyright © 2018 Episerver Education";
 
-                Blob blob = blobFactory.CreateBlob(id: asset.BinaryDataContainer, 
-                    extension: Path.GetExtension(nextImage));
+                var blob = blobFactory.CreateBlob(asset.BinaryDataContainer,
+                    Path.GetExtension(nextImage));
                 blob.WriteAllBytes(File.ReadAllBytes(nextImage));
                 asset.BinaryData = blob;
 

@@ -1,3 +1,5 @@
+@using AlloyDemo
+@using EPiServer.Editor
 @model CommentsPageViewModel
 @{
     Layout = "~/Views/Shared/Layouts/_LeftNavigation.cshtml";
@@ -9,7 +11,7 @@
         @Html.DisplayFor(x => (x.CurrentPage as ArticlePage).MainBody)
     </div>
 </div>
-@Html.PropertyFor(x => (x.CurrentPage as ArticlePage).MainContentArea, new { CssClass = "row", Tag = AlloyDemo.Global.ContentAreaTags.TwoThirdsWidth })
+@Html.PropertyFor(x => (x.CurrentPage as ArticlePage).MainContentArea, new {CssClass = "row", Tag = Global.ContentAreaTags.TwoThirdsWidth})
 
 <!--start of commenting functionality-->
 <div class="row">
@@ -18,7 +20,12 @@
         if (Model.ThisPageHasAtLeastOneComment)
         {
             <div class="span8">
-                <h3>Comments <small><a href="?orderBy=ASC">Ascending</a> <a href="?orderBy=DESC">Descending</a></small></h3>
+                <h3>
+                    Comments
+                    <small>
+                        <a href="?orderBy=ASC">Ascending</a> <a href="?orderBy=DESC">Descending</a>
+                    </small>
+                </h3>
                 @foreach (var c in Model.Comments)
                 {
                     Html.RenderPartial("CommentBlock", c);
@@ -35,11 +42,11 @@
         if (Model.CurrentUserCanAddComments)
         {
             <div class="span8">
-                @using (Html.BeginForm("AddComment", null, FormMethod.Post, new { @class = "form-horizontal" }))
+                @using (Html.BeginForm("AddComment", null, FormMethod.Post, new {@class = "form-horizontal"}))
                 {
                     <p class="introduction">What do you think? Write a comment!</p>
                     <div class="control-group">
-                        <input class="span4" type="text" name="commentName" id="commentName" placeholder="Enter your name (optional)" />
+                        <input class="span4" type="text" name="commentName" id="commentName" placeholder="Enter your name (optional)"/>
                     </div>
                     <div class="control-group">
                         <textarea class="span6" name="commentText" id="commentText" placeholder="Enter your comment"></textarea>
@@ -60,7 +67,7 @@
     }
     else
     {
-        if (EPiServer.Editor.PageEditing.PageIsInEditMode)
+        if (PageEditing.PageIsInEditMode)
         {
             <div class="alert alert-info">
                 <p>The Start page does not have a comments folder.</p>

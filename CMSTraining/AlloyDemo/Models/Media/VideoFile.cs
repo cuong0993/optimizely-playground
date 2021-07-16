@@ -11,12 +11,12 @@ namespace AlloyDemo.Models.Media
     public class VideoFile : VideoData
     {
         /// <summary>
-        /// Gets or sets the copyright.
+        ///     Gets or sets the copyright.
         /// </summary>
         public virtual string Copyright { get; set; }
 
         /// <summary>
-        /// Gets or sets the URL to the preview image.
+        ///     Gets or sets the URL to the preview image.
         /// </summary>
         [UIHint(UIHint.Image)]
         public virtual ContentReference PreviewImage { get; set; }

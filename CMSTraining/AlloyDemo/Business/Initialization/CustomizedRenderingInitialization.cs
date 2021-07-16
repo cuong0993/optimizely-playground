@@ -1,16 +1,17 @@
 using System.Web.Mvc;
+using AlloyDemo.Business.Rendering;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-using AlloyDemo.Business.Rendering;
 using EPiServer.Web;
+using InitializationModule = EPiServer.Web.InitializationModule;
 
 namespace AlloyDemo.Business.Initialization
 {
     /// <summary>
-    /// Module for customizing templates and rendering.
+    ///     Module for customizing templates and rendering.
     /// </summary>
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class CustomizedRenderingInitialization : IInitializableModule
     {
         public void Initialize(InitializationEngine context)

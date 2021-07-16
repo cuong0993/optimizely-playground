@@ -1,10 +1,10 @@
-﻿using AlloyTraining.Business.SelectionFactories;
+﻿using System.ComponentModel.DataAnnotations;
+using AlloyTraining.Business.SelectionFactories;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
 using EPiServer.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyTraining.Models.Pages
 {
@@ -33,14 +33,14 @@ namespace AlloyTraining.Models.Pages
         public virtual ContentReference PageImage { get; set; }
 
         [Display(Name = "Open Graph type",
-GroupName = SiteTabNames.SEO, Order = 400)]
+            GroupName = SiteTabNames.SEO, Order = 400)]
         [SelectOne(SelectionFactoryType = typeof(OgTypeSelectionFactory))]
         public virtual string OgType { get; set; }
 
         [CultureSpecific]
         [Display(Name = "Footer text",
-Description = "The footer text will be shown at the bottom of every page.",
-GroupName = SiteTabNames.SiteSettings, Order = 10)]
+            Description = "The footer text will be shown at the bottom of every page.",
+            GroupName = SiteTabNames.SiteSettings, Order = 10)]
         public virtual string FooterText { get; set; }
     }
 }

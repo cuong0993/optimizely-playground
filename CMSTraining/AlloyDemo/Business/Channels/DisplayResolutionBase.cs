@@ -5,12 +5,10 @@ using EPiServer.Web;
 namespace AlloyDemo.Business.Channels
 {
     /// <summary>
-    /// Base class for all resolution definitions
+    ///     Base class for all resolution definitions
     /// </summary>
     public abstract class DisplayResolutionBase : IDisplayResolution
     {
-        private Injected<LocalizationService> LocalizationService { get; set; }
-
         protected DisplayResolutionBase(string name, int width, int height)
         {
             Id = GetType().FullName;
@@ -19,23 +17,25 @@ namespace AlloyDemo.Business.Channels
             Height = height;
         }
 
+        private Injected<LocalizationService> LocalizationService { get; set; }
+
         /// <summary>
-        /// Gets the unique ID for this resolution
+        ///     Gets the unique ID for this resolution
         /// </summary>
         public string Id { get; protected set; }
 
         /// <summary>
-        /// Gets the name of resolution
+        ///     Gets the name of resolution
         /// </summary>
         public string Name { get; protected set; }
 
         /// <summary>
-        /// Gets the resolution width in pixels
+        ///     Gets the resolution width in pixels
         /// </summary>
         public int Width { get; protected set; }
 
         /// <summary>
-        /// Gets the resolution height in pixels
+        ///     Gets the resolution height in pixels
         /// </summary>
         public int Height { get; protected set; }
 
@@ -43,10 +43,7 @@ namespace AlloyDemo.Business.Channels
         {
             string value;
 
-            if(!LocalizationService.Service.TryGetString(resurceKey, out value))
-            {
-                value = resurceKey;
-            }
+            if (!LocalizationService.Service.TryGetString(resurceKey, out value)) value = resurceKey;
 
             return value;
         }

@@ -4,7 +4,7 @@
     @Html.PropertyFor(x => x.Image)
     <h3 @Html.EditAttributes(x => x.Heading)>@Model.Heading</h3>
     @Html.PropertyFor(x => x.ContactPage)
-    @if(Model.ShowLink)
+    @if (Model.ShowLink)
     {
         <a href="@Model.LinkUrl" title="@Model.LinkText" class="btn-blue" @Html.EditAttributes(x => x.LinkText)>
             @Model.LinkText

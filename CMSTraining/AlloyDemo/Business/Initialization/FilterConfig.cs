@@ -2,13 +2,14 @@ using System.Web.Mvc;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using InitializationModule = EPiServer.Web.InitializationModule;
 
 namespace AlloyDemo.Business.Initialization
 {
     /// <summary>
-    /// Module for registering filters which will be applied to controller actions.
+    ///     Module for registering filters which will be applied to controller actions.
     /// </summary>
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class FilterConfig : IInitializableModule
     {
         public void Initialize(InitializationEngine context)

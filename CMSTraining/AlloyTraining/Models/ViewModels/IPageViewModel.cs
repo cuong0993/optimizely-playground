@@ -1,6 +1,6 @@
-﻿using AlloyTraining.Models.Pages;
+﻿using System.Collections.Generic;
+using AlloyTraining.Models.Pages;
 using EPiServer.Core;
-using System.Collections.Generic;
 
 namespace AlloyTraining.Models.ViewModels
 {

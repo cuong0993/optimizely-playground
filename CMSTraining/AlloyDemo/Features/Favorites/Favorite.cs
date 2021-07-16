@@ -1,16 +1,12 @@
-﻿using EPiServer.Core;
+﻿using System;
+using EPiServer.Core;
 using EPiServer.Data;
 using EPiServer.Data.Dynamic;
-using System;
 
 namespace AlloyDemo.Features.Favorites
 {
     public class Favorite : IDynamicData
     {
-        public Identity Id { get; set; }
-        public string UserName { get; set; }
-        public ContentReference FavoriteContentReference { get; set; }
-
         public Favorite()
         {
             Id = Identity.NewIdentity(Guid.NewGuid());
@@ -24,5 +20,9 @@ namespace AlloyDemo.Features.Favorites
             UserName = userName;
             FavoriteContentReference = contentReferenceToAdd;
         }
+
+        public string UserName { get; set; }
+        public ContentReference FavoriteContentReference { get; set; }
+        public Identity Id { get; set; }
     }
 }

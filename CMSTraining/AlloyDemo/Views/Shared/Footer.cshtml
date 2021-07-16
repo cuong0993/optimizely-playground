@@ -1,7 +1,7 @@
 @model IPageViewModel<SitePageData>
 <div class="row">
     <div class="span12 footer">
-        <hr />
+        <hr/>
         <div class="row">
             <div class="span3">
                 <h3>@Html.Translate("/footer/products")</h3>
@@ -20,15 +20,15 @@
                 @Html.PropertyFor(x => x.Layout.CustomerZonePages)
                 <ul>
                     <li>
-                        @if(Model.Layout.LoggedIn)
+                        @if (Model.Layout.LoggedIn)
                         {
-                            @Html.ActionLink(Html.Translate("/footer/logout"), "Logout", new { language = @Model.CurrentPage.Language.Name })
+                            @Html.ActionLink(Html.Translate("/footer/logout"), "Logout", new {language = Model.CurrentPage.Language.Name})
                         }
                         else
                         {
                             if (!Model.Layout.IsInReadonlyMode)
                             {
-                            <a href="@Model.Layout.LoginUrl" title="@Html.Translate("/footer/login")">@Html.Translate("/footer/login")</a>
+                                <a href="@Model.Layout.LoginUrl" title="@Html.Translate("/footer/login")">@Html.Translate("/footer/login")</a>
                             }
                         }
                     </li>

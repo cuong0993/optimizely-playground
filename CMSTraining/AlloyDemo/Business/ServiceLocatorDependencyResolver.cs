@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using EPiServer.ServiceLocation;
 
@@ -8,7 +7,7 @@ namespace AlloyDemo.Business
 {
     public class ServiceLocatorDependencyResolver : IDependencyResolver
     {
-        readonly IServiceLocator _serviceLocator;
+        private readonly IServiceLocator _serviceLocator;
 
         public ServiceLocatorDependencyResolver(IServiceLocator serviceLocator)
         {
@@ -17,11 +16,13 @@ namespace AlloyDemo.Business
 
         public object GetService(Type serviceType)
         {
-            if (serviceType.IsInterface || serviceType.IsAbstract)
-            {
-                return GetInterfaceService(serviceType);
-            }
+            if (serviceType.IsInterface || serviceType.IsAbstract) return GetInterfaceService(serviceType);
             return GetConcreteService(serviceType);
+        }
+
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            return _serviceLocator.GetAllInstances(serviceType);
         }
 
         private object GetConcreteService(Type serviceType)
@@ -41,11 +42,6 @@ namespace AlloyDemo.Business
         {
             object instance;
             return _serviceLocator.TryGetExistingInstance(serviceType, out instance) ? instance : null;
-        }
-
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
-            return _serviceLocator.GetAllInstances(serviceType).Cast<object>();
         }
     }
 }

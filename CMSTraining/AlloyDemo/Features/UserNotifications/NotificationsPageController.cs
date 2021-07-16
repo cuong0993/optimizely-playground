@@ -1,10 +1,19 @@
-﻿using AlloyDemo.Controllers;  // PageControllerBase
-using AlloyDemo.Models.ViewModels; // PageViewModel
-using EPiServer.Notification;     // INotifier, IUserNotificationRepository, QueryableNotificationUserService
-using EPiServer.Shell.Security;   // UIUserProvider, IUIUser
-using System.Collections.Generic; // Dictionary
-using System.Threading.Tasks;     // Task<T>
-using System.Web.Mvc;             // ActionResult
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using AlloyDemo.Controllers;
+using AlloyDemo.Models.ViewModels;
+using EPiServer.Notification;
+using EPiServer.Shell.Security;
+
+// PageControllerBase
+// PageViewModel
+// INotifier, IUserNotificationRepository, QueryableNotificationUserService
+// UIUserProvider, IUIUser
+// Dictionary
+// Task<T>
+
+// ActionResult
 
 namespace AlloyDemo.Features.UserNotifications
 {
@@ -12,9 +21,11 @@ namespace AlloyDemo.Features.UserNotifications
     {
         // some services that we need
         private readonly INotifier notifier;
-        private readonly IUserNotificationRepository userNotificationRepository;
+
         private readonly QueryableNotificationUserService
             queryableNotificationUserService;
+
+        private readonly IUserNotificationRepository userNotificationRepository;
         private readonly UIUserProvider userProvider;
 
         public NotificationsPageController(INotifier notifier,
@@ -38,13 +49,13 @@ namespace AlloyDemo.Features.UserNotifications
                 new Dictionary<string, PagedUserNotificationMessageResult>();
 
             // get a list of the first 30 registered users
-            IEnumerable<IUIUser> users = userProvider.GetAllUsers(
-                pageIndex: 0, pageSize: 30, totalRecords: out int totalRecords);
+            var users = userProvider.GetAllUsers(
+                0, 30, out var totalRecords);
 
-            foreach (IUIUser user in users)
+            foreach (var user in users)
             {
                 // get an object that represents notifications for each user
-                INotificationUser notificationUser = await
+                var notificationUser = await
                     queryableNotificationUserService.GetAsync(user.Username);
 
                 // build a query that includes read, unread, sent, and unsent messages
@@ -63,10 +74,10 @@ namespace AlloyDemo.Features.UserNotifications
                 }
 
                 // execute the query
-                PagedUserNotificationMessageResult result = 
+                var result =
                     await userNotificationRepository
-                    .GetUserNotificationsAsync(
-                        query, startIndex: 0, maxRows: 20);
+                        .GetUserNotificationsAsync(
+                            query, 0, 20);
 
                 // store the query results for the user
                 currentPage.Notifications.Add(user.Username, result);

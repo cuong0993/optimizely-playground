@@ -1,12 +1,12 @@
-﻿using AlloyDemo.Controllers;
-using AlloyDemo.Models.ViewModels;
-using EPiServer.Notification;
-using EPiServer.Shell.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AlloyDemo.Controllers;
+using AlloyDemo.Models.ViewModels;
+using EPiServer.Notification;
+using EPiServer.Shell.Security;
 
 namespace AlloyDemo.Features.UserNotifications
 {
@@ -14,8 +14,8 @@ namespace AlloyDemo.Features.UserNotifications
     {
         // some services that we need
         private readonly INotifier notifier;
-        private readonly IUserNotificationRepository userNotificationRepository;
         private readonly QueryableNotificationUserService queryableNotificationUserService;
+        private readonly IUserNotificationRepository userNotificationRepository;
         private readonly UIUserProvider userProvider;
 
         public SendNotificationPageController(INotifier notifier,
@@ -32,8 +32,8 @@ namespace AlloyDemo.Features.UserNotifications
         public ActionResult Index(SendNotificationPage currentPage)
         {
             // get a list of the first 30 registered users
-            IEnumerable<IUIUser> users = userProvider.GetAllUsers(
-                pageIndex: 0, pageSize: 30, totalRecords: out int totalRecords);
+            var users = userProvider.GetAllUsers(
+                0, 30, out var totalRecords);
 
             // store the user names in ViewData so they can be used in a dropdown listbox
             ViewData["users"] = users.OrderBy(user => user.Username)
@@ -50,17 +50,17 @@ namespace AlloyDemo.Features.UserNotifications
             string from, string to, string subject, string content, string uri,
             string when, DateTime? whenDateTime, int? whenDelay)
         {
-            IEnumerable<IUIUser> users = userProvider.GetAllUsers(
-                pageIndex: 0, pageSize: 30, totalRecords: out int totalRecords);
+            var users = userProvider.GetAllUsers(
+                0, 30, out var totalRecords);
 
-            INotificationUser sender = await
+            var sender = await
                 queryableNotificationUserService.GetAsync(from);
 
             var receivers = new List<INotificationUser>();
-            string[] usernames = to.Split(';');
+            var usernames = to.Split(';');
             foreach (var username in usernames)
             {
-                INotificationUser user = await
+                var user = await
                     queryableNotificationUserService.GetAsync(username);
                 receivers.Add(user);
             }

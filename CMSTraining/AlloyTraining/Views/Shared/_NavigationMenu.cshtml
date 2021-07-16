@@ -1,13 +1,11 @@
 ﻿@using AlloyTraining.Business.ExtensionMethods
-@using AlloyTraining.Models.Pages
-@using AlloyTraining.Models.ViewModels
 @using EPiServer.Core
-@model IPageViewModel<SitePageData>
+@model AlloyTraining.Models.ViewModels.IPageViewModel<AlloyTraining.Models.Pages.SitePageData>
 <ul>
     <li>
         @Html.ContentLink(ContentReference.StartPage)
         <ul>
-            @foreach (SitePageData page in Model.MenuPages)
+            @foreach (var page in Model.MenuPages)
             {
                 <li>@Html.ContentLink(page.ContentLink)</li>
             }

@@ -1,6 +1,5 @@
-using System;
-using EPiServer.Core;
 using AlloyDemo.Models.Pages;
+using EPiServer.Core;
 
 namespace AlloyDemo.Models.ViewModels
 {
@@ -11,7 +10,7 @@ namespace AlloyDemo.Models.ViewModels
             CurrentPage = currentPage;
         }
 
-        public T CurrentPage { get; private set; }
+        public T CurrentPage { get; }
         public LayoutModel Layout { get; set; }
         public IContent Section { get; set; }
     }
@@ -19,10 +18,13 @@ namespace AlloyDemo.Models.ViewModels
     public static class PageViewModel
     {
         /// <summary>
-        /// Returns a PageViewModel of type <typeparam name="T"/>.
+        ///     Returns a PageViewModel of type
+        ///     <typeparam name="T" />
+        ///     .
         /// </summary>
         /// <remarks>
-        /// Convenience method for creating PageViewModels without having to specify the type as methods can use type inference while constructors cannot.
+        ///     Convenience method for creating PageViewModels without having to specify the type as methods can use type inference
+        ///     while constructors cannot.
         /// </remarks>
         public static PageViewModel<T> Create<T>(T page) where T : SitePageData
         {

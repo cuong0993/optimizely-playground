@@ -8,7 +8,7 @@ namespace AlloyDemo.Models.Blocks
 {
     [ContentType(
         AvailableInEditMode = false,
-        DisplayName = "Comment", 
+        DisplayName = "Comment",
         Description = "Used to store a comment for a page.")]
     public class CommentBlock : BlockData
     {

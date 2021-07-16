@@ -1,11 +1,10 @@
-using EPiServer.Editor;
-using EPiServer.Shell;
 using AlloyDemo.Models.Pages;
+using EPiServer.Shell;
 
 namespace AlloyDemo.Business.UIDescriptors
 {
     /// <summary>
-    /// Describes how the UI should appear for <see cref="ContainerPage"/> content.
+    ///     Describes how the UI should appear for <see cref="ContainerPage" /> content.
     /// </summary>
     [UIDescriptorRegistration]
     public class ContainerPageUIDescriptor : UIDescriptor<ContainerPage>

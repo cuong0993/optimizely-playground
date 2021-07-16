@@ -7,9 +7,10 @@ using EPiServer.Web;
 namespace AlloyDemo.Models.Blocks
 {
     /// <summary>
-    /// Used to provide a stylized entry point to a page on the site
+    ///     Used to provide a stylized entry point to a page on the site
     /// </summary>
-    [SiteContentType(GUID = "EB67A99A-E239-41B8-9C59-20EAA5936047")] // BEST PRACTICE TIP: Always assign a GUID explicitly when creating a new block type
+    [SiteContentType(GUID =
+        "EB67A99A-E239-41B8-9C59-20EAA5936047")] // BEST PRACTICE TIP: Always assign a GUID explicitly when creating a new block type
     [SiteImageUrl] // Use site's default thumbnail
     public class TeaserBlock : SiteBlockData
     {

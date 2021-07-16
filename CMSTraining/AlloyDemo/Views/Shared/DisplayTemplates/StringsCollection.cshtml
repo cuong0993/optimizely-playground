@@ -1,8 +1,8 @@
 @model IEnumerable<string>
-@if(Model != null && Model.Any())
+@if (Model != null && Model.Any())
 {
     <ul>
-        @foreach(var stringValue in Model)
+        @foreach (var stringValue in Model)
         {
             <li>@stringValue</li>
         }

@@ -1,10 +1,10 @@
-using EPiServer.ServiceLocation;
-using EPiServer.Shell.Security;
-using Owin;
 using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.ServiceLocation;
+using EPiServer.Shell.Security;
+using Owin;
 
 namespace AlloyDemo
 {
@@ -14,29 +14,20 @@ namespace AlloyDemo
 
         private static Lazy<bool> _isAnyUserRegistered = new Lazy<bool>(() => false);
 
-        private static bool? _isEnabled = null;
+        private static bool? _isEnabled;
 
         public static bool IsEnabled
         {
             get
             {
-                if (_isEnabled.HasValue)
-                {
-                    return _isEnabled.Value;
-                }
+                if (_isEnabled.HasValue) return _isEnabled.Value;
 
                 var showUserRegistration = _isLocalRequest() && !_isAnyUserRegistered.Value;
-                if (!showUserRegistration)
-                {
-                    _isEnabled = false;
-                }
+                if (!showUserRegistration) _isEnabled = false;
 
                 return showUserRegistration;
             }
-            set
-            {
-                _isEnabled = value;
-            }
+            set => _isEnabled = value;
         }
 
         public static void UseAdministratorRegistrationPage(this IAppBuilder app, Func<bool> isLocalRequest)
@@ -44,18 +35,24 @@ namespace AlloyDemo
             _isLocalRequest = isLocalRequest;
             _isAnyUserRegistered = new Lazy<bool>(IsAnyUserRegistered);
             GlobalFilters.Filters.Add(new RegistrationActionFilterAttribute());
-            if (isLocalRequest())
-            {
-                AddRoute();
-            }
+            if (isLocalRequest()) AddRoute();
         }
 
         private static bool IsAnyUserRegistered()
         {
             var provider = ServiceLocator.Current.GetInstance<UIUserProvider>();
-            int totalUsers = 0;
+            var totalUsers = 0;
             var res = provider.GetAllUsers(0, 1, out totalUsers);
             return totalUsers > 0;
+        }
+
+        private static void AddRoute()
+        {
+            var routeData = new RouteValueDictionary();
+            routeData.Add("Controller", "Register");
+            routeData.Add("action", "Index");
+            RouteTable.Routes.Add("Register",
+                new Route("Register", routeData, new MvcRouteHandler()) {RouteExistingFiles = false});
         }
 
         public class RegistrationActionFilterAttribute : ActionFilterAttribute
@@ -64,18 +61,8 @@ namespace AlloyDemo
             {
                 var registerUrl = VirtualPathUtility.ToAbsolute("~/Register");
                 if (IsEnabled && !context.RequestContext.HttpContext.Request.Path.StartsWith(registerUrl))
-                {
                     context.Result = new RedirectResult(registerUrl);
-                }
             }
-        }
-
-        static void AddRoute()
-        {
-            var routeData = new RouteValueDictionary();
-            routeData.Add("Controller", "Register");
-            routeData.Add("action", "Index");
-            RouteTable.Routes.Add("Register", new Route("Register", routeData, new MvcRouteHandler()) { RouteExistingFiles = false });
         }
     }
 }

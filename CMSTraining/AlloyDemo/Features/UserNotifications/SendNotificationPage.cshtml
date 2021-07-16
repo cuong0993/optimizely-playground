@@ -1,6 +1,5 @@
-﻿@using AlloyDemo.Features.UserNotifications
-@using AlloyDemo.Models.ViewModels
-@model PageViewModel<SendNotificationPage>
+﻿@using AlloyDemo
+@model AlloyDemo.Models.ViewModels.PageViewModel<AlloyDemo.Features.UserNotifications.SendNotificationPage>
 <div class="row">
     <div class="span12">
         @if (ViewData["messageSent"] != null)
@@ -10,35 +9,38 @@
             </div>
         }
         <form action="@Url.ContentUrl(Model.CurrentPage.ContentLink)" method="post" class="form-horizontal">
-            <h3>Send notification on @AlloyDemo.Global.NotificationChannel channel</h3>
+            <h3>Send notification on @Global.NotificationChannel channel</h3>
             <div>
-                From: <select name="from">
-                    @foreach (string name in ViewData["users"] as string[])
+                From:
+                <select name="from">
+                    @foreach (var name in ViewData["users"] as string[])
                     {
                         <option value="@name">@name</option>
                     }
                 </select>
             </div>
             <div>
-                To: <input name="to" />
+                To: <input name="to"/>
                 <small>
                     Separate user names with semi-colons:
-                    @foreach (string name in ViewData["users"] as string[])
+                    @foreach (var name in ViewData["users"] as string[])
                     {
                         <span class="label label-info">@name</span>
                     }
                 </small>
             </div>
-            <div>Subject: <input name="subject" /></div>
+            <div>Subject: <input name="subject"/></div>
             <div>Content: <textarea name="content" rows="4" cols="30"></textarea></div>
             <div>
-                URI: <input name="uri" />
+                URI: <input name="uri"/>
                 <small>For example, http://localhost:12345/en/about-us </small>
             </div>
-            <div><input type="radio" name="when" checked="checked" />Immediately</div>
-            <div><input type="radio" name="when" />At <input name="whenDateTime" /></div>
-            <div><input type="radio" name="when" />In <input name="whenDelay" /> minutes</div>
-            <div><input type="submit" value="Send" /></div>
+            <div><input type="radio" name="when" checked="checked"/>Immediately</div>
+            <div><input type="radio" name="when"/>At <input name="whenDateTime"/></div>
+            <div><input type="radio" name="when"/>In <input name="whenDelay"/> minutes</div>
+            <div>
+                <input type="submit" value="Send"/>
+            </div>
         </form>
     </div>
 </div>

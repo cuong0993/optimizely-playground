@@ -4,16 +4,16 @@ using System.Web.Mvc;
 namespace AlloyDemo.Business.Rendering
 {
     /// <summary>
-    /// Extends the Razor view engine to include the folders ~/Views/Shared/Blocks/ and ~/Views/Shared/PagePartials/
-    /// when looking for partial views.
+    ///     Extends the Razor view engine to include the folders ~/Views/Shared/Blocks/ and ~/Views/Shared/PagePartials/
+    ///     when looking for partial views.
     /// </summary>
     public class SiteViewEngine : RazorViewEngine
     {
-        private static readonly string[] AdditionalPartialViewFormats = new[]
-            {
-                TemplateCoordinator.BlockFolder + "{0}.cshtml",
-                TemplateCoordinator.PagePartialsFolder + "{0}.cshtml"
-            };
+        private static readonly string[] AdditionalPartialViewFormats =
+        {
+            TemplateCoordinator.BlockFolder + "{0}.cshtml",
+            TemplateCoordinator.PagePartialsFolder + "{0}.cshtml"
+        };
 
         public SiteViewEngine()
         {

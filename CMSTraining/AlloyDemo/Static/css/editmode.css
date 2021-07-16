@@ -1,24 +1,21 @@
 /* CSS specific to edit mode, such as help content displayed to the editor */
 
-.alert-info
-{
+.alert-info {
+    background-color: #B8C0C5;
     border-color: #B8C0C5;
+    box-shadow: 3px 3px 5px #CCC;
     color: black;
     font-family: Verdana;
     font-size: 1em;
     font-style: italic;
-    background-color: #B8C0C5;
-    box-shadow: 3px 3px 5px #CCC;
     text-align: center;
-    }
-
-.alert-error p {
-    text-align: left;
 }
 
+.alert-error p { text-align: left; }
+
 .alert-error .heading {
-    font-weight: bold;
     color: #ff0000;
+    font-weight: bold;
 }
 
 .alert-error .details {

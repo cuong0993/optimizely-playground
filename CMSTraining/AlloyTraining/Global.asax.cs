@@ -1,9 +1,9 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using EPiServer;
 
 namespace AlloyTraining
 {
-    public class EPiServerApplication : EPiServer.Global
+    public class EPiServerApplication : Global
     {
         protected void Application_Start()
         {

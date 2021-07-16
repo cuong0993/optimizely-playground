@@ -12,16 +12,16 @@
         query string values not in the form we can't use that in edit mode.*@
 
         @{
-            using (Html.BeginForm(null, null, PageEditing.PageIsInEditMode ? FormMethod.Post : FormMethod.Get, new { @action = Model.Layout.SearchActionUrl }))
+            using (Html.BeginForm(null, null, PageEditing.PageIsInEditMode ? FormMethod.Post : FormMethod.Get, new {action = Model.Layout.SearchActionUrl}))
             {
-                <input type="text" tabindex="1" name="q" value="@Model.SearchedQuery" />
-                <input type="submit" tabindex="2" class="btn" value="@Html.Translate("/searchpagetemplate/searchbutton")" disabled="@(Model.SearchServiceDisabled ? "disabled" : null)" />
+                <input type="text" tabindex="1" name="q" value="@Model.SearchedQuery"/>
+                <input type="submit" tabindex="2" class="btn" value="@Html.Translate("/searchpagetemplate/searchbutton")" disabled="@(Model.SearchServiceDisabled ? "disabled" : null)"/>
             }
         }
     </div>
 </div>
 
-@if(Model.Hits != null)
+@if (Model.Hits != null)
 {
     <div class="row">
         <div class="span8 grayHead">
@@ -29,7 +29,7 @@
             <p>
                 @Html.Translate("/searchpagetemplate/searchfor") <i>@Model.SearchedQuery</i>
                 @Html.Translate("/searchpagetemplate/resultedin")
-                @if(Model.NumberOfHits > 0)
+                @if (Model.NumberOfHits > 0)
                 {
                     @Model.NumberOfHits
                 }
@@ -47,17 +47,18 @@
             @foreach (var hit in Model.Hits)
             {
                 <div class="listResult">
-                    <h3><a href="@hit.Url">@hit.Title</a></h3>
+                    <h3>
+                        <a href="@hit.Url">@hit.Title</a>
+                    </h3>
                     <p>@hit.Excerpt</p>
-                    <hr />
+                    <hr/>
                 </div>
             }
         </div>
     </div>
-
 }
 
-@if(Model.SearchServiceDisabled && PrincipalInfo.HasEditAccess)
+@if (Model.SearchServiceDisabled && PrincipalInfo.HasEditAccess)
 {
-    @Html.Partial("TemplateHint", Html.Translate("/searchpagetemplate/disabled" ))
+    @Html.Partial("TemplateHint", Html.Translate("/searchpagetemplate/disabled"))
 }

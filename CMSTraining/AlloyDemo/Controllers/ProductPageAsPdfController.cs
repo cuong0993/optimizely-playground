@@ -1,15 +1,14 @@
-﻿using System.Web.Mvc;
-using EPiServer.Framework.DataAnnotations;
-using EPiServer.Web.Mvc;
-using AlloyDemo.Models.Pages;
-using System.Text;
-using AlloyDemo.Models.ViewModels;
+﻿using System.Text;
+using System.Web.Mvc;
 using AlloyDemo.Business.Channels;
+using AlloyDemo.Models.Pages;
+using AlloyDemo.Models.ViewModels;
+using EPiServer.Framework.DataAnnotations;
 
 namespace AlloyDemo.Controllers
 {
     // the Tag should match the ChannelName of the DisplayChannel
-    [TemplateDescriptor(Inherited = true, Tags = new[] { "PDF" })]
+    [TemplateDescriptor(Inherited = true, Tags = new[] {"PDF"})]
     public class ProductPageAsPdfController : PageControllerBase<ProductPage>
     {
         public ActionResult Index(ProductPage currentPage)
@@ -18,7 +17,7 @@ namespace AlloyDemo.Controllers
             var sb = new StringBuilder();
             sb.Append($"<h1>{currentPage.Name}</h1>");
             sb.Append($"<h3>{currentPage.MetaDescription}</h3>");
-            sb.Append(currentPage.MainBody.ToString());
+            sb.Append(currentPage.MainBody);
 
             // generate the PDF
             PDFChannelHelper.GeneratePDF(sb.ToString(), currentPage.Name);

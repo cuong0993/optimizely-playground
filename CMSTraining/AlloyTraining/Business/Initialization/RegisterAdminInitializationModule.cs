@@ -1,16 +1,17 @@
-﻿using EPiServer.Core;
+﻿using System.Configuration;
+using System.Linq;
+using System.Web.Security;
+using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Security;
-using System.Configuration;
-using System.Linq;
-using System.Web.Security;
+using InitializationModule = EPiServer.Web.InitializationModule;
 
 namespace AlloyTraining.Business.Initialization
 {
     [InitializableModule]
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class RegisterAdminInitializationModule : IInitializableModule
     {
         private const string virtualRoleName = "CmsAdmins";
@@ -21,26 +22,19 @@ namespace AlloyTraining.Business.Initialization
 
         public void Initialize(InitializationEngine context)
         {
-            string enabledString = ConfigurationManager.AppSettings["alloy:RegisterAdmin"];
+            var enabledString = ConfigurationManager.AppSettings["alloy:RegisterAdmin"];
             bool enabled;
             if (bool.TryParse(enabledString, out enabled))
-            {
                 if (enabled)
                 {
                     #region Use ASP.NET Membership classes to create the role and user
 
                     // if the stored role does not exist, create it
-                    if (!Roles.RoleExists(storedRoleName))
-                    {
-                        Roles.CreateRole(storedRoleName);
-                    }
+                    if (!Roles.RoleExists(storedRoleName)) Roles.CreateRole(storedRoleName);
 
                     // if the user already exists, delete it
-                    MembershipUser user = Membership.GetUser(userName);
-                    if (user != null)
-                    {
-                        Membership.DeleteUser(userName);
-                    }
+                    var user = Membership.GetUser(userName);
+                    if (user != null) Membership.DeleteUser(userName);
 
                     // create the user with password and add it to role
                     Membership.CreateUser(userName, password, email);
@@ -52,16 +46,13 @@ namespace AlloyTraining.Business.Initialization
 
                     var security = context.Locate.Advanced.GetInstance<IContentSecurityRepository>();
 
-                    IContentSecurityDescriptor permissions = security
+                    var permissions = security
                         .Get(ContentReference.RootPage)
                         .CreateWritableClone() as IContentSecurityDescriptor;
 
                     var adminEntries = permissions.Entries.Where(
                         entry => entry.Name.Contains("Admin")).ToArray();
-                    foreach (var entry in adminEntries)
-                    {
-                        permissions.RemoveEntry(entry);
-                    }
+                    foreach (var entry in adminEntries) permissions.RemoveEntry(entry);
                     permissions.AddEntry(new AccessControlEntry(virtualRoleName, AccessLevel.FullAccess));
 
                     security.Save(ContentReference.RootPage, permissions, SecuritySaveType.Replace);
@@ -72,19 +63,17 @@ namespace AlloyTraining.Business.Initialization
 
                     adminEntries = permissions.Entries.Where(
                         entry => entry.Name.Contains("Admin")).ToArray();
-                    foreach (var entry in adminEntries)
-                    {
-                        permissions.RemoveEntry(entry);
-                    }
+                    foreach (var entry in adminEntries) permissions.RemoveEntry(entry);
                     permissions.AddEntry(new AccessControlEntry(virtualRoleName, AccessLevel.FullAccess));
 
                     security.Save(ContentReference.WasteBasket, permissions, SecuritySaveType.Replace);
 
                     #endregion
                 }
-            }
         }
 
-        public void Uninitialize(InitializationEngine context) { }
+        public void Uninitialize(InitializationEngine context)
+        {
+        }
     }
 }

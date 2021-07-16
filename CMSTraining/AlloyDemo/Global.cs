@@ -1,15 +1,28 @@
-using EPiServer.DataAnnotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EPiServer.DataAnnotations;
 
 namespace AlloyDemo
 {
-
     public class Global
     {
+        /// <summary>
+        ///     Virtual path to folder with static graphics, such as "~/Static/gfx/"
+        /// </summary>
+        public const string StaticGraphicsFolderPath = "~/Static/gfx/";
+
         public static readonly string LoginPath = "/util/login.aspx";
         public static readonly string AppRelativeLoginPath = string.Format("~{0}", LoginPath);
         public static readonly string NotificationChannel = "epi.alloy.messages";
+
+        public static Dictionary<string, int> ContentAreaTagWidths = new Dictionary<string, int>
+        {
+            {ContentAreaTags.FullWidth, ContentAreaWidths.FullWidth},
+            {ContentAreaTags.TwoThirdsWidth, ContentAreaWidths.TwoThirdsWidth},
+            {ContentAreaTags.HalfWidth, ContentAreaWidths.HalfWidth},
+            {ContentAreaTags.OneThirdWidth, ContentAreaWidths.OneThirdWidth}
+        };
+
         public static class SystemPropertyNames
         {
             [Display(Name = "Category", Order = 1)]
@@ -20,22 +33,19 @@ namespace AlloyDemo
         }
 
         /// <summary>
-        /// Group names for content types and properties
+        ///     Group names for content types and properties
         /// </summary>
-        [GroupDefinitions()]
+        [GroupDefinitions]
         public static class GroupNames
         {
-            [Display(Name = "Contact", Order = 1)]
-            public const string Contact = "Contact";
+            [Display(Name = "Contact", Order = 1)] public const string Contact = "Contact";
 
-            [Display(Name = "Default", Order = 2)]
-            public const string Default = "Default";
+            [Display(Name = "Default", Order = 2)] public const string Default = "Default";
 
             [Display(Name = "Metadata", Order = 3)]
             public const string MetaData = "Metadata";
 
-            [Display(Name = "News", Order = 4)]
-            public const string News = "News";
+            [Display(Name = "News", Order = 4)] public const string News = "News";
 
             [Display(Name = "Products", Order = 5)]
             public const string Products = "Products";
@@ -48,7 +58,7 @@ namespace AlloyDemo
         }
 
         /// <summary>
-        /// Tags to use for the main widths used in the Bootstrap HTML framework
+        ///     Tags to use for the main widths used in the Bootstrap HTML framework
         /// </summary>
         public static class ContentAreaTags
         {
@@ -60,7 +70,7 @@ namespace AlloyDemo
         }
 
         /// <summary>
-        /// Main widths used in the Bootstrap HTML framework
+        ///     Main widths used in the Bootstrap HTML framework
         /// </summary>
         public static class ContentAreaWidths
         {
@@ -70,16 +80,8 @@ namespace AlloyDemo
             public const int OneThirdWidth = 4;
         }
 
-        public static Dictionary<string, int> ContentAreaTagWidths = new Dictionary<string, int>
-            {
-                { ContentAreaTags.FullWidth, ContentAreaWidths.FullWidth },
-                { ContentAreaTags.TwoThirdsWidth, ContentAreaWidths.TwoThirdsWidth },
-                { ContentAreaTags.HalfWidth, ContentAreaWidths.HalfWidth },
-                { ContentAreaTags.OneThirdWidth, ContentAreaWidths.OneThirdWidth }
-            };
-
         /// <summary>
-        /// Names used for UIHint attributes to map specific rendering controls to page properties
+        ///     Names used for UIHint attributes to map specific rendering controls to page properties
         /// </summary>
         public static class SiteUIHints
         {
@@ -92,11 +94,5 @@ namespace AlloyDemo
             public const string Email = "Email";
             public const string YouTube = "YouTube";
         }
-
-        /// <summary>
-        /// Virtual path to folder with static graphics, such as "~/Static/gfx/"
-        /// </summary>
-        public const string StaticGraphicsFolderPath = "~/Static/gfx/";
     }
 }
-

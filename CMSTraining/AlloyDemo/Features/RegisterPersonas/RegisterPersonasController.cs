@@ -1,11 +1,11 @@
+using System.Collections.Generic;
+using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Filters;
 using EPiServer.Security;
 using EPiServer.Shell.Security;
-using System.Collections.Generic;
-using System.Web.Mvc;
 
 namespace AlloyDemo.Features.RegisterPersonas
 {
@@ -26,94 +26,98 @@ namespace AlloyDemo.Features.RegisterPersonas
         private const string editorsRole = "CmsEditors"; // no access rights to Root
 
         // stored roles that are assigned access rights
-        private const string contentCreatorsRole = "ContentCreators"; // Read, Create, Edit, Delete access rights to Root
+        private const string
+            contentCreatorsRole = "ContentCreators"; // Read, Create, Edit, Delete access rights to Root
+
         private const string newsEditorsRole = "NewsEditors"; // full access to News & Events
         private const string marketersRole = "Marketers"; // Create access rights to ProductPage
-        private const string cLevelExecsRole = "CLevelExecs"; // approve strategic content e.g. Edit access rights for Press Releases
-        private const string lawyersRole = "Lawyers"; // approve legal content e.g. Edit access rights for Press Releases
 
-        private static string[] rolesToCreate = new[]
-            { accessToAdminView, accessToEditView, newsEditorsRole, contentCreatorsRole,
-            marketersRole, personalizersRole, developersRole, cLevelExecsRole, lawyersRole };
+        private const string
+            cLevelExecsRole = "CLevelExecs"; // approve strategic content e.g. Edit access rights for Press Releases
 
-        public class UserAndRoles
+        private const string
+            lawyersRole = "Lawyers"; // approve legal content e.g. Edit access rights for Press Releases
+
+        private static readonly string[] rolesToCreate =
         {
-            public string UserName;
-            public string[] Roles;
-        }
+            accessToAdminView, accessToEditView, newsEditorsRole, contentCreatorsRole,
+            marketersRole, personalizersRole, developersRole, cLevelExecsRole, lawyersRole
+        };
 
-        public static UserAndRoles[] Users = new[]
+        public static UserAndRoles[] Users =
         {
             new UserAndRoles
             {
                 UserName = "Alice", // a CMS Admin
-                Roles = new[] { accessToAdminView }
+                Roles = new[] {accessToAdminView}
             },
             new UserAndRoles
             {
                 UserName = "Dana", // a Developer
-                Roles = new[] { accessToAdminView, developersRole }
+                Roles = new[] {accessToAdminView, developersRole}
             },
             new UserAndRoles
             {
                 UserName = "Eve", // a CMS Editor
-                Roles = new[] { accessToEditView, contentCreatorsRole }
-            },            new UserAndRoles
+                Roles = new[] {accessToEditView, contentCreatorsRole}
+            },
+            new UserAndRoles
             {
                 UserName = "Emily", // a CMS Editor
-                Roles = new[] { accessToEditView, contentCreatorsRole }
+                Roles = new[] {accessToEditView, contentCreatorsRole}
             },
             new UserAndRoles
             {
                 UserName = "Emil", // a CMS Editor
-                Roles = new[] { accessToEditView, contentCreatorsRole }
+                Roles = new[] {accessToEditView, contentCreatorsRole}
             },
             new UserAndRoles
             {
                 UserName = "Nick", // a News Editor
-                Roles = new[] { accessToEditView, newsEditorsRole }
+                Roles = new[] {accessToEditView, newsEditorsRole}
             },
             new UserAndRoles
             {
                 UserName = "Nancy", // a News Editor
-                Roles = new[] { accessToEditView, newsEditorsRole }
+                Roles = new[] {accessToEditView, newsEditorsRole}
             },
             new UserAndRoles
             {
                 UserName = "Michelle", // a Marketer
-                Roles = new[] { accessToEditView, marketersRole, personalizersRole }
+                Roles = new[] {accessToEditView, marketersRole, personalizersRole}
             },
             new UserAndRoles
             {
                 UserName = "Carlos", // the CEO
-                Roles = new[] { accessToEditView, cLevelExecsRole }
+                Roles = new[] {accessToEditView, cLevelExecsRole}
             },
             new UserAndRoles
             {
                 UserName = "Catherine", // the CFO
-                Roles = new[] { accessToEditView, cLevelExecsRole }
+                Roles = new[] {accessToEditView, cLevelExecsRole}
             },
             new UserAndRoles
             {
                 UserName = "Larry", // a Lawyer
-                Roles = new[] { accessToEditView, lawyersRole }
+                Roles = new[] {accessToEditView, lawyersRole}
             },
             new UserAndRoles
             {
                 UserName = "Laura", // a Lawyer
-                Roles = new[] { accessToEditView, lawyersRole }
+                Roles = new[] {accessToEditView, lawyersRole}
             },
             new UserAndRoles
             {
                 UserName = "Lori", // a Lawyer
-                Roles = new[] { accessToEditView, lawyersRole }
+                Roles = new[] {accessToEditView, lawyersRole}
             }
         };
 
-        private readonly IContentSecurityRepository securityRepository;
         private readonly IPageCriteriaQueryService pageFinder;
-        private readonly UIUserProvider users;
         private readonly UIRoleProvider roles;
+
+        private readonly IContentSecurityRepository securityRepository;
+        private readonly UIUserProvider users;
 
         public RegisterPersonasController(IContentSecurityRepository securityRepository,
             IPageCriteriaQueryService pageFinder,
@@ -140,32 +144,29 @@ namespace AlloyDemo.Features.RegisterPersonas
         [ValidateInput(false)]
         public ActionResult Index(string submit)
         {
-            int countOfRolesCreated = 0;
-            int countOfUsersCreated = 0;
+            var countOfRolesCreated = 0;
+            var countOfUsersCreated = 0;
 
             #region Use EPiServer classes to create roles and users
 
             UIUserCreateStatus status;
             IEnumerable<string> errors = new List<string>();
 
-            foreach (string role in rolesToCreate)
-            {
+            foreach (var role in rolesToCreate)
                 if (!roles.RoleExists(role))
                 {
                     roles.CreateRole(role);
                     countOfRolesCreated++;
                 }
-            }
 
             foreach (var item in Users)
-            {
                 if (users.GetUser(item.UserName) == null)
                 {
                     var newUser = users.CreateUser(item.UserName, password,
-                        email: $"{item.UserName.ToLower()}{email}",
-                        passwordQuestion: null, passwordAnswer: null,
-                        isApproved: true,
-                        status: out status, errors: out errors);
+                        $"{item.UserName.ToLower()}{email}",
+                        null, null,
+                        true,
+                        out status, out errors);
 
                     if (status == UIUserCreateStatus.Success)
                     {
@@ -173,7 +174,6 @@ namespace AlloyDemo.Features.RegisterPersonas
                         roles.AddUserToRoles(item.UserName, item.Roles);
                     }
                 }
-            }
 
             #endregion
 
@@ -182,7 +182,8 @@ namespace AlloyDemo.Features.RegisterPersonas
             SetSecurity(ContentReference.RootPage, adminsRole, AccessLevel.FullAccess);
             SetSecurity(ContentReference.RootPage, "WebAdmins", AccessLevel.NoAccess);
             SetSecurity(ContentReference.RootPage, "Administrators", AccessLevel.NoAccess);
-            SetSecurity(ContentReference.RootPage, contentCreatorsRole, AccessLevel.Read | AccessLevel.Create | AccessLevel.Edit | AccessLevel.Delete);
+            SetSecurity(ContentReference.RootPage, contentCreatorsRole,
+                AccessLevel.Read | AccessLevel.Create | AccessLevel.Edit | AccessLevel.Delete);
             SetSecurity(ContentReference.RootPage, marketersRole, AccessLevel.Create | AccessLevel.Publish);
 
             SetSecurity(ContentReference.WasteBasket, adminsRole, AccessLevel.FullAccess);
@@ -206,9 +207,9 @@ namespace AlloyDemo.Features.RegisterPersonas
             {
                 // give News Editors full access and remove all access for others
                 var news = pages[0].ContentLink;
-                SetSecurity(news, newsEditorsRole, AccessLevel.FullAccess, overrideInherited: true);
-                SetSecurity(news, contentCreatorsRole, AccessLevel.NoAccess, overrideInherited: true);
-                SetSecurity(news, marketersRole, AccessLevel.NoAccess, overrideInherited: true);
+                SetSecurity(news, newsEditorsRole, AccessLevel.FullAccess, true);
+                SetSecurity(news, contentCreatorsRole, AccessLevel.NoAccess, true);
+                SetSecurity(news, marketersRole, AccessLevel.NoAccess, true);
             }
 
             // find the Press Releases page
@@ -230,26 +231,27 @@ namespace AlloyDemo.Features.RegisterPersonas
                 // allow Lawyers and C-Level Execs to edit Press Releases
                 // so they can approve/decline changes
                 var pressReleases = pages[0].ContentLink;
-                SetSecurity(pressReleases, lawyersRole, AccessLevel.Edit, overrideInherited: true);
-                SetSecurity(pressReleases, cLevelExecsRole, AccessLevel.Edit, overrideInherited: true);
+                SetSecurity(pressReleases, lawyersRole, AccessLevel.Edit, true);
+                SetSecurity(pressReleases, cLevelExecsRole, AccessLevel.Edit, true);
             }
 
             #endregion
 
             RegisterPersonas.IsEnabled = false;
 
-            ViewData["message"] = $"Register personas completed successfully. {countOfRolesCreated} roles created. {countOfUsersCreated} users created and added to roles.";
+            ViewData["message"] =
+                $"Register personas completed successfully. {countOfRolesCreated} roles created. {countOfUsersCreated} users created and added to roles.";
 
             return View("~/Features/RegisterPersonas/RegisterPersonas.cshtml");
         }
 
-        private void SetSecurity(ContentReference reference, string role, AccessLevel level, bool overrideInherited = false)
+        private void SetSecurity(ContentReference reference, string role, AccessLevel level,
+            bool overrideInherited = false)
         {
-            IContentSecurityDescriptor permissions = securityRepository.Get(reference).CreateWritableClone() as IContentSecurityDescriptor;
+            var permissions = securityRepository.Get(reference).CreateWritableClone() as IContentSecurityDescriptor;
             if (overrideInherited)
-            {
-                if (permissions.IsInherited) permissions.ToLocal();
-            }
+                if (permissions.IsInherited)
+                    permissions.ToLocal();
             permissions.AddEntry(new AccessControlEntry(role, level));
             securityRepository.Save(reference, permissions, SecuritySaveType.Replace);
         }
@@ -261,7 +263,14 @@ namespace AlloyDemo.Features.RegisterPersonas
                 filterContext.Result = new HttpNotFoundResult();
                 return;
             }
+
             base.OnAuthorization(filterContext);
+        }
+
+        public class UserAndRoles
+        {
+            public string[] Roles;
+            public string UserName;
         }
     }
 }

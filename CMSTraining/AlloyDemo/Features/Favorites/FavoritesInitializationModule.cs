@@ -1,27 +1,30 @@
-﻿using EPiServer.Framework;
-using EPiServer.Framework.Initialization;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.Framework;
+using EPiServer.Framework.Initialization;
+using InitializationModule = EPiServer.Web.InitializationModule;
 
 namespace AlloyDemo.Features.Favorites
 {
     [InitializableModule]
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class FavoritesInitializationModule : IInitializableModule
     {
         public void Initialize(InitializationEngine context)
         {
             RouteTable.Routes.MapRoute(
-                name: "FavoritesAdd", 
-                url: "favs/add", 
-                defaults: new { controller = "Favorites", action = "Add" });
+                "FavoritesAdd",
+                "favs/add",
+                new {controller = "Favorites", action = "Add"});
 
             RouteTable.Routes.MapRoute(
-                name: "FavoritesDelete",
-                url: "favs/del",
-                defaults: new { controller = "Favorites", action = "Delete" });
+                "FavoritesDelete",
+                "favs/del",
+                new {controller = "Favorites", action = "Delete"});
         }
 
-        public void Uninitialize(InitializationEngine context) { }
+        public void Uninitialize(InitializationEngine context)
+        {
+        }
     }
 }

@@ -14,7 +14,7 @@
     <script type="IN/Share" data-url="@Model.FriendlyUrl">
     </script>
 }
-@if (!((Model.Settings.ShareToFacebook) || (Model.Settings.ShareToTwitter) || (Model.Settings.ShareToLinkedIn)))
+@if (!(Model.Settings.ShareToFacebook || Model.Settings.ShareToTwitter || Model.Settings.ShareToLinkedIn))
 {
     <div class="alert alert-info">At least one Share To option must be switched on!</div>
 }

@@ -1,4 +1,7 @@
-﻿using AlloyTraining.Models.Pages;
+﻿using System.Configuration;
+using System.Globalization;
+using System.Linq;
+using AlloyTraining.Models.Pages;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAccess;
@@ -7,14 +10,12 @@ using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.Security;
 using EPiServer.Web;
-using System.Configuration;
-using System.Globalization;
-using System.Linq;
+using InitializationModule = EPiServer.Web.InitializationModule;
 
 namespace AlloyTraining.Business.Initialization
 {
     [InitializableModule]
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class CreatePagesInitializationModule : IInitializableModule
     {
         public void Initialize(InitializationEngine context)
@@ -31,19 +32,18 @@ namespace AlloyTraining.Business.Initialization
                 startReference = firstSite.StartPage;
             }
 
-            string enabledString = ConfigurationManager.AppSettings["alloy:CreatePages"];
+            var enabledString = ConfigurationManager.AppSettings["alloy:CreatePages"];
             bool enabled;
             if (bool.TryParse(enabledString, out enabled))
-            {
                 if (enabled)
                 {
-                    IContentRepository repo = context.Locate.Advanced.GetInstance<IContentRepository>();
+                    var repo = context.Locate.Advanced.GetInstance<IContentRepository>();
 
                     // create About Us page
                     StandardPage aboutUs;
 
-                    IContent content = repo.GetBySegment(
-                        startReference, "about-us", 
+                    var content = repo.GetBySegment(
+                        startReference, "about-us",
                         CultureInfo.GetCultureInfo("en"));
 
                     if (content == null)
@@ -52,7 +52,8 @@ namespace AlloyTraining.Business.Initialization
 
                         aboutUs.Name = "About us";
                         aboutUs.MetaTitle = "About us title";
-                        aboutUs.MetaDescription = "Alloy improves the effectiveness of project teams by putting the proper tools in your hands. Communication is made easy and inexpensive, no matter where team members are located.";
+                        aboutUs.MetaDescription =
+                            "Alloy improves the effectiveness of project teams by putting the proper tools in your hands. Communication is made easy and inexpensive, no matter where team members are located.";
                         aboutUs.MainBody = new XhtmlString(aboutUs.MetaDescription);
                         aboutUs.SortIndex = 400;
 
@@ -60,7 +61,7 @@ namespace AlloyTraining.Business.Initialization
                     }
 
                     // get the \For All Sites\Products\ folder
-                    ContentFolder productsFolder = repo.GetBySegment(
+                    var productsFolder = repo.GetBySegment(
                         ContentReference.GlobalBlockFolder, "Products",
                         CultureInfo.GetCultureInfo("en")) as ContentFolder;
 
@@ -77,7 +78,9 @@ namespace AlloyTraining.Business.Initialization
 
                         alloyMeet.Name = "Alloy Meet";
                         alloyMeet.MetaDescription = "You've never had a meeting like this before!";
-                        alloyMeet.MainBody = new XhtmlString("Participants from remote locations appear in your meeting room, around your table, or stand presenting at your white board.");
+                        alloyMeet.MainBody =
+                            new XhtmlString(
+                                "Participants from remote locations appear in your meeting room, around your table, or stand presenting at your white board.");
                         alloyMeet.Theme = "theme1";
                         alloyMeet.UniqueSellingPoints = new[]
                         {
@@ -108,7 +111,8 @@ namespace AlloyTraining.Business.Initialization
 
                         alloyPlan.Name = "Alloy Plan";
                         alloyPlan.MetaDescription = "Project management has never been easier!";
-                        alloyPlan.MainBody = new XhtmlString("Planning is crucial to the success of any project. Alloy Plan takes into consideration all aspects of project planning; from well-defined objectives to staffing, capital investments and management support. Nothing is left to chance.");
+                        alloyPlan.MainBody = new XhtmlString(
+                            "Planning is crucial to the success of any project. Alloy Plan takes into consideration all aspects of project planning; from well-defined objectives to staffing, capital investments and management support. Nothing is left to chance.");
                         alloyPlan.Theme = "theme2";
                         alloyPlan.UniqueSellingPoints = new[]
                         {
@@ -139,7 +143,8 @@ namespace AlloyTraining.Business.Initialization
 
                         alloyTrack.Name = "Alloy Track";
                         alloyTrack.MetaDescription = "Projects have a natural lifecycle with well-defined stages.";
-                        alloyTrack.MainBody = new XhtmlString("From start-up meetings to final sign-off, we have the solutions for today’s market-driven needs. Leverage your assets to the fullest through the combination of Alloy Plan, Alloy Meet and Alloy Track.");
+                        alloyTrack.MainBody = new XhtmlString(
+                            "From start-up meetings to final sign-off, we have the solutions for today’s market-driven needs. Leverage your assets to the fullest through the combination of Alloy Plan, Alloy Meet and Alloy Track.");
                         alloyTrack.Theme = "theme3";
                         alloyTrack.UniqueSellingPoints = new[]
                         {
@@ -165,9 +170,10 @@ namespace AlloyTraining.Business.Initialization
                         repo.Save(startPage, SaveAction.Publish, AccessLevel.NoAccess);
                     }
                 }
-            }
         }
 
-        public void Uninitialize(InitializationEngine context) { }
+        public void Uninitialize(InitializationEngine context)
+        {
+        }
     }
 }

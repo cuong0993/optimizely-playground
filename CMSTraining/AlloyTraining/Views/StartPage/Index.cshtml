@@ -1,6 +1,4 @@
-﻿@using AlloyTraining.Models.ViewModels
-@using EPiServer.Web.Mvc.Html
-@model PageViewModel<AlloyTraining.Models.Pages.StartPage>
+﻿@model AlloyTraining.Models.ViewModels.PageViewModel<AlloyTraining.Models.Pages.StartPage>
 <h1 @Html.EditAttributes(m => m.CurrentPage.Heading)>
     @(Model.CurrentPage.Heading ?? Model.CurrentPage.Name)
 </h1>
@@ -8,4 +6,4 @@
     @Html.PropertyFor(m => m.CurrentPage.MainBody)
 </div>
 @Html.PropertyFor(m => m.CurrentPage.MainContentArea,
-    new { CssClass = "row equal-height" })
+    new {CssClass = "row equal-height"})

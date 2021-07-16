@@ -7,7 +7,7 @@ using EPiServer.Shell.ObjectEditing.EditorDescriptors;
 namespace AlloyDemo.Business.EditorDescriptors
 {
     /// <summary>
-    /// Registers an editor to select a ContactPage for a PageReference property using a dropdown
+    ///     Registers an editor to select a ContactPage for a PageReference property using a dropdown
     /// </summary>
     [EditorDescriptorRegistration(TargetType = typeof(PageReference), UIHint = Global.SiteUIHints.Contact)]
     public class ContactPageSelector : EditorDescriptor

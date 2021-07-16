@@ -1,9 +1,11 @@
 ﻿/* Styles used by the TinyMCE editor */
 
-h2 {EditMenuName:Header 2;}
-h3 {EditMenuName:Header 3;}
+h2 { EditMenuName: Header 2; }
+
+h3 { EditMenuName: Header 3; }
 
 /*Block Preview*/
+
 .alert-info {
     background-color: #FFF8AA;
     border-color: #858585;

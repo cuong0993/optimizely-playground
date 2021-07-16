@@ -1,6 +1,6 @@
-﻿using AlloyDemo.Models;
+﻿using System.Collections.Generic;
+using AlloyDemo.Models;
 using EPiServer.Shell.ObjectEditing;
-using System.Collections.Generic;
 
 namespace AlloyDemo.Business.Selectors
 {

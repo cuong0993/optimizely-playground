@@ -10,21 +10,21 @@
         @Html.DisplayFor(m => m.CurrentPage.MainBody)
     </div>
 </div>
-@Html.PropertyFor(x => x.CurrentPage.MainContentArea, new { CssClass = "row", Tag = Global.ContentAreaTags.TwoThirdsWidth })
+@Html.PropertyFor(x => x.CurrentPage.MainContentArea, new {CssClass = "row", Tag = Global.ContentAreaTags.TwoThirdsWidth})
 
 @section RelatedContent
 {
     <div @Html.EditAttributes(x => x.CurrentPage.PageImage)>
-        <img src="@Url.ContentUrl(Model.CurrentPage.PageImage)" />
+        <img src="@Url.ContentUrl(Model.CurrentPage.PageImage)"/>
     </div>
 
-    <div class="block colorBox @string.Join(" ", @Model.CurrentPage.GetThemeCssClassNames())">
+    <div class="block colorBox @string.Join(" ", Model.CurrentPage.GetThemeCssClassNames())">
         <h2 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h2>
         @Html.PropertyFor(x => x.CurrentPage.UniqueSellingPoints)
     </div>
     <div class="well-large" style="background-color: peachpuff">
         <span class="icon-print"></span>
-        @Html.ActionLink("View as PDF", "Index", new { pdf = "" })
+        @Html.ActionLink("View as PDF", "Index", new {pdf = ""})
     </div>
-    @Html.PropertyFor(x => x.CurrentPage.RelatedContentArea, new { CssClass = "row", Tag = Global.ContentAreaTags.OneThirdWidth })
+    @Html.PropertyFor(x => x.CurrentPage.RelatedContentArea, new {CssClass = "row", Tag = Global.ContentAreaTags.OneThirdWidth})
 }

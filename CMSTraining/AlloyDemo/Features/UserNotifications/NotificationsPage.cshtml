@@ -1,22 +1,20 @@
-﻿@using EPiServer.Notification
-@using AlloyDemo.Features.UserNotifications
-@using AlloyDemo.Models.ViewModels
-@model PageViewModel<NotificationsPage>
+﻿@using AlloyDemo
+@model AlloyDemo.Models.ViewModels.PageViewModel<AlloyDemo.Features.UserNotifications.NotificationsPage>
 <div class="row">
     <div class="span12">
         @Html.ContentLink(
-             text: "All Channels",
-             contentLink: Model.CurrentPage.ContentLink,
-             routeValues: new { channel = "" },
-             htmlAttributes: new { @class = "btn" })
+            "All Channels",
+            Model.CurrentPage.ContentLink,
+            new {channel = ""},
+            new {@class = "btn"})
         @Html.ContentLink(
-             text: "Channel: " + AlloyDemo.Global.NotificationChannel,
-             contentLink: Model.CurrentPage.ContentLink,
-             routeValues: new { channel = AlloyDemo.Global.NotificationChannel },
-             htmlAttributes: new { @class = "btn" })
+            "Channel: " + Global.NotificationChannel,
+            Model.CurrentPage.ContentLink,
+            new {channel = Global.NotificationChannel},
+            new {@class = "btn"})
     </div>
 </div>
-@foreach (KeyValuePair<string, PagedUserNotificationMessageResult> item in Model.CurrentPage.Notifications)
+@foreach (var item in Model.CurrentPage.Notifications)
 {
     <div class="row">
         <div class="span12">
@@ -33,7 +31,7 @@
                     <th>Sent</th>
                     <th>Read</th>
                 </tr>
-                @foreach (UserNotificationMessage m in item.Value.PagedResult)
+                @foreach (var m in item.Value.PagedResult)
                 {
                     <tr>
                         <td>@m.Sender.UserName</td>

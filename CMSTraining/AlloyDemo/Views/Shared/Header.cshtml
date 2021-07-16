@@ -1,5 +1,4 @@
 @using EPiServer.Editor
-@using EPiServer.Core
 @using EPiServer.Web
 @model IPageViewModel<SitePageData>
 <div class="row">
@@ -24,9 +23,9 @@
                                 <ul class="nav">
                                     <li class="@(Model.CurrentPage.ContentLink.CompareToIgnoreWorkID(SiteDefinition.Current.StartPage) ? "active" : null)">@Html.ContentLink(SiteDefinition.Current.StartPage)</li>
                                     @Html.MenuList(SiteDefinition.Current.StartPage,
-                                    @<li class="@(item.Selected ? "active" : null)">
-                                        @Html.PageLink(item.Page, null, new { @class = string.Join(" ", item.Page.GetThemeCssClassNames()) })
-                                    </li>)
+                                        @<li class="@(item.Selected ? "active" : null)">
+                                            @Html.PageLink(item.Page, null, new {@class = string.Join(" ", item.Page.GetThemeCssClassNames())})
+                                        </li>)
                                     <!--Favourites menu-->
                                     <li>@Html.Action("Manager", "Favorites")</li>
                                 </ul>
@@ -35,10 +34,10 @@
                                         query string values not in the form we can't use that in edit mode.*@
 
                                     @{
-                                        using (Html.BeginForm(null, null, PageEditing.PageIsInEditMode ? FormMethod.Post : FormMethod.Get, new { @action = Model.Layout.SearchActionUrl }))
+                                        using (Html.BeginForm(null, null, PageEditing.PageIsInEditMode ? FormMethod.Post : FormMethod.Get, new {action = Model.Layout.SearchActionUrl}))
                                         {
-                                            <input type="text" class="search-query" name="q" id="SearchKeywords" placeholder="@Html.Translate("/mainnavigation/search")" />
-                                            <input type="submit" class="searchButton" id="SearchButton" value="" />
+                                            <input type="text" class="search-query" name="q" id="SearchKeywords" placeholder="@Html.Translate("/mainnavigation/search")"/>
+                                            <input type="submit" class="searchButton" id="SearchButton" value=""/>
                                         }
                                     }
                                 </div>
@@ -52,4 +51,4 @@
     </div>
 </div>
 
-<hr />
+<hr/>

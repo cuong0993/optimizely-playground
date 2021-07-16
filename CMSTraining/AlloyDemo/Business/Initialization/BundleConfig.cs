@@ -9,18 +9,19 @@ namespace AlloyDemo.Business.Initialization
     {
         public void Initialize(InitializationEngine context)
         {
-            if (context.HostType == HostType.WebApplication)
-            {
-                RegisterBundles(BundleTable.Bundles);
-            }
+            if (context.HostType == HostType.WebApplication) RegisterBundles(BundleTable.Bundles);
+        }
+
+        public void Uninitialize(InitializationEngine context)
+        {
         }
 
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/js").Include(
-                        "~/Static/js/jquery.js", //jquery.js can be removed and linked from CDN instead, we use a local one for demo purposes without internet connectionzz
-                        "~/Static/js/bootstrap.js"));
+                "~/Static/js/jquery.js", //jquery.js can be removed and linked from CDN instead, we use a local one for demo purposes without internet connectionzz
+                "~/Static/js/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/bundles/css")
                 .Include("~/Static/css/bootstrap.css", new CssRewriteUrlTransform())
@@ -28,10 +29,6 @@ namespace AlloyDemo.Business.Initialization
                 .Include("~/Static/css/media.css")
                 .Include("~/Static/css/style.css", new CssRewriteUrlTransform())
                 .Include("~/Static/css/editmode.css"));
-        }
-
-        public void Uninitialize(InitializationEngine context)
-        {
         }
 
         public void Preload(string[] parameters)

@@ -1,14 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using AlloyDemo.Models.Blocks;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
-using AlloyDemo.Models.Blocks;
 
 namespace AlloyDemo.Models.Pages
 {
     /// <summary>
-    /// Used for the site's start page and also acts as a container for site settings
+    ///     Used for the site's start page and also acts as a container for site settings
     /// </summary>
     [ContentType(
         GUID = "19671657-B684-4D95-A61F-8DD4FE60D559",
@@ -16,8 +16,15 @@ namespace AlloyDemo.Models.Pages
     [SiteImageUrl]
     [AvailableContentTypes(
         Availability.Specific,
-        Include = new[] { typeof(ContainerPage), typeof(ProductPage), typeof(StandardPage), typeof(ISearchPage), typeof(LandingPage), typeof(ContentFolder) }, // Pages we can create under the start page...
-        ExcludeOn = new[] { typeof(ContainerPage), typeof(ProductPage), typeof(StandardPage), typeof(ISearchPage), typeof(LandingPage) })] // ...and underneath those we can't create additional start pages
+        Include = new[]
+        {
+            typeof(ContainerPage), typeof(ProductPage), typeof(StandardPage), typeof(ISearchPage), typeof(LandingPage),
+            typeof(ContentFolder)
+        }, // Pages we can create under the start page...
+        ExcludeOn = new[]
+        {
+            typeof(ContainerPage), typeof(ProductPage), typeof(StandardPage), typeof(ISearchPage), typeof(LandingPage)
+        })] // ...and underneath those we can't create additional start pages
     public class StartPage : SitePageData
     {
         [Display(
@@ -49,9 +56,7 @@ namespace AlloyDemo.Models.Pages
 
         [Display(GroupName = Global.GroupNames.SiteSettings)]
         public virtual SiteLogotypeBlock SiteLogotype { get; set; }
-        
-        [AllowedTypes(typeof(ShippersPage))]
-        public virtual ContentReference Shippers { get; set; }
 
+        [AllowedTypes(typeof(ShippersPage))] public virtual ContentReference Shippers { get; set; }
     }
 }

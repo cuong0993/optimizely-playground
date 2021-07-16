@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using AlloyDemo.Models.NorthwindEntities;
+using AlloyDemo.Models.Pages;
+using EPiServer;
 using EPiServer.Core;
+using EPiServer.DataAccess;
 using EPiServer.PlugIn;
 using EPiServer.Scheduler;
-using AlloyDemo.Models.NorthwindEntities;
-using EPiServer;
-using AlloyDemo.Models.Pages;
+using EPiServer.Security;
 
 namespace AlloyDemo.Business.ScheduledJobs
 {
@@ -12,14 +14,13 @@ namespace AlloyDemo.Business.ScheduledJobs
         GUID = "88E83CA0-92ED-46FD-A338-7938C8D0FDF9", SortIndex = -1)]
     public class ImportShippersScheduledJob : ScheduledJobBase
     {
+        private readonly IContentRepository repo;
         private bool _stopSignaled;
 
         public ImportShippersScheduledJob()
         {
             IsStoppable = true;
         }
-
-        private readonly IContentRepository repo;
 
         public ImportShippersScheduledJob(IContentRepository repo) : this()
         {
@@ -33,7 +34,7 @@ namespace AlloyDemo.Business.ScheduledJobs
 
         public override string Execute()
         {
-            int shippersImported = 0;
+            var shippersImported = 0;
 
             OnStatusChanged(
                 "Starting execution of 'Import Shippers' job.");
@@ -49,7 +50,7 @@ namespace AlloyDemo.Business.ScheduledJobs
             var shippers = db.Shippers
                 .Where(s => !existingIDs.Contains(s.ShipperID));
 
-            foreach (Shipper item in shippers)
+            foreach (var item in shippers)
             {
                 var newshipper = repo.GetDefault<ShipperPage>(startPage.Shippers);
 
@@ -58,28 +59,20 @@ namespace AlloyDemo.Business.ScheduledJobs
                 newshipper.CompanyName = item.CompanyName;
                 newshipper.Phone = item.Phone;
 
-                repo.Save(newshipper, 
-                    EPiServer.DataAccess.SaveAction.Publish, 
-                    EPiServer.Security.AccessLevel.NoAccess);
+                repo.Save(newshipper,
+                    SaveAction.Publish,
+                    AccessLevel.NoAccess);
 
                 shippersImported++;
 
-                if (_stopSignaled)
-                {
-                    return "'Import Shippers' job was stopped.";
-                }
+                if (_stopSignaled) return "'Import Shippers' job was stopped.";
             }
 
             if (shippersImported == 0)
-            {
                 return "No new shippers to import.";
-            }
-            else
-            {
-                return string.Format(
-                    "Successfully imported {0} shippers.",
-                    shippersImported);
-            }
+            return string.Format(
+                "Successfully imported {0} shippers.",
+                shippersImported);
         }
     }
 }

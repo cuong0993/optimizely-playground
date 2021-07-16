@@ -1,9 +1,9 @@
-﻿using AlloyTraining.Models.ViewModels;
+﻿using System.Linq;
+using System.Web.Mvc;
+using AlloyTraining.Models.ViewModels;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Mvc;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace AlloyTraining.Controllers
 {

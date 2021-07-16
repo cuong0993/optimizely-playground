@@ -1,17 +1,15 @@
-@using AlloyDemo.Features.ContentApprovals
 @using EPiServer.Approvals
-@using EPiServer.Web.Mvc.Html
-@model ContentApprovalsManagerViewModel
+@model AlloyDemo.Features.ContentApprovals.ContentApprovalsManagerViewModel
 <div>
     <div class="alert alert-info">Managing Content Approvals</div>
     @if (Model.ApprovalDefinition == null)
     {
         <div class="well well-small">
             @Html.ContentLink(
-                                              text: "Create Approval Definition",
-                                              contentLink: Model.CurrentPage.ContentLink,
-                                              routeValues: new { task = "createDefinition" },
-                                              htmlAttributes: new { @class = "btn" })
+                "Create Approval Definition",
+                Model.CurrentPage.ContentLink,
+                new {task = "createDefinition"},
+                new {@class = "btn"})
         </div>
     }
     else
@@ -20,20 +18,20 @@
         {
             <div class="well well-small">
                 @Html.ContentLink(
-                         text: "Modify Start and Request Approval",
-                         contentLink: Model.CurrentPage.ContentLink,
-                         routeValues: new { task = "modifyStart" },
-                         htmlAttributes: new { @class = "btn" })
+                    "Modify Start and Request Approval",
+                    Model.CurrentPage.ContentLink,
+                    new {task = "modifyStart"},
+                    new {@class = "btn"})
             </div>
         }
         else
         {
             <div class="well well-small">
                 @Html.ContentLink(
-                         text: "Delete All Approvals",
-                         contentLink: Model.CurrentPage.ContentLink,
-                         routeValues: new { task = "deleteApprovals" },
-                         htmlAttributes: new { @class = "btn" })
+                    "Delete All Approvals",
+                    Model.CurrentPage.ContentLink,
+                    new {task = "deleteApprovals"},
+                    new {@class = "btn"})
             </div>
             <h3>Approval</h3>
             <table class="table table-bordered table-condensed">
@@ -54,7 +52,7 @@
                     <tr>
                         <td>Completed</td>
                         <td>
-                            @Model.Approval.Completed by @Model.Approval.CompletedBy<br />
+                            @Model.Approval.Completed by @Model.Approval.CompletedBy<br/>
                             <small>@Model.Approval.CompletedComment</small>
                         </td>
                     </tr>
@@ -99,7 +97,7 @@
                 <th>Reviewers</th>
                 <th></th>
             </tr>
-            @for (int index = 0; index < Model.ApprovalDefinition.Steps.Count; index++)
+            @for (var index = 0; index < Model.ApprovalDefinition.Steps.Count; index++)
             {
                 var step = Model.ApprovalDefinition.Steps[index];
                 <tr>
@@ -119,28 +117,28 @@
                                 {
                                     <div class="well well-small">
                                         @Html.ContentLink(
-                                                         text: "Approve as " + reviewer.Name,
-                                                         contentLink: Model.CurrentPage.ContentLink,
-                                                         routeValues: new
-                                                         {
-                                                             task = "processStep",
-                                                             stepIndex = index,
-                                                             user = reviewer.Name,
-                                                             decision = "Approve"
-                                                         },
-                                                         htmlAttributes: new { @class = "btn btn-success" })
+                                            "Approve as " + reviewer.Name,
+                                            Model.CurrentPage.ContentLink,
+                                            new
+                                            {
+                                                task = "processStep",
+                                                stepIndex = index,
+                                                user = reviewer.Name,
+                                                decision = "Approve"
+                                            },
+                                            new {@class = "btn btn-success"})
 
                                         @Html.ContentLink(
-                                                         text: "Decline as " + reviewer.Name,
-                                                         contentLink: Model.CurrentPage.ContentLink,
-                                                         routeValues: new
-                                                         {
-                                                             task = "processStep",
-                                                             stepIndex = index,
-                                                             user = reviewer.Name,
-                                                             decision = "Decline"
-                                                         },
-                                                         htmlAttributes: new { @class = "btn btn-danger" })
+                                            "Decline as " + reviewer.Name,
+                                            Model.CurrentPage.ContentLink,
+                                            new
+                                            {
+                                                task = "processStep",
+                                                stepIndex = index,
+                                                user = reviewer.Name,
+                                                decision = "Decline"
+                                            },
+                                            new {@class = "btn btn-danger"})
                                     </div>
                                 }
                             }

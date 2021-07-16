@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Web;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.Search;
 using EPiServer.Search.Queries;
 using EPiServer.Search.Queries.Lucene;
 using EPiServer.Security;
-using EPiServer;
 using EPiServer.ServiceLocation;
 
 namespace AlloyDemo.Business
 {
     public class SearchService
     {
-        private readonly SearchHandler _searchHandler;
         private readonly IContentLoader _contentLoader;
+        private readonly SearchHandler _searchHandler;
 
         public SearchService(SearchHandler searchHandler, IContentLoader contentLoader)
         {
@@ -21,18 +21,17 @@ namespace AlloyDemo.Business
             _contentLoader = contentLoader;
         }
 
-        public virtual bool IsActive
-        {
-            get { return ServiceLocator.Current.GetInstance<SearchOptions>().Active; }
-        }
+        public virtual bool IsActive => ServiceLocator.Current.GetInstance<SearchOptions>().Active;
 
-        public virtual SearchResults Search(string searchText, IEnumerable<ContentReference> searchRoots, HttpContextBase context, string languageBranch, int maxResults)
+        public virtual SearchResults Search(string searchText, IEnumerable<ContentReference> searchRoots,
+            HttpContextBase context, string languageBranch, int maxResults)
         {
             var query = CreateQuery(searchText, searchRoots, context, languageBranch);
             return _searchHandler.GetSearchResults(query, 1, maxResults);
         }
 
-        private IQueryExpression CreateQuery(string searchText, IEnumerable<ContentReference> searchRoots, HttpContextBase context, string languageBranch)
+        private IQueryExpression CreateQuery(string searchText, IEnumerable<ContentReference> searchRoots,
+            HttpContextBase context, string languageBranch)
         {
             //Main query which groups other queries. Each query added
             //must match in order for a page or file to be returned.

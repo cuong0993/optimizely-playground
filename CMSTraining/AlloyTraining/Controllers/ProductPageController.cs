@@ -1,10 +1,10 @@
-﻿using AlloyTraining.Models.Pages;
+﻿using System.Web.Mvc;
+using AlloyTraining.Models.Pages;
 using EPiServer;
-using System.Web.Mvc;
 
 namespace AlloyTraining.Controllers
 {
-    public class ProductPageController 
+    public class ProductPageController
         : PageControllerBase<ProductPage>
     {
         public ProductPageController(IContentLoader loader) : base(loader)

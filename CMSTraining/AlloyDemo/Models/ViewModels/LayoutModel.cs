@@ -1,7 +1,7 @@
 using System.Web;
 using System.Web.Mvc;
-using EPiServer.SpecializedProperties;
 using AlloyDemo.Models.Blocks;
+using EPiServer.SpecializedProperties;
 
 namespace AlloyDemo.Models.ViewModels
 {
@@ -20,6 +20,6 @@ namespace AlloyDemo.Models.ViewModels
         public MvcHtmlString LogOutUrl { get; set; }
         public MvcHtmlString SearchActionUrl { get; set; }
 
-        public bool IsInReadonlyMode {get;set;}
+        public bool IsInReadonlyMode { get; set; }
     }
 }

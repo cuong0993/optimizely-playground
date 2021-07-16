@@ -7,7 +7,7 @@ using EPiServer.Web.Routing;
 namespace AlloyDemo.Controllers
 {
     /// <summary>
-    /// Controller for the image file.
+    ///     Controller for the image file.
     /// </summary>
     public class ImageFileController : PartialContentController<ImageFile>
     {
@@ -19,7 +19,7 @@ namespace AlloyDemo.Controllers
         }
 
         /// <summary>
-        /// The index action for the image file. Creates the view model and renders the view.
+        ///     The index action for the image file. Creates the view model and renders the view.
         /// </summary>
         /// <param name="currentContent">The current image file.</param>
         public override ActionResult Index(ImageFile currentContent)

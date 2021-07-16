@@ -1,8 +1,8 @@
-﻿using AlloyTraining.Models.Pages;
+﻿using System.Web.Mvc;
+using AlloyTraining.Models.Pages;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using System.Web.Mvc;
 
 namespace AlloyTraining.Business.ExtensionMethods
 {

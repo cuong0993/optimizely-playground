@@ -1,15 +1,15 @@
 using System.ComponentModel.DataAnnotations;
+using AlloyDemo.Business.Rendering;
+using AlloyDemo.Models.Properties;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using AlloyDemo.Business.Rendering;
-using AlloyDemo.Models.Properties;
 using EPiServer.Web;
 
 namespace AlloyDemo.Models.Pages
 {
     /// <summary>
-    /// Base class for all page types
+    ///     Base class for all page types
     /// </summary>
     public abstract class SitePageData : PageData, ICustomCssInContentArea
     {
@@ -25,8 +25,8 @@ namespace AlloyDemo.Models.Pages
 
                 // Use explicitly set meta title, otherwise fall back to page name
                 return !string.IsNullOrWhiteSpace(metaTitle)
-                       ? metaTitle
-                       : PageName;
+                    ? metaTitle
+                    : PageName;
             }
             set { this.SetPropertyValue(p => p.MetaTitle, value); }
         }
@@ -70,8 +70,8 @@ namespace AlloyDemo.Models.Pages
 
                 // Use explicitly set teaser text, otherwise fall back to description
                 return !string.IsNullOrWhiteSpace(teaserText)
-                       ? teaserText
-                       : MetaDescription;
+                    ? teaserText
+                    : MetaDescription;
             }
             set { this.SetPropertyValue(p => p.TeaserText, value); }
         }
@@ -96,9 +96,6 @@ namespace AlloyDemo.Models.Pages
         [UIHint(UIHint.BlockFolder)]
         public virtual ContentReference CommentFolder { get; set; }
 
-        public string ContentAreaCssClass
-        {
-            get { return "teaserblock"; } //Page partials should be style like teasers
-        }
+        public string ContentAreaCssClass => "teaserblock"; //Page partials should be style like teasers
     }
 }

@@ -1,7 +1,9 @@
 @using EPiServer.Core
 @using EPiServer.Web
 @*Helper used as template for a page in the bread crumb, recursively triggering the rendering of the next page*@
-@helper ItemTemplate(HtmlHelpers.MenuItem breadCrumbItem) {
+
+@helper ItemTemplate(HtmlHelpers.MenuItem breadCrumbItem)
+{
     if (breadCrumbItem.Selected)
     {
         if (breadCrumbItem.Page.HasTemplate() && !breadCrumbItem.Page.ContentLink.CompareToIgnoreWorkID(Model.CurrentPage.ContentLink))

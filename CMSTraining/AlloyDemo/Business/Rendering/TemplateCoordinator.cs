@@ -1,9 +1,9 @@
-using EPiServer.Core;
-using EPiServer.DataAbstraction;
-using EPiServer.ServiceLocation;
 using AlloyDemo.Controllers;
 using AlloyDemo.Models.Blocks;
 using AlloyDemo.Models.Pages;
+using EPiServer.Core;
+using EPiServer.DataAbstraction;
+using EPiServer.ServiceLocation;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
 
@@ -15,31 +15,22 @@ namespace AlloyDemo.Business.Rendering
         public const string BlockFolder = "~/Views/Shared/Blocks/";
         public const string PagePartialsFolder = "~/Views/Shared/PagePartials/";
 
-        public static void OnTemplateResolved(object sender, TemplateResolverEventArgs args)
-        {
-            //Disable DefaultPageController for page types that shouldn't have any renderer as pages
-            if (args.ItemToRender is IContainerPage && args.SelectedTemplate != null && args.SelectedTemplate.TemplateType == typeof(DefaultPageController))
-            {
-                args.SelectedTemplate = null;
-            }
-        }
-
         /// <summary>
-        /// Registers renderers/templates which are not automatically discovered,
-        /// i.e. partial views whose names does not match a content type's name.
+        ///     Registers renderers/templates which are not automatically discovered,
+        ///     i.e. partial views whose names does not match a content type's name.
         /// </summary>
         /// <remarks>
-        /// Using only partial views instead of controllers for blocks and page partials
-        /// has performance benefits as they will only require calls to RenderPartial instead of
-        /// RenderAction for controllers.
-        /// Registering partial views as templates this way also enables specifying tags and
-        /// that a template supports all types inheriting from the content type/model type.
+        ///     Using only partial views instead of controllers for blocks and page partials
+        ///     has performance benefits as they will only require calls to RenderPartial instead of
+        ///     RenderAction for controllers.
+        ///     Registering partial views as templates this way also enables specifying tags and
+        ///     that a template supports all types inheriting from the content type/model type.
         /// </remarks>
         public void Register(TemplateModelCollection viewTemplateModelRegistrator)
         {
             viewTemplateModelRegistrator.Add(typeof(JumbotronBlock), new TemplateModel
             {
-                Tags = new[] { Global.ContentAreaTags.FullWidth },
+                Tags = new[] {Global.ContentAreaTags.FullWidth},
                 AvailableWithoutTag = false,
                 Path = BlockPath("JumbotronBlockWide.cshtml")
             });
@@ -47,7 +38,7 @@ namespace AlloyDemo.Business.Rendering
             viewTemplateModelRegistrator.Add(typeof(TeaserBlock), new TemplateModel
             {
                 Name = "TeaserBlockWide",
-                Tags = new[] { Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth },
+                Tags = new[] {Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth},
                 AvailableWithoutTag = false,
                 Path = BlockPath("TeaserBlockWide.cshtml")
             });
@@ -64,7 +55,7 @@ namespace AlloyDemo.Business.Rendering
             {
                 Name = "PagePartialWide",
                 Inherit = true,
-                Tags = new[] { Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth },
+                Tags = new[] {Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth},
                 AvailableWithoutTag = false,
                 Path = PagePartialPath("PageWide.cshtml")
             });
@@ -72,7 +63,7 @@ namespace AlloyDemo.Business.Rendering
             viewTemplateModelRegistrator.Add(typeof(ContactPage), new TemplateModel
             {
                 Name = "ContactPagePartialWide",
-                Tags = new[] { Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth },
+                Tags = new[] {Global.ContentAreaTags.TwoThirdsWidth, Global.ContentAreaTags.FullWidth},
                 AvailableWithoutTag = false,
                 Path = PagePartialPath("ContactPageWide.cshtml")
             });
@@ -81,10 +72,17 @@ namespace AlloyDemo.Business.Rendering
             {
                 Name = "NoRendererMessage",
                 Inherit = true,
-                Tags = new[] { Global.ContentAreaTags.NoRenderer },
+                Tags = new[] {Global.ContentAreaTags.NoRenderer},
                 AvailableWithoutTag = false,
                 Path = BlockPath("NoRenderer.cshtml")
             });
+        }
+
+        public static void OnTemplateResolved(object sender, TemplateResolverEventArgs args)
+        {
+            //Disable DefaultPageController for page types that shouldn't have any renderer as pages
+            if (args.ItemToRender is IContainerPage && args.SelectedTemplate != null &&
+                args.SelectedTemplate.TemplateType == typeof(DefaultPageController)) args.SelectedTemplate = null;
         }
 
         private static string BlockPath(string fileName)

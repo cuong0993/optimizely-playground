@@ -12,7 +12,9 @@ namespace AlloyDemo.Controllers
         {
             var model = PageViewModel.Create(currentPage);
 
-            if (SiteDefinition.Current.StartPage.CompareToIgnoreWorkID(currentPage.ContentLink)) // Check if it is the StartPage or just a page of the StartPage type.
+            if (SiteDefinition.Current.StartPage
+                .CompareToIgnoreWorkID(currentPage
+                    .ContentLink)) // Check if it is the StartPage or just a page of the StartPage type.
             {
                 //Connect the view models logotype property to the start page's to make it editable
                 var editHints = ViewData.GetEditHints<PageViewModel<StartPage>, StartPage>();
@@ -25,6 +27,5 @@ namespace AlloyDemo.Controllers
 
             return View(model);
         }
-
     }
 }

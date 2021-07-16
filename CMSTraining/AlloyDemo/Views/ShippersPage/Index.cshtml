@@ -1,5 +1,6 @@
-﻿@model AlloyDemo.Models.ViewModels.ShippersPageViewModel
-@if (EPiServer.Editor.PageEditing.PageIsInEditMode)
+﻿@using EPiServer.Editor
+@model ShippersPageViewModel
+@if (PageEditing.PageIsInEditMode)
 {
     <div>
         Enter the ID of the shipper to use by default: @Html.PropertyFor(m => m.CurrentPage.DefaultShipper)
@@ -23,7 +24,7 @@
             Last changed
         </th>
     </tr>
-    @foreach (ShipperPage item in Model.Shippers)
+    @foreach (var item in Model.Shippers)
     {
         <tr>
             <td>

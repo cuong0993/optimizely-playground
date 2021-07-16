@@ -1,10 +1,10 @@
-using EPiServer.ServiceLocation;
-using EPiServer.Shell.Security;
-using Owin;
 using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using EPiServer.ServiceLocation;
+using EPiServer.Shell.Security;
+using Owin;
 
 namespace AlloyDemo.Features.RegisterPersonas
 {
@@ -14,29 +14,20 @@ namespace AlloyDemo.Features.RegisterPersonas
 
         private static Lazy<bool> _arePersonasRegistered = new Lazy<bool>(() => false);
 
-        private static bool? _isEnabled = null;
+        private static bool? _isEnabled;
 
         public static bool IsEnabled
         {
             get
             {
-                if (_isEnabled.HasValue)
-                {
-                    return _isEnabled.Value;
-                }
+                if (_isEnabled.HasValue) return _isEnabled.Value;
 
                 var showPersonasRegistration = _isLocalRequest() && !_arePersonasRegistered.Value;
-                if (!showPersonasRegistration)
-                {
-                    _isEnabled = false;
-                }
+                if (!showPersonasRegistration) _isEnabled = false;
 
                 return showPersonasRegistration;
             }
-            set
-            {
-                _isEnabled = value;
-            }
+            set => _isEnabled = value;
         }
 
         public static void UseRegisterPersonas(this IAppBuilder app, Func<bool> isLocalRequest)
@@ -44,10 +35,7 @@ namespace AlloyDemo.Features.RegisterPersonas
             _isLocalRequest = isLocalRequest;
             _arePersonasRegistered = new Lazy<bool>(ArePersonasRegistered);
             GlobalFilters.Filters.Add(new RegisterPersonasActionFilterAttribute());
-            if (isLocalRequest())
-            {
-                AddRoute();
-            }
+            if (isLocalRequest()) AddRoute();
         }
 
         private static bool ArePersonasRegistered()
@@ -55,10 +43,21 @@ namespace AlloyDemo.Features.RegisterPersonas
             var provider = ServiceLocator.Current.GetInstance<UIUserProvider>();
             foreach (var user in RegisterPersonasController.Users)
             {
-                IUIUser u = provider.GetUser(user.UserName);
+                var u = provider.GetUser(user.UserName);
                 if (u == null) return false;
             }
+
             return true;
+        }
+
+        private static void AddRoute()
+        {
+            var routeData = new RouteValueDictionary();
+            routeData.Add("Controller", "RegisterPersonas");
+            routeData.Add("action", "Index");
+            routeData.Add("id", " UrlParameter.Optional");
+            RouteTable.Routes.Add("RegisterPersonas",
+                new Route("{controller}/{action}/{id}", routeData, new MvcRouteHandler()) {RouteExistingFiles = false});
         }
 
         public class RegisterPersonasActionFilterAttribute : ActionFilterAttribute
@@ -67,19 +66,8 @@ namespace AlloyDemo.Features.RegisterPersonas
             {
                 var registerUrl = VirtualPathUtility.ToAbsolute("~/RegisterPersonas");
                 if (IsEnabled && !context.RequestContext.HttpContext.Request.Path.StartsWith(registerUrl))
-                {
                     context.Result = new RedirectResult(registerUrl);
-                }
             }
-        }
-
-        static void AddRoute()
-        {
-            var routeData = new RouteValueDictionary();
-            routeData.Add("Controller", "RegisterPersonas");
-            routeData.Add("action", "Index");
-            routeData.Add("id", " UrlParameter.Optional");
-            RouteTable.Routes.Add("RegisterPersonas", new Route("{controller}/{action}/{id}", routeData, new MvcRouteHandler()) { RouteExistingFiles = false });
         }
     }
 }

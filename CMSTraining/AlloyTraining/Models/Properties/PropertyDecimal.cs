@@ -1,6 +1,6 @@
-﻿using EPiServer.Core;
+﻿using System;
+using EPiServer.Core;
 using EPiServer.PlugIn;
-using System;
 
 namespace AlloyTraining.Models.Properties
 {
@@ -11,28 +11,22 @@ namespace AlloyTraining.Models.Properties
     {
         public override Type PropertyValueType => typeof(decimal);
 
-        public override object SaveData(PropertyDataCollection properties)
-        {
-            return LongString;
-        }
-
         public override object Value
         {
             get
             {
                 var value = base.Value as string;
 
-                if (value == null)
-                {
-                    return null;
-                }
+                if (value == null) return null;
 
                 return decimal.Parse(value);
             }
-            set
-            {
-                base.Value = value.ToString();
-            }
+            set => base.Value = value.ToString();
+        }
+
+        public override object SaveData(PropertyDataCollection properties)
+        {
+            return LongString;
         }
     }
 }

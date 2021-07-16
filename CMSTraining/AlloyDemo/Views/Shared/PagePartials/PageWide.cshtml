@@ -1,7 +1,7 @@
 @using EPiServer.Core
 @model SitePageData
 <div class="border">
-    @using(Html.BeginConditionalLink(Model.HasTemplate(), Url.PageLinkUrl(Model), Model.PageName))
+    @using (Html.BeginConditionalLink(Model.HasTemplate(), Url.PageLinkUrl(Model), Model.PageName))
     {
         <div class="media">
             <div class="mediaImg">

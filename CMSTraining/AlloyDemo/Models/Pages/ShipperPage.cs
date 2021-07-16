@@ -1,5 +1,5 @@
-﻿using EPiServer.Core;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using EPiServer.Core;
 
 namespace AlloyDemo.Models.Pages
 {
@@ -11,11 +11,9 @@ namespace AlloyDemo.Models.Pages
     {
         public virtual int ShipperID { get; set; }
 
-        [StringLength(40)]
-        public virtual string CompanyName { get; set; }
+        [StringLength(40)] public virtual string CompanyName { get; set; }
 
-        [StringLength(24)]
-        public virtual string Phone { get; set; }
+        [StringLength(24)] public virtual string Phone { get; set; }
 
         // properties to enrich the imported data
 

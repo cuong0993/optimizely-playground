@@ -1,11 +1,11 @@
-﻿using AlloyDemo.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using AlloyDemo.Models;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyDemo.Features.ShareThis
 {
-    [SiteContentType(DisplayName = "Share This", 
+    [SiteContentType(DisplayName = "Share This",
         Description = "Allows a visitor to share a link to a page via Twitter, Facebook, or LinkedIn.")]
     [SiteImageUrl]
     public class ShareThisBlock : BlockData

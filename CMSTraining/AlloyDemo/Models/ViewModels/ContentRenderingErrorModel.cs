@@ -9,14 +9,10 @@ namespace AlloyDemo.Models.ViewModels
         public ContentRenderingErrorModel(IContentData contentData, Exception exception)
         {
             var content = contentData as IContent;
-            if(content != null)
-            {
+            if (content != null)
                 ContentName = content.Name;
-            }
             else
-            {
                 ContentName = string.Empty;
-            }
 
             ContentTypeName = contentData.GetOriginalType().Name;
 

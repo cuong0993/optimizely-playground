@@ -1,3 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Web;
 using EPiServer.Forms.Core;
 using EPiServer.Forms.Core.Internal;
 using EPiServer.Forms.Core.Models;
@@ -6,23 +12,14 @@ using EPiServer.Forms.Helpers.Internal;
 using EPiServer.Forms.Implementation.Actors;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Net.Configuration;
-using System.Net.Mail;
-using System.Web;
 
 namespace AlloyDemo.Core.Infrastructure.Episerver.Forms
 {
-
     public class SendEmailActor : SendEmailAfterSubmissionActor
     {
-        private static SmtpClient _smtpClient = new SmtpClient();
-        private bool _sendMessageInHTMLFormat = false;
+        private static readonly SmtpClient _smtpClient = new SmtpClient();
         private readonly Injected<IFormRepository> _formRepository;
+        private readonly bool _sendMessageInHTMLFormat;
 
         public SendEmailActor()
         {
@@ -31,67 +28,57 @@ namespace AlloyDemo.Core.Infrastructure.Episerver.Forms
 
         public override object Run(object input)
         {
-            IEnumerable<EmailTemplateActorModel> model = this.Model as IEnumerable<EmailTemplateActorModel>;
+            var model = Model as IEnumerable<EmailTemplateActorModel>;
 
-            if (model == null || !model.Any())
-            {
-                return string.Empty;
-            }
+            if (model == null || !model.Any()) return string.Empty;
 
-            foreach (EmailTemplateActorModel emailConfig in model)
-            {
-                SendMessage(emailConfig);
-
-            }
+            foreach (var emailConfig in model) SendMessage(emailConfig);
 
             return null;
         }
 
         private void SendMessage(EmailTemplateActorModel emailConfig)
         {
-
             if (string.IsNullOrEmpty(emailConfig.ToEmails))
                 return;
-            string[] strArray = emailConfig.ToEmails.SplitBySeparator(",");
-            if (strArray == null || ((IEnumerable<string>)strArray).Count<string>() == 0)
+            var strArray = emailConfig.ToEmails.SplitBySeparator();
+            if (strArray == null || strArray.Count() == 0)
                 return;
             try
             {
-                IEnumerable<FriendlyNameInfo> friendlyNameInfos =
-                    this._formRepository.Service.GetFriendlyNameInfos(this.FormIdentity, typeof(IExcludeInSubmission));
-                IEnumerable<PlaceHolder> subjectPlaceHolders = this.GetSubjectPlaceHoldersCustom(friendlyNameInfos);
-                IEnumerable<PlaceHolder> bodyPlaceHolders = this.GetBodyPlaceHoldersCustom(friendlyNameInfos);
+                var friendlyNameInfos =
+                    _formRepository.Service.GetFriendlyNameInfos(FormIdentity, typeof(IExcludeInSubmission));
+                var subjectPlaceHolders = GetSubjectPlaceHoldersCustom(friendlyNameInfos);
+                var bodyPlaceHolders = GetBodyPlaceHoldersCustom(friendlyNameInfos);
 
-                string str = "aaaaaaaaaaaaaaaaaaaaaaa";
+                var str = "aaaaaaaaaaaaaaaaaaaaaaa";
                 var body = emailConfig.Body != null ? emailConfig.Body.ToHtmlString() : string.Empty;
-                string content = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
-                MailMessage message = new MailMessage();
+                var content = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+                var message = new MailMessage();
                 message.Subject = str;
-                message.Body = this.RewriteUrls(content);
-                message.IsBodyHtml = this._sendMessageInHTMLFormat;
+                message.Body = RewriteUrls(content);
+                message.IsBodyHtml = _sendMessageInHTMLFormat;
 
 
                 if (!string.IsNullOrEmpty(emailConfig.FromEmail))
                 {
-                    MailMessage mailMessage = message;
-                    MailAddress mailAddress =
+                    var mailMessage = message;
+                    var mailAddress =
                         new MailAddress("cuong0993@gmail.com");
                     mailMessage.From = mailAddress;
                 }
 
-                foreach (string template in strArray)
-                {
+                foreach (var template in strArray)
                     try
                     {
-                        MailAddressCollection to = message.To;
-                        MailAddress mailAddress =
+                        var to = message.To;
+                        var mailAddress =
                             new MailAddress("cuong0993@gmail.com");
                         to.Add(mailAddress);
                     }
                     catch (Exception)
                     {
                     }
-                }
 
                 _smtpClient.Send(message);
             }
@@ -102,40 +89,41 @@ namespace AlloyDemo.Core.Infrastructure.Episerver.Forms
         }
 
         protected virtual IEnumerable<PlaceHolder> GetSubjectPlaceHoldersCustom(
-           IEnumerable<FriendlyNameInfo> friendlyNames)
+            IEnumerable<FriendlyNameInfo> friendlyNames)
         {
-            List<PlaceHolder> placeHolderList = new List<PlaceHolder>();
-            placeHolderList.AddRange(this.GetFriendlyNamePlaceHoldersCustom(this.HttpRequestContext, this.SubmissionData,
+            var placeHolderList = new List<PlaceHolder>();
+            placeHolderList.AddRange(GetFriendlyNamePlaceHoldersCustom(HttpRequestContext, SubmissionData,
                 friendlyNames, false));
             return placeHolderList;
         }
 
-        protected virtual IEnumerable<PlaceHolder> GetBodyPlaceHoldersCustom(IEnumerable<FriendlyNameInfo> friendlyNames)
+        protected virtual IEnumerable<PlaceHolder> GetBodyPlaceHoldersCustom(
+            IEnumerable<FriendlyNameInfo> friendlyNames)
         {
-            List<PlaceHolder> placeHolderList = new List<PlaceHolder>();
-            placeHolderList.AddRange(this.GetPredefinedPlaceHoldersCustom(friendlyNames));
-            placeHolderList.AddRange(this.GetFriendlyNamePlaceHoldersCustom(this.HttpRequestContext, this.SubmissionData,
-                friendlyNames, this._sendMessageInHTMLFormat));
+            var placeHolderList = new List<PlaceHolder>();
+            placeHolderList.AddRange(GetPredefinedPlaceHoldersCustom(friendlyNames));
+            placeHolderList.AddRange(GetFriendlyNamePlaceHoldersCustom(HttpRequestContext, SubmissionData,
+                friendlyNames, _sendMessageInHTMLFormat));
             return placeHolderList;
         }
 
         protected virtual IEnumerable<PlaceHolder> GetPredefinedPlaceHoldersCustom(
-    IEnumerable<FriendlyNameInfo> friendlyNames)
+            IEnumerable<FriendlyNameInfo> friendlyNames)
         {
-            return new List<PlaceHolder>()
+            return new List<PlaceHolder>
             {
-                new PlaceHolder("summary", this.GetFriendlySummaryTextCustom(friendlyNames))
+                new PlaceHolder("summary", GetFriendlySummaryTextCustom(friendlyNames))
             };
         }
 
         protected virtual string GetFriendlySummaryTextCustom(IEnumerable<FriendlyNameInfo> friendlyNames)
         {
-            if (this.SubmissionData == null || this.SubmissionData.Data == null)
+            if (SubmissionData == null || SubmissionData.Data == null)
                 return string.Empty;
-            string separator = this._sendMessageInHTMLFormat ? "<br />" : Environment.NewLine;
+            var separator = _sendMessageInHTMLFormat ? "<br />" : Environment.NewLine;
             if (friendlyNames == null || friendlyNames.Count() == 0)
                 return string.Join(separator,
-                    this.SubmissionData.Data.Select(
+                    SubmissionData.Data.Select(
                         x =>
                             string.Format("{0} : {1}", x.Key.ToLowerInvariant(),
                                 string.IsNullOrEmpty(x.Value as string)
@@ -145,32 +133,30 @@ namespace AlloyDemo.Core.Infrastructure.Episerver.Forms
                 friendlyNames.Select(
                     x =>
                         string.Format("{0} : {1}", x.FriendlyName,
-                            this.GetSubmissionDataFieldValueCustom(this.HttpRequestContext, this.SubmissionData, x, true))));
+                            GetSubmissionDataFieldValueCustom(HttpRequestContext, SubmissionData, x, true))));
         }
 
         public virtual IEnumerable<PlaceHolder> GetFriendlyNamePlaceHoldersCustom(HttpRequestBase requestBase,
             Submission submissionData, IEnumerable<FriendlyNameInfo> friendlyNames, bool performHtmlEncode)
         {
-            if (friendlyNames != null && friendlyNames.Count<FriendlyNameInfo>() != 0)
-            {
-                foreach (FriendlyNameInfo friendlyName in friendlyNames)
+            if (friendlyNames != null && friendlyNames.Count() != 0)
+                foreach (var friendlyName in friendlyNames)
                 {
-                    FriendlyNameInfo fname = friendlyName;
+                    var fname = friendlyName;
                     yield return
                         new PlaceHolder(fname.FriendlyName,
-                            this.GetSubmissionDataFieldValueCustom(requestBase, submissionData, fname, performHtmlEncode))
+                            GetSubmissionDataFieldValueCustom(requestBase, submissionData, fname, performHtmlEncode))
                         ;
                 }
-            }
         }
 
         public virtual string GetSubmissionDataFieldValueCustom(HttpRequestBase requestBase, Submission submissionData,
             FriendlyNameInfo friendlyName, bool performHtmlEncode)
         {
-            string empty = string.Empty;
+            var empty = string.Empty;
             if (submissionData == null || submissionData.Data == null)
                 return empty;
-            string rawData =
+            var rawData =
                 submissionData.Data.FirstOrDefault(
                     x => x.Key.Equals(friendlyName.ElementId, StringComparison.OrdinalIgnoreCase)).Value as string;
             if (string.IsNullOrEmpty(rawData))

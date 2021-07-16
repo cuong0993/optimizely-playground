@@ -1,6 +1,6 @@
-﻿using EPiServer.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using EPiServer.DataAnnotations;
 using EPiServer.Security;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyTraining
 {
@@ -11,8 +11,7 @@ namespace AlloyTraining
         [RequiredAccess(AccessLevel.Edit)]
         public const string SEO = "SEO";
 
-        [Display(Order = 20)]
-        [RequiredAccess(AccessLevel.Administer)]
+        [Display(Order = 20)] [RequiredAccess(AccessLevel.Administer)]
         public const string SiteSettings = "Site Settings";
     }
 }

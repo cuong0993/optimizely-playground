@@ -1,13 +1,21 @@
-﻿using AlloyTraining.Business.DependencyResolvers; // StructureMapDependencyResolver
-using EPiServer.Framework; // [InitializableModule], [ModuleDependency]
-using EPiServer.Framework.Initialization; // InitializationEngine
-using EPiServer.ServiceLocation; // IConfigurableModule, ServiceConfigurationContext
-using System.Web.Mvc; // DependencyResolver
+﻿using System.Web.Mvc;
+using AlloyTraining.Business.DependencyResolvers;
+using EPiServer.Framework;
+using EPiServer.Framework.Initialization;
+using EPiServer.ServiceLocation;
+using InitializationModule = EPiServer.Web.InitializationModule;
+
+// StructureMapDependencyResolver
+// [InitializableModule], [ModuleDependency]
+// InitializationEngine
+// IConfigurableModule, ServiceConfigurationContext
+
+// DependencyResolver
 
 namespace AlloyTraining.Business.Initialization
 {
     [InitializableModule]
-    [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
+    [ModuleDependency(typeof(InitializationModule))]
     public class RegisterDependencyResolverInitializationModule : IConfigurableModule
     {
         public void ConfigureContainer(ServiceConfigurationContext context)
@@ -23,7 +31,12 @@ namespace AlloyTraining.Business.Initialization
             };
         }
 
-        public void Initialize(InitializationEngine context) { }
-        public void Uninitialize(InitializationEngine context) { }
+        public void Initialize(InitializationEngine context)
+        {
+        }
+
+        public void Uninitialize(InitializationEngine context)
+        {
+        }
     }
 }

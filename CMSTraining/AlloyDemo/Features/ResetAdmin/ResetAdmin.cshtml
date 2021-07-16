@@ -1,5 +1,5 @@
-@using AlloyDemo.Features.ResetAdmin
 @using System.Web.Optimization
+@using AlloyDemo.Features.ResetAdmin
 @{
     Layout = "";
 }
@@ -12,47 +12,47 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="span12">
+<div class="container">
+    <div class="row">
+        <div class="span12">
 
-                <h2>Reset Admin</h2>
+            <h2>Reset Admin</h2>
 
-                @using (Html.BeginForm("/", "ResetAdmin", FormMethod.Post))
+            @using (Html.BeginForm("/", "ResetAdmin", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="control-group">
+                    <p>
+                        Are you sure that you want to reset the Admin user account?
+                    </p>
+                    <p>
+                        User name: @ResetAdminController.Username,
+                        Password: @ResetAdminController.Password,
+                        Email: @ResetAdminController.Email,
+                        Member of: @ResetAdminController.Role
+                    </p>
+                </div>
+                if (ViewData["message"] != null)
                 {
-                    @Html.AntiForgeryToken()
-                    <div class="control-group">
-                        <p>
-                            Are you sure that you want to reset the Admin user account?
-                        </p>
-                        <p>
-                            User name: @ResetAdminController.Username, 
-                            Password: @ResetAdminController.Password, 
-                            Email: @ResetAdminController.Email,
-                            Member of: @ResetAdminController.Role
-                        </p>
+                    <div class="alert alert-success">
+                        @ViewData["message"]
                     </div>
-                    if (ViewData["message"] != null)
-                    {
-                        <div class="alert alert-success">
-                            @ViewData["message"]
-                        </div>
-                        <div>
-                            <a href="/">Take me to the Start page.</a>
-                        </div>
-                    }
-                    else
-                    {
-                    <div class="control-group">
-                        <input name="submit" type="submit" class="" value="Yes, do it!" />
-                    </div>
-                    }
                     <div>
-                        <a href="/EPiServer/CMS">Log me in to Episerver CMS.</a>
+                        <a href="/">Take me to the Start page.</a>
                     </div>
                 }
-            </div>
+                else
+                {
+                    <div class="control-group">
+                        <input name="submit" type="submit" class="" value="Yes, do it!"/>
+                    </div>
+                }
+                <div>
+                    <a href="/EPiServer/CMS">Log me in to Episerver CMS.</a>
+                </div>
+            }
         </div>
     </div>
+</div>
 </body>
 </html>

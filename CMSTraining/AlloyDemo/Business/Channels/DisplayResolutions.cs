@@ -1,7 +1,7 @@
 namespace AlloyDemo.Business.Channels
 {
     /// <summary>
-    /// Defines resolution for desktop displays
+    ///     Defines resolution for desktop displays
     /// </summary>
     public class StandardResolution : DisplayResolutionBase
     {
@@ -11,7 +11,7 @@ namespace AlloyDemo.Business.Channels
     }
 
     /// <summary>
-    /// Defines resolution for a horizontal iPad
+    ///     Defines resolution for a horizontal iPad
     /// </summary>
     public class IpadHorizontalResolution : DisplayResolutionBase
     {
@@ -21,7 +21,7 @@ namespace AlloyDemo.Business.Channels
     }
 
     /// <summary>
-    /// Defines resolution for a vertical iPhone 5s
+    ///     Defines resolution for a vertical iPhone 5s
     /// </summary>
     public class IphoneVerticalResolution : DisplayResolutionBase
     {
@@ -31,7 +31,7 @@ namespace AlloyDemo.Business.Channels
     }
 
     /// <summary>
-    /// Defines resolution for a vertical Android handheld device
+    ///     Defines resolution for a vertical Android handheld device
     /// </summary>
     public class AndroidVerticalResolution : DisplayResolutionBase
     {

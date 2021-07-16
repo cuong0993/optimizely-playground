@@ -1,5 +1,5 @@
-﻿using EPiServer.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using EPiServer.Core;
 
 namespace AlloyDemo.Features.Favorites
 {

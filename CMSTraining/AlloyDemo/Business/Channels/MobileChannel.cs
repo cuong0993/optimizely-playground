@@ -11,21 +11,9 @@ namespace AlloyDemo.Business.Channels
     {
         public const string Name = "mobile";
 
-        public override string ChannelName
-        {
-            get
-            {
-                return Name;
-            }
-        }
+        public override string ChannelName => Name;
 
-        public override string ResolutionId
-        {
-            get
-            {
-                return typeof(IphoneVerticalResolution).FullName;
-            }
-        }
+        public override string ResolutionId => typeof(IphoneVerticalResolution).FullName;
 
         public override bool IsActive(HttpContextBase context)
         {

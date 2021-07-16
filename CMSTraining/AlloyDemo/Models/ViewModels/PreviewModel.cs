@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using EPiServer.Core;
 using AlloyDemo.Models.Pages;
+using EPiServer.Core;
 
 namespace AlloyDemo.Models.ViewModels
 {

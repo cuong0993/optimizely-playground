@@ -1,6 +1,6 @@
-﻿using AlloyTraining.Models.Pages;
+﻿using System.Web.Mvc;
+using AlloyTraining.Models.Pages;
 using EPiServer;
-using System.Web.Mvc;
 
 namespace AlloyTraining.Controllers
 {

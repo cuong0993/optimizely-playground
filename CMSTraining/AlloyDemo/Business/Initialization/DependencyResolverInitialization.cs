@@ -1,8 +1,8 @@
 using System.Web.Mvc;
+using AlloyDemo.Business.Rendering;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
-using AlloyDemo.Business.Rendering;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
 

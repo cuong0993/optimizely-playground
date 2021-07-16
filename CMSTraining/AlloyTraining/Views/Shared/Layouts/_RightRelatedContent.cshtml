@@ -1,6 +1,4 @@
-﻿@using AlloyTraining.Models.ViewModels
-@using AlloyTraining.Models.Pages
-@model IPageViewModel<SitePageData>
+﻿@model AlloyTraining.Models.ViewModels.IPageViewModel<AlloyTraining.Models.Pages.SitePageData>
 @{
     // nest the right related content inside the root layout
     Layout = "~/Views/Shared/Layouts/_Root.cshtml";
@@ -10,6 +8,6 @@
         @RenderBody()
     </div>
     <div class="span4">
-        @RenderSection("RelatedContent", required: false)
+        @RenderSection("RelatedContent", false)
     </div>
 </div>

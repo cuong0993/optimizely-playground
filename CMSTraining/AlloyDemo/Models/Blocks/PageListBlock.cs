@@ -8,7 +8,7 @@ using EPiServer.Filters;
 namespace AlloyDemo.Models.Blocks
 {
     /// <summary>
-    /// Used to insert a list of pages, for example a news list
+    ///     Used to insert a list of pages, for example a news list
     /// </summary>
     [SiteContentType(GUID = "30685434-33DE-42AF-88A7-3126B936AEAD")]
     [SiteImageUrl]
@@ -27,7 +27,7 @@ namespace AlloyDemo.Models.Blocks
         public virtual bool IncludePublishDate { get; set; }
 
         /// <summary>
-        /// Gets or sets whether a page introduction/description should be included in the list
+        ///     Gets or sets whether a page introduction/description should be included in the list
         /// </summary>
         [Display(
             GroupName = SystemTabNames.Content,
@@ -59,7 +59,7 @@ namespace AlloyDemo.Models.Blocks
         [Display(
             GroupName = SystemTabNames.Content,
             Order = 6)]
-        public virtual PageType PageTypeFilter{get; set;}
+        public virtual PageType PageTypeFilter { get; set; }
 
         [Display(
             GroupName = SystemTabNames.Content,
@@ -74,7 +74,7 @@ namespace AlloyDemo.Models.Blocks
         #region IInitializableContent
 
         /// <summary>
-        /// Sets the default property values on the content data.
+        ///     Sets the default property values on the content data.
         /// </summary>
         /// <param name="contentType">Type of the content.</param>
         public override void SetDefaultValues(ContentType contentType)

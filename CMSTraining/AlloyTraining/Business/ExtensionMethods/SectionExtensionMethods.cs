@@ -1,7 +1,7 @@
-﻿using EPiServer;
+﻿using System.Linq;
+using EPiServer;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using System.Linq;
 
 namespace AlloyTraining.Business.ExtensionMethods
 {
@@ -12,10 +12,8 @@ namespace AlloyTraining.Business.ExtensionMethods
         {
             var loader = ServiceLocator.Current.GetInstance<IContentLoader>();
             var currentContent = loader.Get<IContent>(contentLink);
-            if (currentContent.ParentLink != null && currentContent.ParentLink.CompareToIgnoreWorkID(ContentReference.StartPage))
-            {
-                return currentContent;
-            }
+            if (currentContent.ParentLink != null &&
+                currentContent.ParentLink.CompareToIgnoreWorkID(ContentReference.StartPage)) return currentContent;
 
             return loader.GetAncestors(contentLink)
                 .OfType<PageData>()

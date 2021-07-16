@@ -1,7 +1,5 @@
-﻿@using AlloyTraining.Models.ViewModels
-@using AlloyTraining.Models.Pages
-@using AlloyTraining
-@model PageViewModel<ProductPage>
+﻿@using AlloyTraining
+@model AlloyTraining.Models.ViewModels.PageViewModel<AlloyTraining.Models.Pages.ProductPage>
 @{
     Layout = "~/Views/Shared/Layouts/_RightRelatedContent.cshtml";
 }
@@ -13,12 +11,12 @@
     </div>
 </div>
 @Html.PropertyFor(m => m.CurrentPage.MainContentArea,
-    new { CssClass = "row equal-height", Tag = SiteTags.Wide })
+    new {CssClass = "row equal-height", Tag = SiteTags.Wide})
 
 @section RelatedContent
 {
     <div @Html.EditAttributes(x => x.CurrentPage.PageImage)>
-        <img src="@Url.ContentUrl(Model.CurrentPage.PageImage)" />
+        <img src="@Url.ContentUrl(Model.CurrentPage.PageImage)"/>
     </div>
     <div class="block colorBox theme1">
         <h2 @Html.EditAttributes(x => x.CurrentPage.Name)>
@@ -27,5 +25,5 @@
         <p>@Html.PropertyFor(x => x.CurrentPage.UniqueSellingPoints)</p>
     </div>
     @Html.PropertyFor(m => m.CurrentPage.RelatedContentArea,
-        new { CssClass = "row equal-height", Tag = SiteTags.Narrow })
+        new {CssClass = "row equal-height", Tag = SiteTags.Narrow})
 }

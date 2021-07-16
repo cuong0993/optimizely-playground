@@ -1,15 +1,14 @@
 using System.Web.Mvc;
 using AlloyDemo.Models.Media;
 using AlloyDemo.Models.ViewModels;
+using EPiServer.Core;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
-using System;
-using EPiServer.Core;
 
 namespace AlloyDemo.Controllers
 {
     /// <summary>
-    /// Controller for the video file.
+    ///     Controller for the video file.
     /// </summary>
     public class VideoFileController : PartialContentController<VideoFile>
     {
@@ -21,7 +20,7 @@ namespace AlloyDemo.Controllers
         }
 
         /// <summary>
-        /// The index action for the video file. Creates the view model and renders the view.
+        ///     The index action for the video file. Creates the view model and renders the view.
         /// </summary>
         /// <param name="currentContent">The current video file.</param>
         public override ActionResult Index(VideoFile currentContent)
@@ -29,7 +28,9 @@ namespace AlloyDemo.Controllers
             var model = new VideoViewModel
             {
                 Url = _urlResolver.GetUrl(currentContent.ContentLink),
-                PreviewImageUrl = ContentReference.IsNullOrEmpty(currentContent.PreviewImage) ? String.Empty : _urlResolver.GetUrl(currentContent.PreviewImage),
+                PreviewImageUrl = ContentReference.IsNullOrEmpty(currentContent.PreviewImage)
+                    ? string.Empty
+                    : _urlResolver.GetUrl(currentContent.PreviewImage)
             };
 
             return PartialView(model);

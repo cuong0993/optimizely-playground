@@ -1,9 +1,9 @@
+using System.Collections.Generic;
+using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Security;
 using EPiServer.Shell.Security;
-using System.Collections.Generic;
-using System.Web.Mvc;
 
 namespace AlloyDemo.Features.ResetAdmin
 {
@@ -14,10 +14,10 @@ namespace AlloyDemo.Features.ResetAdmin
         public const string Password = "Pa$$w0rd";
         public const string Email = "admin@alloy.com";
         public const string Role = "WebAdmins";
+        private readonly UIRoleProvider roles;
 
         private readonly IContentSecurityRepository securityRepository;
         private readonly UIUserProvider users;
-        private readonly UIRoleProvider roles;
 
         public ResetAdminController(IContentSecurityRepository securityRepository,
             IPageCriteriaQueryService pageFinder,
@@ -48,22 +48,16 @@ namespace AlloyDemo.Features.ResetAdmin
             UIUserCreateStatus status;
             IEnumerable<string> errors = new List<string>();
 
-            if (!roles.RoleExists(Role))
-            {
-                roles.CreateRole(Role);
-            }
-            
+            if (!roles.RoleExists(Role)) roles.CreateRole(Role);
+
             users.DeleteUser(Username, true);
 
             var newUser = users.CreateUser(Username, Password, Email,
-                passwordQuestion: null, passwordAnswer: null,
-                isApproved: true,
-                status: out status, errors: out errors);
+                null, null,
+                true,
+                out status, out errors);
 
-            if (status == UIUserCreateStatus.Success)
-            {
-                roles.AddUserToRoles(Username, new[] { Role });
-            }
+            if (status == UIUserCreateStatus.Success) roles.AddUserToRoles(Username, new[] {Role});
 
             // Use EPiServer classes to give access rights to Root
 
@@ -73,18 +67,18 @@ namespace AlloyDemo.Features.ResetAdmin
 
             ResetAdmin.IsEnabled = false;
 
-            ViewData["message"] = $"Reset Admin completed successfully.";
+            ViewData["message"] = "Reset Admin completed successfully.";
 
             return View("~/Features/ResetAdmin/ResetAdmin.cshtml");
         }
 
-        private void SetSecurity(ContentReference reference, string role, AccessLevel level, bool overrideInherited = false)
+        private void SetSecurity(ContentReference reference, string role, AccessLevel level,
+            bool overrideInherited = false)
         {
-            IContentSecurityDescriptor permissions = securityRepository.Get(reference).CreateWritableClone() as IContentSecurityDescriptor;
+            var permissions = securityRepository.Get(reference).CreateWritableClone() as IContentSecurityDescriptor;
             if (overrideInherited)
-            {
-                if (permissions.IsInherited) permissions.ToLocal();
-            }
+                if (permissions.IsInherited)
+                    permissions.ToLocal();
             permissions.AddEntry(new AccessControlEntry(role, level));
             securityRepository.Save(reference, permissions, SecuritySaveType.Replace);
         }
@@ -96,6 +90,7 @@ namespace AlloyDemo.Features.ResetAdmin
                 filterContext.Result = new HttpNotFoundResult();
                 return;
             }
+
             base.OnAuthorization(filterContext);
         }
     }

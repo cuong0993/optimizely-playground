@@ -1,6 +1,5 @@
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
-using System;
 
 namespace AlloyDemo.Models.Media
 {
@@ -8,8 +7,8 @@ namespace AlloyDemo.Models.Media
     public class GenericMedia : MediaData
     {
         /// <summary>
-        /// Gets or sets the description.
+        ///     Gets or sets the description.
         /// </summary>
-        public virtual String Description { get; set; }
+        public virtual string Description { get; set; }
     }
 }

@@ -1,13 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace AlloyDemo.Models.NorthwindEntities
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-
     [Table("Order Details")]
-    public partial class Order_Detail
+    public class Order_Detail
     {
         [Key]
         [Column(Order = 0)]
@@ -19,8 +16,7 @@ namespace AlloyDemo.Models.NorthwindEntities
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ProductID { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal UnitPrice { get; set; }
+        [Column(TypeName = "money")] public decimal UnitPrice { get; set; }
 
         public short Quantity { get; set; }
 

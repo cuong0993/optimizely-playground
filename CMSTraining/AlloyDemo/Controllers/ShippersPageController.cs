@@ -1,7 +1,7 @@
-﻿using AlloyDemo.Models.Pages;
+﻿using System.Web.Mvc;
+using AlloyDemo.Models.Pages;
 using AlloyDemo.Models.ViewModels;
 using EPiServer;
-using System.Web.Mvc;
 
 namespace AlloyDemo.Controllers
 {

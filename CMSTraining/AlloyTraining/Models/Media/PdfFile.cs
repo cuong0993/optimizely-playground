@@ -1,12 +1,11 @@
-﻿using EPiServer.Core;
-using EPiServer.DataAbstraction;
+﻿using System.ComponentModel.DataAnnotations;
+using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Framework.DataAnnotations;
-using System.ComponentModel.DataAnnotations;
 
 namespace AlloyTraining.Models.Media
 {
-    [ContentType(DisplayName = "Portable Document Format", 
+    [ContentType(DisplayName = "Portable Document Format",
         // your code will have a GUID
         Description = "Use this to upload Portable Document Format (PDF) files.")]
     [MediaDescriptor(ExtensionString = "pdf")]

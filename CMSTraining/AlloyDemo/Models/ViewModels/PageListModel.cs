@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using EPiServer.Core;
 using AlloyDemo.Models.Blocks;
+using EPiServer.Core;
 
 namespace AlloyDemo.Models.ViewModels
 {
@@ -12,6 +12,7 @@ namespace AlloyDemo.Models.ViewModels
             ShowIntroduction = block.IncludeIntroduction;
             ShowPublishDate = block.IncludePublishDate;
         }
+
         public string Heading { get; set; }
         public IEnumerable<PageData> Pages { get; set; }
         public bool ShowIntroduction { get; set; }

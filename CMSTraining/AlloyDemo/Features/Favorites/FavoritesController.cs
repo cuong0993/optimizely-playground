@@ -1,8 +1,8 @@
-﻿using AlloyDemo.Models.Pages;
+﻿using System.Web.Mvc;
+using AlloyDemo.Models.Pages;
 using EPiServer.Core;
 using EPiServer.Security;
 using EPiServer.Web.Routing;
-using System.Web.Mvc;
 
 namespace AlloyDemo.Features.Favorites
 {
@@ -46,10 +46,7 @@ namespace AlloyDemo.Features.Favorites
             var favorite = FavoriteRepository.GetFavorite(
                 fav, PrincipalInfo.Current.Name);
 
-            if (favorite != null)
-            {
-                FavoriteRepository.Delete(favorite);
-            }
+            if (favorite != null) FavoriteRepository.Delete(favorite);
 
             Response.Redirect(urlResolver.GetUrl(page));
         }
