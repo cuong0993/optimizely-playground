@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Shell.ObjectEditing;
 
 namespace AlloyDemo.Models.Blocks
 {
@@ -17,5 +18,9 @@ namespace AlloyDemo.Models.Blocks
         [Display(GroupName = SystemTabNames.Content)]
         [CultureSpecific]
         public virtual XhtmlString MainBody { get; set; }
+
+        [ClientEditor(ClientEditingClass = "googlemapseditor/Editor")]
+        [Display(GroupName = SystemTabNames.Content, Order = 1040)]
+       public virtual CoordinatesBlock Location { get; set; }
     }
 }
