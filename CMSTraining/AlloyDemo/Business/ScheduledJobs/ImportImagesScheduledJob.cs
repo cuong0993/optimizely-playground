@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Configuration;
 using AlloyDemo.Models.Media;
+using AlloyDemo.Models.Pages;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAccess;
@@ -11,6 +12,7 @@ using EPiServer.Framework.Blobs;
 using EPiServer.PlugIn;
 using EPiServer.Scheduler;
 using EPiServer.Security;
+using EPiServer.ServiceLocation;
 
 namespace AlloyDemo.Business.ScheduledJobs
 {
@@ -61,6 +63,17 @@ namespace AlloyDemo.Business.ScheduledJobs
 
         public override string Execute()
         {
+            //var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            //var contentPage = repository.GetDefault<SearchPage>(ContentReference.StartPage);
+
+            //contentPage.Name = "Example Page";
+            //contentPage.RelatedContentArea = new ContentArea();
+
+            //repository.Save(contentPage,
+            //SaveAction.Publish,
+            //AccessLevel.NoAccess);
+
+
             var toImportFolder = WebConfigurationManager.AppSettings["episerver:edu.ToImportFolder"];
             var importedFolder = WebConfigurationManager.AppSettings["episerver:edu.ImportedFolder"];
 
