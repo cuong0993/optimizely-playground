@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSWebPlayground", "MSWebPlayground\MSWebPlayground.csproj", "{2AD20CED-29DB-444B-8D51-8413EAAF4FED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSWebPlayground", "MSWebPlayground\MSWebPlayground.csproj", "{10B6F526-A59D-47FC-9141-BC7D45799997}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AD20CED-29DB-444B-8D51-8413EAAF4FED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AD20CED-29DB-444B-8D51-8413EAAF4FED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AD20CED-29DB-444B-8D51-8413EAAF4FED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AD20CED-29DB-444B-8D51-8413EAAF4FED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B6F526-A59D-47FC-9141-BC7D45799997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B6F526-A59D-47FC-9141-BC7D45799997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B6F526-A59D-47FC-9141-BC7D45799997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B6F526-A59D-47FC-9141-BC7D45799997}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {00905E43-59DE-4553-801D-1E2972D8FDF9}
+		SolutionGuid = {3357CAA6-D6A1-4E16-ABB3-B4A971ACB03B}
 	EndGlobalSection
 EndGlobal
