@@ -1,9 +1,7 @@
-﻿using System;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using MSWebPlayground.Controllers;
 
 namespace MSWebPlayground
 {
@@ -17,7 +15,7 @@ namespace MSWebPlayground
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        protected void Application_Error(object sender, EventArgs e)
+        /*protected void Application_Error(object sender, EventArgs e)
         {
             var exception = Server.GetLastError();
             var httpContext = ((HttpApplication) sender).Context;
@@ -34,6 +32,6 @@ namespace MSWebPlayground
                 ((IController) controller).Execute(
                     new RequestContext(new HttpContextWrapper(httpContext), routeData));
             }
-        }
+        }*/
     }
 }
