@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -26,7 +28,7 @@ namespace AlloyDemo.Business.ScheduledJobs
 
         private readonly IContentRepository contentRepository;
 
-        private readonly string[] patterns = {"*.png", "*.jpeg", "*.jpg"};
+        private readonly string[] patterns = { "*.png", "*.jpeg", "*.jpg" };
 
         private bool _stopSignaled;
 
@@ -73,6 +75,31 @@ namespace AlloyDemo.Business.ScheduledJobs
             //SaveAction.Publish,
             //AccessLevel.NoAccess);
 
+            var repository = ServiceLocator.Current.GetInstance<IContentRepository>();
+            var existingContentPage = repository
+                .GetChildren<ProductPage>(ContentReference.StartPage);
+
+            var existingContentPage1 = repository.GetChildren<ProductPage>(ContentReference.StartPage, CultureInfo.GetCultureInfo("sv"));
+
+
+            var contentLoader = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IContentLoader>();
+            var pages = contentLoader.GetChildren<PageData>(ContentReference.StartPage);
+            var pages1 = contentLoader.Get<IContent>(new Guid("0e47c41e-9d6b-465e-872c-18c05d5b61d7"));
+            var pages2 = contentLoader.GetChildren<ProductPage>(new ContentReference(192));
+            var contentReference = new ContentReference(192);
+
+            var pages5 = contentLoader.Get<IContent>(new ContentReference(45));
+            var pages3 = contentLoader.Get<IContent>(new ContentReference(47));
+            var pages6 = contentLoader.Get<IContent>(new ContentReference(195));
+
+            var pages4 = contentLoader.Get<IContent>(new ContentReference(196));
+
+            var contentVersionRepository = ServiceLocator.Current.GetInstance<IContentVersionRepository>();
+            var versions = contentVersionRepository.List(contentReference);
+            var versions1 = contentVersionRepository.List(new ContentReference(47));
+            var versions2 = contentVersionRepository.List(new ContentReference(196));
+            versions.OrderByDescending(x => x.Saved).FirstOrDefault(version => version.IsMasterLanguageBranch);
+            int a = 0;
 
             var toImportFolder = WebConfigurationManager.AppSettings["episerver:edu.ToImportFolder"];
             var importedFolder = WebConfigurationManager.AppSettings["episerver:edu.ImportedFolder"];

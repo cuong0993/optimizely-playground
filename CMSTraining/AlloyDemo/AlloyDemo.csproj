@@ -518,6 +518,7 @@
     <Compile Include="Controllers\SearchPageController.cs" />
     <Compile Include="Controllers\ShippersPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VideoFileController.cs" />
     <Compile Include="Features\ContentApprovals\ContentApprovalsManagerPage.cs" />
     <Compile Include="Features\ContentApprovals\ContentApprovalsManagerPageController.cs" />
@@ -611,7 +612,9 @@
     <Compile Include="SendJsonAfterSubmissionActor.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Test\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\EPiServerDB_51682b63.mdf" />
     <Content Include="App_Data\EPiServerDB_51682b63_log.ldf">
