@@ -11,6 +11,7 @@
             {
                 <input type="text" tabindex="1" name="q" value="@Model.SearchedQuery" />
                 <input type="submit" tabindex="2" class="btn" value="@Html.Translate("/searchpagetemplate/searchbutton")" disabled="@(Model.SearchServiceDisabled ? "disabled" : null)" />
+                <a href="@Url.ContentUrl(Model.CurrentPage.Url)">Email</a>
             }
         }
     </div>

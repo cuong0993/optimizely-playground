@@ -18,4 +18,7 @@ public class SearchPage : SitePageData, IHasRelatedContent, ISearchPage
     [CultureSpecific]
     [AllowedTypes(new[] { typeof(IContentData) }, new[] { typeof(JumbotronBlock) })]
     public virtual ContentArea RelatedContentArea { get; set; }
+
+    [Display(Order = 20), CultureSpecific]
+    public virtual Url Url { get; set; }
 }

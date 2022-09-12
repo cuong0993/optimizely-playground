@@ -1,4 +1,5 @@
 using Alloy.Models.Pages;
+using EPiServer.Web.Routing;
 
 namespace Alloy.Models.ViewModels;
 
@@ -7,6 +8,10 @@ public class SearchContentModel : PageViewModel<SearchPage>
     public SearchContentModel(SearchPage currentPage)
         : base(currentPage)
     {
+        string internalUrl = currentPage.Url.ToString();
+        String resolvedUrl = UrlResolver.Current.GetUrl(internalUrl);
+        int d = 0;
+
     }
 
     public bool SearchServiceDisabled { get; set; }
