@@ -20,3 +20,6 @@ modules/
 thumbs.db
 ehthumbs.db
 desktop.ini
+data/
+log.txt
+App_Data/blobs/

@@ -1,31 +1,43 @@
-version: '3.9'
+# version: '3.9'
 
+# services:
+#   db:
+#     build:
+#       dockerfile: ./Docker/db.dockerfile
+#       context: .
+#     environment:
+#       SA_PASSWORD: Qwerty12345!
+#       DB_NAME: cms
+#     ports:
+#       - 6000:1433
+#     volumes:
+#       - ./App_Data:/var/opt/mssql/host_data
+#     image: Alloy/db
+#   web:
+#     depends_on:
+#       - db
+#     build:
+#       dockerfile: ./Docker/web.dockerfile
+#       context: .
+#     environment:
+#       ASPNETCORE_URLS: http://*:80
+#       ASPNETCORE_ENVIRONMENT: Development
+#       CONNECTIONSTRINGS__EPISERVERDB: Server=db;Database=cms;User Id=sa;Password=Qwerty12345!;Encrypt=False;
+#     ports:
+#       - 5000:80
+#     volumes:
+#       - .:/src
+#     image: Alloy/web
+#     restart: on-failure
+
+version: '3.9'
 services:
-  db:
-    build:
-      dockerfile: ./Docker/db.dockerfile
-      context: .
-    environment:
-      SA_PASSWORD: Qwerty12345!
-      DB_NAME: cms
-    ports:
-      - 6000:1433
-    volumes:
-      - ./App_Data:/var/opt/mssql/host_data
-    image: Alloy/db
-  web:
-    depends_on:
-      - db
-    build:
-      dockerfile: ./Docker/web.dockerfile
-      context: .
-    environment:
-      ASPNETCORE_URLS: http://*:80
-      ASPNETCORE_ENVIRONMENT: Development
-      CONNECTIONSTRINGS__EPISERVERDB: Server=db;Database=cms;User Id=sa;Password=Qwerty12345!;Encrypt=False;
-    ports:
-      - 5000:80
-    volumes:
-      - .:/src
-    image: Alloy/web
-    restart: on-failure
+ mssql:
+  image: mcr.microsoft.com/azure-sql-edge
+  environment:
+   ACCEPT_EULA: "Y"
+   SA_PASSWORD: "Qwerty12345!"
+  ports:
+   - '1433:1433'
+  volumes:
+   - ./data:/var/opt/mssql/data

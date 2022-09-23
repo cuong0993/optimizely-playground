@@ -1,41 +1,8 @@
-# Alloy MVC template
-
-This template should not be seen as best practices, but as a great way to learn and test Optimizely CMS. 
-
-## How to run
-
-Chose one of the following options to get started. 
-
-### Windows
-
-Prerequisities
-- .NET SDK 6+
-- SQL Server 2016 Express LocalDB (or later)
-
-```bash
-$ dotnet run
-````
-
-### Any OS with Docker
-
-Prerequisities
-- Docker
-- Enable Docker support when applying the template
-
-```bash
-$ docker-compose up
-````
-
-> Note that this Docker setup is just configured for local development. Follow this [guide to enable HTTPS](https://github.com/dotnet/dotnet-docker/blob/main/samples/run-aspnetcore-https-development.md).
-
-### Any OS with external database server
-
-Prerequisities
-- .NET SDK 6+
-- SQL Server 2016 (or later) on a external server, e.g. Azure SQL
-
-Create an empty database on the external database server and update the connection string accordingly.
-
-```bash
-$ dotnet run
-````
+- dotnet tool update EPiServer.Net.Cli --global --add-source https://nuget.optimizely.com/feed/packages.svc/ (https://nuget.optimizely.com/package/?id=EPiServer.Net.Cli)
+- dotnet new --install EPiServer.Templates; dotnet new --update-apply (https://www.nuget.org/packages/EPiServer.Templates/)
+- mkdir Alloy
+- cd Alloy
+- dotnet new epi-alloy-mvc --name Alloy (dotnet new epi-alloy-mvc --help)
+- docker compose up
+- dotnet-episerver create-cms-database Alloy.csproj -S localhost -U sa -P Qwerty12345! 
+- dotnet-episerver add-admin-user Alloy.csproj -u admin -p P4ssw0rd! -e user@email.com -c EPiServerDB
