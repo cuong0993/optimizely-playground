@@ -1,0 +1,8 @@
+- dotnet tool update EPiServer.Net.Cli --global --add-source https://nuget.optimizely.com/feed/packages.svc/ (https://nuget.optimizely.com/package/?id=EPiServer.Net.Cli)
+- dotnet new --install EPiServer.Templates; dotnet new --update-apply (https://www.nuget.org/packages/EPiServer.Templates/)
+- mkdir Alloy
+- cd Alloy
+- dotnet new epi-alloy-mvc --name Alloy (dotnet new epi-alloy-mvc --help)
+- docker compose up
+- dotnet-episerver create-cms-database Alloy.csproj -S localhost -U sa -P Qwerty12345! 
+- dotnet-episerver add-admin-user Alloy.csproj -u admin -p P4ssw0rd! -e user@email.com -c EPiServerDB
