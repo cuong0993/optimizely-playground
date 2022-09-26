@@ -1,0 +1,6 @@
+// import namespace
+using AlloyDemo.Features.ResetAdmin;
+
+// add to Configuration method
+// Remove to block reset of Admin user
+app.UseResetAdmin(() => HttpContext.Current.Request.IsLocal);

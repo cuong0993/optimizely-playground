@@ -1,0 +1,44 @@
+﻿@using EPiServer.Editor
+@using EPiServer.Find
+@model FindSearchPageViewModel
+
+<div class="alert alert-info">This page is implemented using Episerver Find.</div>
+
+@using (Html.BeginForm(null, null,
+    PageEditing.PageIsInEditMode ? FormMethod.Post : FormMethod.Get,
+    new {action = Model.Layout.SearchActionUrl}))
+{
+    <input type="text" tabindex="1" name="q" value="@Model.SearchQuery"/>
+    <input type="submit" tabindex="2" class="btn" value="Search"/>
+}
+@if (Model.Results != null)
+{
+    <p>
+        Your Search for
+        <i>
+            @Model.SearchQuery resulted
+            in @Model.Results.Count() hits
+        </i>
+    </p>
+    <div class="listResult">
+        @foreach (var item in Model.Results)
+        {
+            if (item.IsBestBet())
+            {
+                <div class="well well-large">
+                    <h4>
+                        Best bet <span class="icon-bullhorn"></span>
+                        <a href="@item.Url">@Html.Raw(item.Title)</a>
+                    </h4>
+                </div>
+            }
+            else
+            {
+                <h4>
+                    <a href="@item.Url">@Html.Raw(item.Title)</a>
+                </h4>
+                @Html.Raw(item.Excerpt)
+            }
+        }
+    </div>
+}

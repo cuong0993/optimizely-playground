@@ -1,0 +1,32 @@
+﻿@using EPiServer.Security
+@model AlloyDemo.Features.Favorites.FavoriteViewModel
+<div class="btn-group">
+    <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+        Favorites
+        <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        @if (!string.IsNullOrWhiteSpace(PrincipalInfo.Current.Name))
+        {
+            <li>
+                <a class="btn btn-mini" href="/favs/add?page=@Model.CurrentPageContentReference"><span class="icon-plus-sign"></span> Add this page to favorites</a>
+            </li>
+            <li class="divider"></li>
+            foreach (var fav in Model.Favorites)
+            {
+                <li>
+                    @Html.ContentLink(fav.FavoriteContentReference)
+                    <a class="btn btn-mini" href="/favs/del?page=@(Model.CurrentPageContentReference)&fav=@(fav.FavoriteContentReference)">
+                        <span class="icon-remove"></span> Remove
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            <li>
+                <div class="well-small">Log in to use favorites.</div>
+            </li>
+        }
+    </ul>
+</div>

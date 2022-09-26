@@ -1,0 +1,68 @@
+using System;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+using EPiServer.ServiceLocation;
+using EPiServer.Shell.Security;
+using Owin;
+
+namespace AlloyDemo
+{
+    public static class AdministratorRegistrationPage
+    {
+        private static Func<bool> _isLocalRequest = () => false;
+
+        private static Lazy<bool> _isAnyUserRegistered = new Lazy<bool>(() => false);
+
+        private static bool? _isEnabled;
+
+        public static bool IsEnabled
+        {
+            get
+            {
+                if (_isEnabled.HasValue) return _isEnabled.Value;
+
+                var showUserRegistration = _isLocalRequest() && !_isAnyUserRegistered.Value;
+                if (!showUserRegistration) _isEnabled = false;
+
+                return showUserRegistration;
+            }
+            set => _isEnabled = value;
+        }
+
+        public static void UseAdministratorRegistrationPage(this IAppBuilder app, Func<bool> isLocalRequest)
+        {
+            _isLocalRequest = isLocalRequest;
+            _isAnyUserRegistered = new Lazy<bool>(IsAnyUserRegistered);
+            GlobalFilters.Filters.Add(new RegistrationActionFilterAttribute());
+            if (isLocalRequest()) AddRoute();
+        }
+
+        private static bool IsAnyUserRegistered()
+        {
+            var provider = ServiceLocator.Current.GetInstance<UIUserProvider>();
+            var totalUsers = 0;
+            var res = provider.GetAllUsers(0, 1, out totalUsers);
+            return totalUsers > 0;
+        }
+
+        private static void AddRoute()
+        {
+            var routeData = new RouteValueDictionary();
+            routeData.Add("Controller", "Register");
+            routeData.Add("action", "Index");
+            RouteTable.Routes.Add("Register",
+                new Route("Register", routeData, new MvcRouteHandler()) {RouteExistingFiles = false});
+        }
+
+        public class RegistrationActionFilterAttribute : ActionFilterAttribute
+        {
+            public override void OnActionExecuting(ActionExecutingContext context)
+            {
+                var registerUrl = VirtualPathUtility.ToAbsolute("~/Register");
+                if (IsEnabled && !context.RequestContext.HttpContext.Request.Path.StartsWith(registerUrl))
+                    context.Result = new RedirectResult(registerUrl);
+            }
+        }
+    }
+}

@@ -1,0 +1,6 @@
+// import namespace
+using AlloyDemo.Features.RegisterPersonas;
+
+// add to Configuration method
+// Remove to block registration of personas
+app.UseRegisterPersonas(() => HttpContext.Current.Request.IsLocal);

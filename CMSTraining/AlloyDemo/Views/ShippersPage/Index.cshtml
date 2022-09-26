@@ -1,0 +1,47 @@
+﻿@using EPiServer.Editor
+@model ShippersPageViewModel
+@if (PageEditing.PageIsInEditMode)
+{
+    <div>
+        Enter the ID of the shipper to use by default: @Html.PropertyFor(m => m.CurrentPage.DefaultShipper)
+    </div>
+}
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Company Name
+        </th>
+        <th>
+            Phone
+        </th>
+        <th>
+            Cost Per Unit
+        </th>
+        <th>
+            Last changed
+        </th>
+    </tr>
+    @foreach (var item in Model.Shippers)
+    {
+        <tr>
+            <td>
+                @item.ShipperID
+            </td>
+            <td>
+                @item.CompanyName
+            </td>
+            <td>
+                @item.Phone
+            </td>
+            <td>
+                @item.CostPerUnit
+            </td>
+            <td>
+                @item.Changed
+            </td>
+        </tr>
+    }
+</table>

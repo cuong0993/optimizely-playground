@@ -1,0 +1,11 @@
+﻿@using EPiServer.Core
+@model CommentBlock
+<div class="commentblock">
+    <h4>
+        @Html.DisplayFor(model => model.CommentName) <small>@Model.When.ToString("dddd, d MMMM yyyy hh:mm:ss")</small>
+    </h4>
+    <div>@Html.DisplayFor(model => model.CommentText)</div>
+    <div>
+        <a style="font-size: 8pt;" href="reportcomment?id=@((Model as IContent).ContentLink)">Report this comment</a>
+    </div>
+</div>
