@@ -14,7 +14,7 @@
   
   <ItemGroup>
     <PackageReference Include="EPiServer.CMS" Version="12.11.0" />
-    <PackageReference Include="Wangkanai.Detection" Version="5.5.300" />
+    <PackageReference Include="Wangkanai.Detection" Version="5.7.2" />
   </ItemGroup>
   
   <ItemGroup>
