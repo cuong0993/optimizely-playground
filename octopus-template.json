@@ -1,0 +1,121 @@
+{
+    "Id": "3dd5368f-d765-43b3-8124-93895eccb94d",
+    "Name": "Episerver DXP - Deploy Package",
+    "Description": "Deploy a package to your Episerver DXP environment.",
+    "ActionType": "Octopus.Script",
+    "Version": 1,
+    "CommunityActionTemplateId": null,
+    "Packages": [
+        {
+            "Id": "92ca1df3-e52c-4019-a610-421af7196770",
+            "Name": "sourcepackage",
+            "PackageId": null,
+            "FeedId": null,
+            "AcquisitionLocation": "Server",
+            "Properties": {
+                "Extract": "False",
+                "SelectionMode": "deferred",
+                "PackageParameterName": "sourcepackage"
+            }
+        }
+    ],
+    "Properties": {
+        "Octopus.Action.Script.ScriptSource": "Inline",
+        "Octopus.Action.Script.Syntax": "PowerShell",
+        "Octopus.Action.Script.ScriptBody": "$packagepath = $OctopusParameters[\"Octopus.Action.Package[sourcepackage].OriginalPath\"]\n$packagename = Split-Path $packagepath -leaf\n\nif (-not (Get-Module -Name EpiCloud -ListAvailable)) {\n Install-Module EpiCloud -Scope CurrentUser -Force\n}\n\nImport-Module EpiCloud\nConnect-EpiCloud -ClientKey $ClientKey -ClientSecret $ClientSecret -ProjectId $ProjectId\n$saslink = Get-EpiDeploymentPackageLocation\nAdd-EpiDeploymentPackage -SasUrl $saslink -Path $packagepath\n\nWrite-Host \"Package uploaded - Starting deployment to $targetenvironment\"\nWrite-Host \"You can see further progress by changing log level to Verbose\"\n\n$deployments = Get-EpiDeployment -ProjectId $ProjectId\n$ongoingdeployid = 0\nForeach ($deployment in $deployments) {\n if ($deployment.parameters.targetEnvironment -eq $targetenvironment ) {\n \tif ($deployment.status -eq 'AwaitingVerification' -Or $deployment.status -eq 'InProgress' ) {\n $ongoingdeployid = $deployment.id\n Write-Host $deployment\n break\n      \t}\n }\n}\n$startEpiDeploymentSplat = @{\n ProjectId = $ProjectId\n TargetEnvironment = $targetenvironment\n\t\tDeploymentPackage = $packagename\n UseMaintenancePage = [System.Convert]::ToBoolean($OctopusParameters['maintenancepage'])\n}\nif ([System.Convert]::ToBoolean($OctopusParameters['smoothdeploy'])) {\n $startEpiDeploymentSplat.Add('ZeroDowntimeMode', 'ReadOnly')\n}\n\nif ($ongoingdeployid -eq 0){\n $deployment = Start-EpiDeployment @startEpiDeploymentSplat -Wait\n if ($autocomplete -eq 'true') {\n $deployment | Complete-EpiDeployment -Wait\n }\n}\nelse {\n Write-Warning \"There is already an ongoing deployment in progress ($ongoingdeployid). Complete or reset the ongoing deployment then try this again.\" \n}"
+    },
+    "Parameters": [
+        {
+            "Id": "caab69c6-35fa-48ad-b561-f49b79d49c9f",
+            "Name": "ProjectId",
+            "Label": "Project ID",
+            "HelpText": "Your DXP project ID can easily be found in the API tab within the PaaS portal.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "SingleLineText"
+            }
+        },
+        {
+            "Id": "d452e8a7-ddbb-484c-bbd7-353d276e3261",
+            "Name": "ClientKey",
+            "Label": "Client Key",
+            "HelpText": "Your Client/API Key can be generated in the API tab within the PaaS portal.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "SingleLineText"
+            }
+        },
+        {
+            "Id": "081ad644-04bc-47a7-a241-df85b7aaca1b",
+            "Name": "ClientSecret",
+            "Label": "Client Secret",
+            "HelpText": "Your Client/API Key can be generated in the API tab within the PaaS portal.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Sensitive"
+            }
+        },
+        {
+            "Id": "39194e0d-9f4f-428d-88a8-d2624d1f4908",
+            "Name": "sourcepackage",
+            "Label": "Package Name",
+            "HelpText": "Specify the package you want to deploy",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Package"
+            }
+        },
+        {
+            "Id": "e61b1e60-eb96-41ef-8670-99713933014e",
+            "Name": "targetenvironment",
+            "Label": "Target Environment",
+            "HelpText": "Select the environment that the package should be deployed to",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Select",
+                "Octopus.SelectOptions": "Integration|Integration\nPreproduction|Preproduction\nProduction|Production"
+            }
+        },
+        {
+            "Id": "ce603470-4c9b-4e88-99ca-384c5df95a3f",
+            "Name": "maintenancepage",
+            "Label": "Maintenance Page",
+            "HelpText": "Select if you want this deployment to use a maintenance page.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Select",
+                "Octopus.SelectOptions": "false|No\ntrue|Yes"
+            }
+        },
+        {
+            "Id": "46b20db9-b3d0-4030-9370-752e2cba2074",
+            "Name": "smoothdeploy",
+            "Label": "Smooth Deploy",
+            "HelpText": "Select if you want this deployment to use Smooth Deploy process.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Select",
+                "Octopus.SelectOptions": "false|No\ntrue|Yes"
+            }
+        },
+        {
+            "Id": "a54f0633-c3de-437e-82dc-7a747bb615fc",
+            "Name": "autocomplete",
+            "Label": "Auto Complete",
+            "HelpText": "Automatically complete the deployment once the first phase is completed.\nThis is not recommended for production deployments.",
+            "DefaultValue": "",
+            "DisplaySettings": {
+                "Octopus.ControlType": "Select",
+                "Octopus.SelectOptions": "false|No\ntrue|Yes"
+            }
+        }
+    ],
+    "StepPackageId": "Octopus.Script",
+    "$Meta": {
+        "ExportedAt": "2022-12-16T03:08:50.707Z",
+        "OctopusVersion": "2022.4.8241",
+        "Type": "ActionTemplate"
+    },
+    "LastModifiedBy": "Your GitHub Username",
+    "Category": "other"
+}

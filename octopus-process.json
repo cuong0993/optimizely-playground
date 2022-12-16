@@ -1,0 +1,82 @@
+{
+  "Id": "deploymentprocess-Projects-1",
+  "SpaceId": "Spaces-1",
+  "ProjectId": "Projects-1",
+  "Version": 6,
+  "Steps": [
+    {
+      "Id": "195334a0-1d13-4d88-a49b-31f57e4d17fe",
+      "Name": "Episerver DXP - Deploy Package",
+      "Slug": "episerver-dxp-deploy-package",
+      "PackageRequirement": "LetOctopusDecide",
+      "Properties": {},
+      "Condition": "Success",
+      "StartTrigger": "StartAfterPrevious",
+      "Actions": [
+        {
+          "Id": "a6252d39-c5a7-4594-8ce2-1431adfe2c07",
+          "Name": "Episerver DXP - Deploy Package",
+          "Slug": "episerver-dxp-deploy-package",
+          "ActionType": "Octopus.Script",
+          "Notes": null,
+          "IsDisabled": false,
+          "CanBeUsedForProjectVersioning": true,
+          "IsRequired": true,
+          "WorkerPoolId": "WorkerPools-2",
+          "Container": {
+            "Image": null,
+            "FeedId": null
+          },
+          "WorkerPoolVariable": null,
+          "Environments": [],
+          "ExcludedEnvironments": [],
+          "Channels": [],
+          "TenantTags": [],
+          "Packages": [
+            {
+              "Id": "92ca1df3-e52c-4019-a610-421af7196770",
+              "Name": "sourcepackage",
+              "PackageId": "SSO",
+              "FeedId": "feeds-builtin",
+              "AcquisitionLocation": "Server",
+              "Properties": {
+                "Extract": "False",
+                "SelectionMode": "deferred",
+                "PackageParameterName": "sourcepackage"
+              }
+            }
+          ],
+          "Condition": "Success",
+          "Properties": {
+            "ClientSecret": {
+              "HasValue": true,
+              "NewValue": null,
+              "Hint": null
+            },
+            "Octopus.Action.Script.ScriptSource": "Inline",
+            "Octopus.Action.Script.Syntax": "PowerShell",
+            "Octopus.Action.Script.ScriptBody": "$packagepath = $OctopusParameters[\"Octopus.Action.Package[sourcepackage].OriginalPath\"]\n$packagename = Split-Path $packagepath -leaf\n\nif (-not (Get-Module -Name EpiCloud -ListAvailable)) {\n Install-Module EpiCloud -Scope CurrentUser -Force\n}\n\nConnect-EpiCloud -ClientKey $ClientKey -ClientSecret $ClientSecret -ProjectId $ProjectId\n$saslink = Get-EpiDeploymentPackageLocation\nAdd-EpiDeploymentPackage -SasUrl $saslink -Path $packagepath\n\nWrite-Host \"Package uploaded - Starting deployment to $targetenvironment\"\nWrite-Host \"You can see further progress by changing log level to Verbose\"\n\n$deployments = Get-EpiDeployment -ProjectId $ProjectId\n$ongoingdeployid = 0\nForeach ($deployment in $deployments) {\n if ($deployment.parameters.targetEnvironment -eq $targetenvironment ) {\n \tif ($deployment.status -eq 'AwaitingVerification' -Or $deployment.status -eq 'InProgress' ) {\n $ongoingdeployid = $deployment.id\n Write-Host $deployment\n break\n      \t}\n }\n}\n$startEpiDeploymentSplat = @{\n ProjectId = $ProjectId\n TargetEnvironment = $targetenvironment\n\t\tDeploymentPackage = $packagename\n UseMaintenancePage = [System.Convert]::ToBoolean($OctopusParameters['maintenancepage'])\n}\nif ([System.Convert]::ToBoolean($OctopusParameters['smoothdeploy'])) {\n $startEpiDeploymentSplat.Add('ZeroDowntimeMode', 'ReadOnly')\n}\n\nif ($ongoingdeployid -eq 0){\n $deployment = Start-EpiDeployment @startEpiDeploymentSplat -Wait\n if ($autocomplete -eq 'true') {\n $deployment | Complete-EpiDeployment -Wait\n }\n}\nelse {\n Write-Warning \"There is already an ongoing deployment in progress ($ongoingdeployid). Complete or reset the ongoing deployment then try this again.\" \n}",
+            "Octopus.Action.Template.Id": "ActionTemplates-1",
+            "Octopus.Action.Template.Version": "0",
+            "Octopus.Action.RunOnServer": "true",
+            "sourcepackage": "{\"PackageId\":\"SSO\",\"FeedId\":\"feeds-builtin\"}",
+            "ProjectId": "dd4f385c-f514-4639-a120-ac6f006948f9",
+            "ClientKey": "YMEVreBk3EuSiXnTHkHTneUFbrHrXMZVvsnesHYADoFXgQe5",
+            "targetenvironment": "Integration",
+            "maintenancepage": "false",
+            "smoothdeploy": "false",
+            "autocomplete": "true"
+          },
+          "Links": {}
+        }
+      ]
+    }
+  ],
+  "LastSnapshotId": null,
+  "Links": {
+    "Self": "/api/Spaces-1/projects/Projects-1/deploymentprocesses",
+    "Project": "/api/Spaces-1/projects/Projects-1",
+    "Template": "/api/Spaces-1/projects/Projects-1/deploymentprocesses/template{?channel,releaseId}",
+    "Validation": "/api/Spaces-1/projects/Projects-1/deploymentprocesses/validate"
+  }
+}
