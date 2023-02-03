@@ -13,7 +13,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.13.2" />
+    <PackageReference Include="EPiServer.CMS" Version="12.16.0" />
+    <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.0.1" />
     <PackageReference Include="Wangkanai.Detection" Version="6.11.3" />
   </ItemGroup>
   

@@ -23,4 +23,7 @@ public class ContactPage : SitePageData, IContainerPage
     [Display(GroupName = Globals.GroupNames.Contact)]
     [EmailAddress]
     public virtual string Email { get; set; }
+
+    [Display(Name = "Holidays")]
+    public virtual IList<DateTime>? Holidays { get; set; }
 }
