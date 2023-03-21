@@ -80,8 +80,9 @@ public class PageListBlockViewComponent : BlockComponent<PageListBlock>
 
     private static IEnumerable<PageData> Sort(IEnumerable<PageData> pages, FilterSortOrder sortOrder)
     {
-        var sortFilter = new FilterSort(sortOrder);
-        sortFilter.Sort(new PageDataCollection(pages.ToList()));
-        return pages;
+            var asCollection = new PageDataCollection(pages);
+            var sortFilter = new FilterSort(sortOrder);
+            sortFilter.Sort(asCollection);
+            return asCollection;
     }
 }
