@@ -13,9 +13,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="EPiServer.CMS" Version="12.16.0" />
-    <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.0.1" />
-    <PackageReference Include="Wangkanai.Detection" Version="6.11.3" />
+    <PackageReference Include="EPiServer.CMS" Version="12.18.0" />
+    <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.1.1" />
+    <PackageReference Include="Wangkanai.Detection" Version="7.1.1" />
   </ItemGroup>
   
   <ItemGroup>
