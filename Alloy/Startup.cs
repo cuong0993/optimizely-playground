@@ -36,11 +36,11 @@ public class Startup
         services.AddDetection();
 
         services.AddSession(options =>
-        {
-            options.IdleTimeout = TimeSpan.FromSeconds(10);
-            options.Cookie.HttpOnly = true;
-            options.Cookie.IsEssential = true;
-        });
+                {
+                    options.IdleTimeout = TimeSpan.FromSeconds(10);
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -61,6 +61,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapDefaultControllerRoute();
             endpoints.MapContent();
         });
     }
