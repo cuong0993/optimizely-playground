@@ -4,7 +4,6 @@ artifacts/
 # Visual Studio files
 *.user
 *.lock.json
-.vscode/
 .vs/
 .nuget/
 packages/
