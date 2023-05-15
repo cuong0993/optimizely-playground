@@ -5,6 +5,7 @@ using EPiServer.Events.Providers.Internal;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Hangfire;
 
 namespace Alloy;
 
@@ -51,9 +52,20 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+
+        services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(_configuration.GetConnectionString("EPiServerDB")));
+
+        //services.UseHangfireDashboard();
+
+        // Add the processing server as IHostedService
+        services.AddHangfireServer();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -73,5 +85,9 @@ public class Startup
         {
             endpoints.MapContent();
         });
+
+        app.UseHangfireDashboard();
+      //  backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
+
     }
 }
