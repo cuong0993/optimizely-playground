@@ -1,11 +1,12 @@
 using Alloy.Extensions;
 using EPiServer.Cms.Shell;
+using EPiServer.Cms.Shell.UI.Configurations;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Events.Providers.Internal;
 using EPiServer.Scheduler;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Hangfire;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Alloy;
 
@@ -24,6 +25,14 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Configure<UploadOptions>(x =>
+        {
+            x.FileSizeLimit = 1073741824;
+        });
+        services.Configure<FormOptions>(x =>
+        {
+            x.MultipartBodyLengthLimit = long.MaxValue;
+        });
         if (_webHostingEnvironment.IsDevelopment())
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
