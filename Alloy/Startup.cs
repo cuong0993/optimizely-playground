@@ -1,12 +1,12 @@
 using Alloy.Extensions;
+using EPiServer.Azure.Blobs;
 using EPiServer.Cms.Shell;
-using EPiServer.Cms.Shell.UI.Configurations;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Events.Providers.Internal;
+using EPiServer.Framework.Blobs;
 using EPiServer.Scheduler;
+using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using Hangfire;
-using Microsoft.AspNetCore.Http.Features;
 
 namespace Alloy;
 
@@ -25,14 +25,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<UploadOptions>(x =>
-        {
-            x.FileSizeLimit = 1073741824;
-        });
-        services.Configure<FormOptions>(x =>
-        {
-            x.MultipartBodyLengthLimit = long.MaxValue;
-        });
         if (_webHostingEnvironment.IsDevelopment())
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
@@ -61,20 +53,9 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
-
-        services.AddHangfire(configuration => configuration
-    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-    .UseSimpleAssemblyNameTypeSerializer()
-    .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(_configuration.GetConnectionString("EPiServerDB")));
-
-        //services.UseHangfireDashboard();
-
-        // Add the processing server as IHostedService
-        services.AddHangfireServer();
     }
 
-    public void Configure(IApplicationBuilder app, IBackgroundJobClient backgroundJobs, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
         {
@@ -94,9 +75,5 @@ public class Startup
         {
             endpoints.MapContent();
         });
-
-        app.UseHangfireDashboard();
-      //  backgroundJobs.Enqueue(() => Console.WriteLine("Hello world from Hangfire!"));
-
     }
 }

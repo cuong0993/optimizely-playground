@@ -2,6 +2,8 @@ using EPiServer.Framework.DataAnnotations;
 using Alloy.Models.Pages;
 using Alloy.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using EPiServer.Framework.Blobs;
+using EPiServer.ServiceLocation;
 
 namespace Alloy.Controllers;
 
@@ -19,6 +21,7 @@ public class DefaultPageController : PageControllerBase<SitePageData>
 {
     public ViewResult Index(SitePageData currentPage)
     {
+        var blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
         var model = CreateModel(currentPage);
         return View($"~/Views/{currentPage.GetOriginalType().Name}/Index.cshtml", model);
     }

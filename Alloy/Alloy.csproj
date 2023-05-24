@@ -17,8 +17,6 @@
     <PackageReference Include="EPiServer.CMS" Version="12.16.0" />
     <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.0.1" />
     <PackageReference Include="EPiServer.Labs.LanguageManager" Version="5.1.2" />
-    <PackageReference Include="EPiServer.Personalization.Content.UI" Version="1.0.1" />
-    <PackageReference Include="Hangfire" Version="1.8.0" />
     <PackageReference Include="Wangkanai.Detection" Version="6.11.3" />
   </ItemGroup>
   
