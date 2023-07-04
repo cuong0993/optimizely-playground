@@ -1,0 +1,9 @@
+﻿@model Imageshop.Optimizely.Plugin.ImageshopImage
+@*
+    On build: ImageshopImage.cshtml and ImageshopVideo.cshtml will only be overwritten if their modified dates from the nuget package are newer than the modified dates of these two files in your project.
+    If you wish to keep your own ImageshopImage.cshtml and ImageshopVideo.cshtml files, modify the files before updating the plugin.
+*@
+@if (Model != null && !string.IsNullOrWhiteSpace(Model.Url))
+{
+    <img src="@Model.Url" alt="@(Model.Description ?? string.Empty)">
+}

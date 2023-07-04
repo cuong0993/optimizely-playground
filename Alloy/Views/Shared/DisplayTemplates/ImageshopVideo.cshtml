@@ -1,0 +1,29 @@
+﻿@using Imageshop.Optimizely.Plugin.Extensions
+@model Imageshop.Optimizely.Plugin.ImageshopVideo
+@*
+    On build: ImageshopImage.cshtml and ImageshopVideo.cshtml will only be overwritten if their modified dates from the nuget package are newer than the modified dates of these two files in your project. 
+    If you wish to keep your own ImageshopImage.cshtml and ImageshopVideo.cshtml files, modify the files before updating the plugin. 
+*@
+@if (Model == null)
+{
+    return;
+}
+
+<div id="video-@Model.GetUrlFriendlyCode()" data-jwplayer='{ "title": "@Model.Name", "description": "@Model.Description", "thumb": "@Model.Url", "mediaid": "@Model.Code", "videos": @Model.GetVideosJson() }'></div>
+
+<script>
+    // Embed the script if not loaded already. This is better placed
+    // in your layout file or as part of your script framework.
+
+    (function (d) {
+        if (d.getElementById('jwplayer-imageshop-script')) {
+            return;
+        }
+
+        var s = d.createElement('script');
+        s.id = 'jwplayer-imageshop-script';
+        s.async = true;
+        s.src = '/scripts/jwplayer.imageshop.js';
+        d.body.appendChild(s);
+    })(document);
+</script>
