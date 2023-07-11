@@ -7,6 +7,7 @@ using EPiServer.Framework.Blobs;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
+using Geta.Optimizely.Sitemaps;
 
 namespace Alloy;
 
@@ -53,6 +54,12 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+        services.AddSitemaps(x =>
+        {
+            x.EnableLanguageDropDownInAdmin = true;
+            x.EnableRealtimeCaching = true;
+            x.EnableRealtimeSitemap = true;
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -74,6 +81,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapContent();
+            endpoints.MapRazorPages();
         });
     }
 }
