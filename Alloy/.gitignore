@@ -20,3 +20,5 @@ modules/
 thumbs.db
 ehthumbs.db
 desktop.ini
+
+/.idea
