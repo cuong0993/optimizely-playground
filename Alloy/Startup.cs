@@ -1,8 +1,12 @@
 using Alloy.Extensions;
 using EPiServer.Cms.Shell;
+using EPiServer.Cms.TinyMce;
+using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Cms.UI.VisitorGroups;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
+using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 
 namespace Alloy;
@@ -27,7 +31,7 @@ public class Startup
 
         services
             .AddCmsAspNetIdentity<ApplicationUser>()
-            .AddCms()
+            .AddCmsHost().AddCmsHtmlHelpers().AddCmsTagHelpers().AddCmsUI().AddAdmin().AddVisitorGroupsUI().AddTinyMce()
             .AddAlloy()
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
