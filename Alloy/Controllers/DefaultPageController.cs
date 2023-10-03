@@ -1,3 +1,4 @@
+using System.Globalization;
 using EPiServer.Framework.DataAnnotations;
 using Alloy.Models.Pages;
 using Alloy.Models.ViewModels;
@@ -21,6 +22,13 @@ public class DefaultPageController : PageControllerBase<SitePageData>
 {
     public ViewResult Index(SitePageData currentPage)
     {
+        //CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        var numberDecimalDigits = NumberFormatInfo.CurrentInfo.NumberDecimalDigits;
+        var a = new CultureInfo("en-AU");
+        var numberDecimalDigitsAU = a.NumberFormat.NumberDecimalDigits;
+        var b = CultureInfo.CurrentCulture;
+        var numberDecimalDigitsCMS = b.NumberFormat.NumberDecimalDigits;
+
         var blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
         var model = CreateModel(currentPage);
         return View($"~/Views/{currentPage.GetOriginalType().Name}/Index.cshtml", model);
