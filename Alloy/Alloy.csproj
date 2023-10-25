@@ -18,10 +18,10 @@
     <PackageReference Include="EPiServer.CMS.AspNetCore.TagHelpers" Version="12.21.0" />
     <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.7.2" />
     <PackageReference Include="EPiServer.CMS.UI" Version="12.27.1" />
-    <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.27.1" />
     <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.27.1" />
     <PackageReference Include="EPiServer.Hosting" Version="12.21.0" />
     <PackageReference Include="EPiServer.ImageLibrary.ImageSharp" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.13" />
     <PackageReference Include="Wangkanai.Detection" Version="8.12.0" />
   </ItemGroup>
 
