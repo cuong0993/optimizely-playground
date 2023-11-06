@@ -10,6 +10,8 @@ using EPiServer.Scheduler;
 using EPiServer.Security;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
@@ -94,14 +96,13 @@ public class Startup
 
                 options.Scope.Clear();
                 options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-                options.Scope.Add(OpenIdConnectScope.OfflineAccess);
                 options.Scope.Add(OpenIdConnectScope.Email);
                 options.MapInboundClaims = false;
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     RoleClaimType = "roles",
-                    NameClaimType = "preferred_username",
+                    NameClaimType = "name",
                     ValidateIssuer = false
                 };
 
@@ -120,6 +121,9 @@ public class Startup
                     return Task.CompletedTask;
                 };
             });
+        
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IClaimsTransformation, ClaimsTransformer>());
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -141,6 +145,8 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapContent();
+            endpoints.MapControllerRoute("AspNetCore", "/Login", new { controller = "DefaultPage", action = "Login" });
+            endpoints.MapControllerRoute("AspNetCore", "/Logout", new { controller = "DefaultPage", action = "Logout" });
         });
     }
 }

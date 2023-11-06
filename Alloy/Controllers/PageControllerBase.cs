@@ -5,6 +5,7 @@ using EPiServer.ServiceLocation;
 using EPiServer.Shell.Security;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Alloy.Controllers;
@@ -29,8 +30,12 @@ public abstract class PageControllerBase<T> : PageController<T>, IModifyLayout
     /// </remarks>
     public async Task<IActionResult> Logout()
     {
-        await UISignInManager.Service.SignOutAsync();
-        return Redirect(HttpContext.RequestServices.GetService<UrlResolver>().GetUrl(PageContext.ContentLink, PageContext.LanguageID));
+        //comment out old logout code
+        //await UISignInManager.Service.SignOutAsync();
+        //return Redirect(HttpContext.RequestServices.GetService<UrlResolver>().GetUrl(PageContext.ContentLink, PageContext.LanguageID));
+        await ControllerContext.HttpContext.SignOutAsync("azure-cookie");
+        HttpContext.Response.Cookies.Delete($".AspNetCore.{"azure-cookie"}");
+        return Redirect(HttpContext.RequestServices.GetService<UrlResolver>().GetUrl(PageContext.ContentLink, PageContext.LanguageID) ?? "/");
     }
 
     public virtual void ModifyLayout(LayoutModel layoutModel)
@@ -40,5 +45,10 @@ public abstract class PageControllerBase<T> : PageController<T>, IModifyLayout
             layoutModel.HideHeader = page.HideSiteHeader;
             layoutModel.HideFooter = page.HideSiteFooter;
         }
+    }
+    
+    public IActionResult Login()
+    {
+        return Challenge(new AuthenticationProperties { RedirectUri = "/" }, "azure");
     }
 }
