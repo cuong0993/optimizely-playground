@@ -94,14 +94,13 @@ public class Startup
 
                 options.Scope.Clear();
                 options.Scope.Add(OpenIdConnectScope.OpenIdProfile);
-                options.Scope.Add(OpenIdConnectScope.OfflineAccess);
                 options.Scope.Add(OpenIdConnectScope.Email);
                 options.MapInboundClaims = false;
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     RoleClaimType = "roles",
-                    NameClaimType = "preferred_username",
+                    NameClaimType = "name",
                     ValidateIssuer = false
                 };
 
