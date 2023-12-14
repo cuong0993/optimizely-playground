@@ -45,6 +45,7 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+        services.AddDAMUi();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
