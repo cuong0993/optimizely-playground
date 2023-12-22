@@ -4,8 +4,8 @@ using EPiServer.Cms.TinyMce;
 using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Cms.UI.VisitorGroups;
+using EPiServer.Events.Providers.Internal;
 using EPiServer.Scheduler;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 
@@ -13,11 +13,13 @@ namespace Alloy;
 
 public class Startup
 {
+    private readonly IConfiguration _configuration;
     private readonly IWebHostEnvironment _webHostingEnvironment;
 
-    public Startup(IWebHostEnvironment webHostingEnvironment)
+    public Startup(IWebHostEnvironment webHostingEnvironment, IConfiguration configuration)
     {
         _webHostingEnvironment = webHostingEnvironment;
+        _configuration = configuration;
     }
 
     public void ConfigureServices(IServiceCollection services)
@@ -27,6 +29,10 @@ public class Startup
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
 
             services.Configure<SchedulerOptions>(options => options.Enabled = false);
+        }
+        else
+        {
+            services.AddCmsCloudPlatformSupport(_configuration);
         }
 
         services

@@ -3,10 +3,23 @@
     "Alloy": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5000/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "https://localhost:5000/"
+    },
+    "FakeDXP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "FakeDXP",
+        "CONNECTIONSTRINGS__EPISERVERAZUREBLOBS": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;",
+        "CONNECTIONSTRINGS__EPISERVERDB": "Data Source=(LocalDb)\\MSSQLLocalDB;AttachDbFilename=C:\\Works\\optimizely-playground\\Alloy\\App_Data\\Alloy.mdf;Initial Catalog=Alloy;Integrated Security=True;Connect Timeout=30;",
+        "APPINSIGHTS_OBSERVABILITY_ENABLED": "false",
+        "APPINSIGHTS_CLIENTRESOURCE_ENABLED": "false",
+        "APPINSIGHTS_INSTRUMENTATIONKEY": ""
+      },
+      "applicationUrl": "https://localhost:5000/"
     }
   }
 }
