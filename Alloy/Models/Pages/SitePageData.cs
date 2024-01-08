@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Alloy.Business.Rendering;
+using Alloy.Models.Pages.test;
+//using Alloy.Models.Pages.test;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web;
 
@@ -32,8 +34,8 @@ public abstract class SitePageData : PageData, ICustomCssInContentArea
         GroupName = Globals.GroupNames.MetaData,
         Order = 200)]
     [CultureSpecific]
-    [BackingType(typeof(PropertyStringList))]
-    public virtual IList<string> MetaKeywords { get; set; }
+    [BackingType(typeof(PropertyIntList))]
+    public virtual IList<int> MetaKeywords { get; set; }
 
     [Display(
         GroupName = Globals.GroupNames.MetaData,
