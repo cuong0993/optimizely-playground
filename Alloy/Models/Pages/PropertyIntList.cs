@@ -1,7 +1,7 @@
 using EPiServer.PlugIn;
 using Newtonsoft.Json;
 
-namespace Alloy.Models.Pages.test;
+namespace Alloy.Models.Pages;
 
 [PropertyDefinitionTypePlugIn(DisplayName = "Int List", GUID = "c2037a22-dab2-42b2-b64c-584de039d27e")]
 public class PropertyIntList : PropertyLongString
