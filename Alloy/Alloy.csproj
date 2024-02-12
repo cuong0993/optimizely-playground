@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="EPiServer.CloudPlatform.Cms" Version="1.4.1" />
     <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.20.2" />
-    <PackageReference Include="EPiServer.CMS.AspNetCore.TagHelpers" Version="12.20.2" />
+    <PackageReference Include="EPiServer.CMS.AspNetCore.TagHelpers" Version="12.20.3" />
     <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.7.1" />
     <PackageReference Include="EPiServer.CMS.UI" Version="12.27.0" />
     <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.27.0" />
