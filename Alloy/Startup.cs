@@ -1,13 +1,16 @@
 using Alloy.Extensions;
+using EPiServer.Authorization;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.TinyMce;
 using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Cms.UI.VisitorGroups;
-using EPiServer.Events.Providers.Internal;
 using EPiServer.Scheduler;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
+using Geta.NotFoundHandler.Infrastructure.Configuration;
+using Geta.NotFoundHandler.Infrastructure.Initialization;
+using Geta.NotFoundHandler.Optimizely.Infrastructure.Configuration;
 
 namespace Alloy;
 
@@ -51,10 +54,14 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+        services.AddNotFoundHandler(o => o.UseSqlServer(_configuration.GetConnectionString("EPiServerDB")),
+            policy => policy.RequireRole(Roles.CmsAdmins));
+        services.AddOptimizelyNotFoundHandler();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseNotFoundHandler();
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -72,6 +79,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapContent();
+            endpoints.MapRazorPages();
         });
     }
 }
