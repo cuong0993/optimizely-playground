@@ -27,6 +27,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddOptimizelyIdentity(useAsDefault:false);
         services.Configure<ProtectedModuleOptions>(p => p.RootPath = "~/TheNewUiPath");
         services.Configure<UIOptions>(p => p.EditUrl = new Uri("~/TheNewUiPath/CMS", UriKind.Relative));
 
@@ -53,7 +54,6 @@ public class Startup
             .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCmsHost().AddCmsHtmlHelpers().AddCmsTagHelpers().AddCmsUI().AddAdmin().AddVisitorGroupsUI().AddTinyMce()
             .AddAlloy()
-            .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
 
         // Required by Wangkanai.Detection
