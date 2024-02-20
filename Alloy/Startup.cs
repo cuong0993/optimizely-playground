@@ -2,7 +2,6 @@ using Alloy.Extensions;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.TinyMce;
 using EPiServer.Cms.UI.Admin;
-using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Cms.UI.VisitorGroups;
 using EPiServer.Events.Providers.Internal;
 using EPiServer.Scheduler;
@@ -24,6 +23,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.AddOptimizelyIdentity(true);
         if (_webHostingEnvironment.IsDevelopment())
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
@@ -36,10 +36,8 @@ public class Startup
         }
 
         services
-            .AddCmsAspNetIdentity<ApplicationUser>()
             .AddCmsHost().AddCmsHtmlHelpers().AddCmsTagHelpers().AddCmsUI().AddAdmin().AddVisitorGroupsUI().AddTinyMce()
             .AddAlloy()
-            .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
 
         // Required by Wangkanai.Detection
