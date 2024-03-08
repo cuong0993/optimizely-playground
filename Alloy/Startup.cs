@@ -26,9 +26,10 @@ public class Startup
     {
         if (_webHostingEnvironment.IsDevelopment())
         {
-            AppDomain.CurrentDomain.SetData("DataDirectory", Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
-
-            services.Configure<SchedulerOptions>(options => options.Enabled = false);
+            AppDomain.CurrentDomain.SetData("DataDirectory",
+                Path.Combine(_webHostingEnvironment.ContentRootPath, "App_Data"));
+            var serverName = _configuration["ComputerName"];
+            services.Configure<SchedulerOptions>(options => options.Enabled = serverName == "CUOND240");
         }
         else
         {
