@@ -73,5 +73,15 @@ public class Startup
         {
             endpoints.MapContent();
         });
+        app.Use(async (httpContext, next) =>
+        {
+            if (!httpContext.User.Identity.IsAuthenticated &&
+                httpContext.Request.Path.StartsWithSegments("/Util/Logout"))
+            {
+                httpContext.Response.Redirect("/");
+                return;
+            }
+            await next();
+        });
     }
 }
