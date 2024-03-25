@@ -17,7 +17,7 @@
     <PackageReference Include="EPiServer.CMS.AspNetCore.HtmlHelpers" Version="12.21.0" />
     <PackageReference Include="EPiServer.CMS.AspNetCore.TagHelpers" Version="12.21.0" />
     <PackageReference Include="EPiServer.CMS.TinyMce" Version="4.7.2" />
-    <PackageReference Include="EPiServer.CMS.UI" Version="12.27.1" />
+    <PackageReference Include="EPiServer.CMS.UI" Version="12.28.0" />
     <PackageReference Include="EPiServer.CMS.UI.AspNetIdentity" Version="12.27.1" />
     <PackageReference Include="EPiServer.CMS.UI.VisitorGroups" Version="12.27.1" />
     <PackageReference Include="EPiServer.Hosting" Version="12.21.0" />
