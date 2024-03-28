@@ -1,5 +1,8 @@
+using EPiServer.Cms.WelcomeIntegration.Core;
 using EPiServer.Cms.WelcomeIntegration.Core.Internal;
+using EPiServer.Cms.WelcomeIntegration.UI;
 using EPiServer.Cms.WelcomeIntegration.UI.Components;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -16,5 +19,9 @@ public class ResponsiveDAMImageAssetViewComponent : DAMImageAssetViewComponent
   <img src='{currentContent.DAMUrl}' title='{currentContent.Name}' class='image-file'>
 </picture>
 "));
+    }
+
+    public ResponsiveDAMImageAssetViewComponent([NotNull] IDAMAssetMetadataService metadataService, [NotNull] IDAMAssetIdentityResolver dAmAssetIdentityResolver) : base(metadataService, dAmAssetIdentityResolver)
+    {
     }
 }
