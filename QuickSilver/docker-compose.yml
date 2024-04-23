@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  db:
+    build:
+      dockerfile: ./Docker/db.dockerfile
+      context: .
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_NAME_COMMERCE: ${DB_NAME_COMMERCE}
+      DB_DIRECTORY: ${DB_DIRECTORY}
+    ports:
+      - 6000:1433
+    volumes:
+      - ./App_Data:/var/opt/mssql/host_data/${DB_DIRECTORY}
+    image: QuickSilver/db
+  web:
+    depends_on:
+      - db
+    build:
+      dockerfile: ./Docker/web.dockerfile
+      context: .
+    environment:
+      ASPNETCORE_URLS: http://*:80
+      ASPNETCORE_ENVIRONMENT: Development
+      CONNECTIONSTRINGS__EPISERVERDB: Server=db;Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};Encrypt=False;
+      CONNECTIONSTRINGS__ECFSQLCONNECTION: Server=db;Database=${DB_NAME_COMMERCE};User Id=sa;Password=${SA_PASSWORD};Encrypt=False;
+    ports:
+      - 5000:80
+    volumes:
+      - .:/src
+    image: QuickSilver/web
+    restart: on-failure
