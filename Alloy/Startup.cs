@@ -1,10 +1,11 @@
+using Alloy.Controllers;
 using Alloy.Extensions;
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.TinyMce;
 using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Cms.UI.VisitorGroups;
-using EPiServer.Events.Providers.Internal;
+using EPiServer.Core.Routing;
 using EPiServer.Scheduler;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
@@ -51,6 +52,7 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+        services.AddSingleton<IPartialRouter, DummyRouter>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
