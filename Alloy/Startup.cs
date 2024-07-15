@@ -6,6 +6,8 @@ using EPiServer.Cms.UI.Admin;
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Cms.UI.VisitorGroups;
 using EPiServer.Scheduler;
+using EPiServer.Shell.Modules;
+using EPiServer.Web;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Http.Features;
@@ -25,6 +27,9 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        services.Configure<ProtectedModuleOptions>(p => p.RootPath = "~/TheNewUiPath");
+        services.Configure<UIOptions>(p => p.EditUrl = new Uri("~/TheNewUiPath/CMS", UriKind.Relative));
+
         services.Configure<UploadOptions>(x =>
         {
             x.FileSizeLimit = 1073741824;
