@@ -11,6 +11,7 @@ using EPiServer.Web;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Http.Features;
+using Optimizely.Cmp.Client;
 
 namespace Alloy;
 
@@ -47,6 +48,12 @@ public class Startup
         else
         {
             services.AddCmsCloudPlatformSupport(_configuration);
+            var cmpClientSecret = _configuration.GetValue<string>("CmpClientSecret");
+            services.Configure<CmpClientOptions>(options =>
+            {
+                options.ClientId = "ClientId";
+                options.ClientSecret = cmpClientSecret;
+            });
         }
 
         services
