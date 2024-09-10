@@ -1,5 +1,6 @@
 using EPiServer.Cms.Shell;
 using EPiServer.Cms.UI.AspNetIdentity;
+using EPiServer.Find;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
@@ -31,6 +32,12 @@ public class Startup
             .AddCommerce()
             .AddAdminUserRegistration()
             .AddEmbeddedLocalization<Startup>();
+        services.Configure<FindOptions>(options =>
+        {
+            options.ServiceUrl = "https://service.find.episerver.net/xxx/";
+            options.DefaultIndex = "cuong.nguyendinh_cuondtestfdfdfd";
+        });
+        services.AddFind();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
