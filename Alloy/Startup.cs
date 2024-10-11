@@ -11,6 +11,10 @@ using EPiServer.Web;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using OptimizelyPublicUrlIssue;
+using OptimizelyPublicUrlIssue.BLL.CmsUnits;
 
 namespace Alloy;
 
@@ -27,9 +31,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.Configure<ProtectedModuleOptions>(p => p.RootPath = "~/TheNewUiPath");
-        services.Configure<UIOptions>(p => p.EditUrl = new Uri("~/TheNewUiPath/CMS", UriKind.Relative));
-
         services.Configure<UploadOptions>(x =>
         {
             x.FileSizeLimit = 1073741824;
@@ -65,6 +66,18 @@ public class Startup
             options.Cookie.HttpOnly = true;
             options.Cookie.IsEssential = true;
         });
+        services.RegisterOptimizelyPublicUrlIssue(() => new OptimizelyPublicUrlIssue.BLL.CloudinarySettingsEntity
+        {
+            CloudName = "dmpmvvl0t",
+            ApiKey = "458139256649538",
+            ApiSecret = "0cMbldIG9WDGn2yS3DywEvhvr_0",
+            CaptionForInsertButton = "Insert",
+            RemoveHeader = true,
+            AllowMultiSelection = true,
+            MaximumFiles = 5,
+        });
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IHostedService, DAMOutgoingUrlRewriter>());
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
