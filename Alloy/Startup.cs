@@ -47,6 +47,7 @@ public class Startup
         }
         else
         {
+            //Microsoft.ServiceProfiler.Utilities.AppInsightsProfileFetcher.FetchProfileAsync
             services.AddCmsCloudPlatformSupport(_configuration);
         }
 
@@ -77,6 +78,7 @@ public class Startup
             MaximumFiles = 5,
         });
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IHostedService, DAMOutgoingUrlRewriter>());
+        services.AddCmsCmpPublishing();
 
     }
 
